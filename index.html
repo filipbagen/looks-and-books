@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Looks & books</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="./assets/css/default.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#ADAD93">
+</head>
+<body>
+    <div class="page" id="page1">
+        <img src="./assets/img/logo.svg" id="logo" alt="">
+        <h1>LOOKS & BOOKS</h1>
+    </div>
+
+    <div class="page" id="page2">
+        <div class="bookingContainer">
+            
+            <div id="who">
+                <div class="content">
+                    <h2>Vem vill du ska klippa dig?</h2>
+                    <div id="hairdresserContainer">
+                    <!-- render hair dressers here! -->
+                </div>
+            </div>
+
+            <div id="what">
+                <div class="content">
+                    <h2>Vad vill du boka?</h2>
+                    <div id="resourceServiceContainer">
+                    <!-- render resource services here! -->
+                </div>
+            </div>
+
+            <div id="when">
+                <div class="content">
+                  <h2>Vilken tid passar dig?</h2>
+                  <div class="infobar">
+                    <a onclick="scheduleArrowClick('backward')"><i class="fas fa-chevron-left fa-2x"></i></a>
+                    <div id="scheduleInfobar">
+                      <!-- Render date here! -->
+                    </div>
+                    <a onclick="scheduleArrowClick('forward')"><i class="fas fa-chevron-right fa-2x"></i></a>
+                  </div>
+                  <div id="resourceScheduleContainer">
+                    <!-- render resource services here! -->
+                  </div>
+                </div>
+            </div>>
+
+            <div id="summary">
+                <div class="content">
+                  <h2>Sammanställning</h2>
+                  <div id="summaryTextContainer">
+                    <!-- render text here -->
+                  </div>
+                  <div class="inputcontainer">
+                    <div class="row">
+                      <input type="text" placeholder="Namn" id="name" autocomplete="name">
+                      <input type="tel" placeholder="Telefon" id="phone" autocomplete="tel">
+                    </div>
+                    <input type="email" placeholder="E-post" id="email" autocomplete="email">
+                    <textarea type="text" placeholder="Meddelande" rows="5" id="message"></textarea>
+                    <button onclick="sendRequest()">Bekräfta</button>
+                    <p>För att bekräfta bokningen behöver du ange en PIN-kod som vi skickar till dig via SMS.</p>
+                  </div>
+                </div>
+            </div>
+
+              <div id="complete">
+                <div class="content">
+                  <h2>Bookning Bekräftad! <i class="fa fa-check-circle" aria-hidden="true" style="color: green;"></i></h2>
+                  <p id="confirmDate"></p>
+                  <div class="row">
+                    <a class="button" id="ical-download-link">Lägg till i kalender</a>
+                    <a class="button" onclick="newBooking()">Gör en till bokning</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</body>
+</html>
