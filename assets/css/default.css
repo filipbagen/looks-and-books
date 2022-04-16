@@ -23,3 +23,17 @@ img {
     -webkit-user-select: none;
     -ms-user-select: none;
 }
+
+.page {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.today {
+    font-weight: bold;
+    background-color: rgb(94, 94, 65);
+    padding: 5pt;
+    color: #fff;
+    border-radius: 3pt;
+  }

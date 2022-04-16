@@ -1,4 +1,23 @@
 #logo {
     height: 40pt;
-    margin: 20pt;
+    margin-top: 30pt;
 }
+
+#OpeningHours {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    margin: 30px;
+}
+
+#OpeningHours p {
+    margin: 1em;
+  }
+  
+  @media only screen and (min-width: 1200px) {
+    #OpeningHours {
+      flex-direction: row;
+    }
+  }
