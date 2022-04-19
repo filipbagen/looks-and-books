@@ -21,6 +21,10 @@
     #OpeningHours {
       flex-direction: row;
     }
+    #page4 .row {
+      flex-direction: column;
+      justify-content: center;
+    }
 }
 
 #page3 {
@@ -82,7 +86,7 @@
   height: 10px;
   border: 1px solid #fff;
   margin: 10px;
-  border-radius: 50%;
+  border-radius: 40%;
 }
 
 #page3 #dots a:hover, #page3 #dots a.active {
@@ -107,4 +111,19 @@
 
 .textElement p {
   margin: 0;
+}
+
+#page4 {
+  min-height: auto;
+  padding: 0;
+}
+
+#page4 .row {
+  width: 100vw;
+  display: flex;
+}
+
+#map {
+  width: 100%;
+  height: 400px;
 }
