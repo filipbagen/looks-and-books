@@ -12,8 +12,7 @@ h1, h2, h3 {
 }
 
 p, a, input, button, footer {
-    font-family: sans-serif;
-    text-align: center;
+    font-family: 'Open Sans', sans-serif;
 }
 
 a, a:focus, a:active {
@@ -60,4 +59,7 @@ img {
     border-style: solid;
     border-color: #353535;
     width: 60pt;
+    margin: 24pt;
+    text-align: center;
+    font-weight: 600;
 }
