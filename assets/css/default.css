@@ -21,11 +21,6 @@ a, a:focus, a:active {
     transition: .2s;
 }
 
-a:hover {
-    -webkit-box-shadow: 0px 0px 15px 1px rgba(53,53,53,0.3); 
-    box-shadow: 0px 0px 15px 1px rgba(53,53,53,0.3);
-}
-
 img {
     -webkit-user-drag: none;
     user-select: none;
@@ -62,4 +57,9 @@ img {
     margin: 24pt;
     text-align: center;
     font-weight: 600;
+}
+
+.button:hover {
+    -webkit-box-shadow: 0px 0px 15px 1px rgba(53,53,53,0.3); 
+    box-shadow: 0px 0px 15px 1px rgba(53,53,53,0.3);
 }

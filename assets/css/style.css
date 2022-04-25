@@ -3,6 +3,11 @@
     margin-top: 30pt;
 }
 
+.social {
+  height: 20pt;
+  margin: 20pt;
+}
+
 #OpeningHours {
     justify-content: center;
     align-items: center;
