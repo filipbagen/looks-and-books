@@ -9,28 +9,50 @@
 }
 
 #OpeningHours {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    margin: 30pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin: 30pt;
 }
 
 #OpeningHours p {
     margin: 8pt;
     white-space: nowrap;
-  }
-  
-  @media only screen and (min-width: 1150px) {
+}
+
+/* Tablet */
+@media only screen and (max-width: 1150px) {
     #OpeningHours {
-      flex-direction: row;
-    }
-    #page4 .row {
       flex-direction: column;
+    }
+
+    #page4 .row {
+      display: flex;
+      flex-direction: row;
       justify-content: center;
+      margin: 0 40pt;
+    }
+
+    #map {
+      margin-top: 30pt;
     }
 }
+
+/* Phone */
+@media only screen and (max-width: 450px) {
+  #OpeningHours {
+    flex-direction: column;
+  }
+
+  #page4 .row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 40pt;
+  }
+}
+
 
 #page3 {
   height: 400px;
@@ -46,7 +68,6 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  /* position: relative; */
 }
 
 #page3 #imageContainer div {
@@ -125,10 +146,12 @@
 
 #page4 .row {
   width: 100vw;
-  display: flex;
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* justify-content: center; */
 }
 
 #map {
-  width: 100%;
+  width: 100vw;
   height: 400px;
 }
