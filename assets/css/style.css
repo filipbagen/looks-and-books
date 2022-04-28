@@ -1,6 +1,11 @@
 #logo {
-    height: 40pt;
+    height: 56pt;
     margin-top: 30pt;
+}
+
+#icon {
+  height: 20pt;
+  margin-left: 6pt;
 }
 
 .social {
@@ -22,7 +27,7 @@
 }
 
 /* Tablet */
-@media only screen and (max-width: 1150px) {
+/* @media only screen and (max-width: 1150px) {
     #OpeningHours {
       flex-direction: column;
     }
@@ -37,10 +42,10 @@
     #map {
       margin-top: 30pt;
     }
-}
+} */
 
 /* Phone */
-@media only screen and (max-width: 450px) {
+/* @media only screen and (max-width: 450px) {
   #OpeningHours {
     flex-direction: column;
   }
@@ -51,7 +56,7 @@
     justify-content: center;
     margin: 0 40pt;
   }
-}
+} */
 
 
 #page3 {
@@ -146,12 +151,54 @@
 
 #page4 .row {
   width: 100vw;
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* justify-content: center; */
+}
+
+.row {
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 #map {
-  width: 100vw;
-  height: 400px;
+  width: 50vw;
+  /* height: 400px; */
+}
+
+#bg {
+  overflow: hidden;
+  position: absolute;
+  bottom: 150pt;
+  right: 10pt;
+  height: 600pt;
+  /* opacity: 1; */
+  opacity: .03;
+  z-index: -10;
+}
+
+.button a {
+  font-size: 14pt;   
+}
+
+#team {
+  margin: 0;
+  width: 50vw;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 42pt;
+}
+
+.icon img {
+  height: 32pt;
+  margin: 10pt;
+}
+
+.social {
+  display: flex;
+  flex-direction: row;
 }
