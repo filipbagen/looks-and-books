@@ -168,9 +168,9 @@
 #bg {
   overflow: hidden;
   position: absolute;
-  bottom: 150pt;
-  right: 10pt;
-  height: 600pt;
+  bottom: 10vh;
+  left: -50vw;
+  height: 100vh;
   /* opacity: 1; */
   opacity: .03;
   z-index: -10;
