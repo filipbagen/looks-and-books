@@ -29,7 +29,7 @@ img {
 }
 
 .page {
-    width: 100vw;
+    /* width: 100vw; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,6 +44,8 @@ img {
     padding: 5pt;
     color: #fff;
     border-radius: 3pt;
+    /* max-width: fit-content; */
+    /* width: 20pt; */
   }
 
 .button {
@@ -67,9 +69,4 @@ img {
     -webkit-box-shadow: 0px 0px 15px 1px rgba(53,53,53,0.3); 
     box-shadow: 0px 0px 15px 1px rgba(53,53,53,0.3);
     cursor: pointer;
-}
-
-.page h1 {
-    color: rgb(94, 94, 65);
-    font-size: 34pt;
 }

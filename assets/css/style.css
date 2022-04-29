@@ -8,17 +8,8 @@
   margin-left: 6pt;
 }
 
-.social {
-  height: 20pt;
-  margin: 20pt;
-}
-
 #OpeningHours {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  margin: 30pt;
+  text-align: center;
 }
 
 #OpeningHours p {
@@ -28,33 +19,17 @@
 
 /* Tablet */
 /* @media only screen and (max-width: 1150px) {
-    #OpeningHours {
-      flex-direction: column;
-    }
-
-    #page4 .row {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      margin: 0 40pt;
-    }
-
-    #map {
-      margin-top: 30pt;
-    }
-} */
-
-/* Phone */
-/* @media only screen and (max-width: 450px) {
-  #OpeningHours {
-    flex-direction: column;
+  .device {
+    display: block;
   }
 
-  #page4 .row {
-    display: flex;
+  #OpeningHours {
     flex-direction: column;
-    justify-content: center;
-    margin: 0 40pt;
+    order: 3;
+  }
+
+  .contact {
+    flex-direction: row;
   }
 } */
 
@@ -73,10 +48,13 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  /*  */
+  width: 50vw;
 }
 
 #page3 #imageContainer div {
   width: 100vw;
+  /* width: 50vw; */
   height: 400px;
   background-size: cover;
   background-position: center;
@@ -109,7 +87,7 @@
   position: absolute;
   bottom: 10px;
   width: 100vw;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 #page3 #dots a {
@@ -131,47 +109,34 @@
   justify-content: center;
 }
 
-.textElement {
-  margin: 10pt 22pt;
-  max-width: 164pt;
-}
-
-.textElement h2 {
-  margin: 10pt 0;
-}
-
-.textElement p {
-  margin: 0;
-}
-
-#page4 {
-  min-height: auto;
-  padding: 0;
-}
-
-#page4 .row {
-  width: 100vw;
-}
-
-.row {
-  width: 100vw;
+.splitScreen {
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
+  max-width: 1440px;
+}
+
+.block {
+  width: 50%;
+  margin: 0;
 }
 
 #map {
-  width: 50vw;
-  /* height: 400px; */
+  height: 450px;
+  max-width: 50vw;
 }
 
 #bg {
+  position: relative;
+}
+
+#bg img {
   overflow: hidden;
   position: absolute;
-  bottom: 10vh;
-  left: -50vw;
+  right: -50vw;
   height: 100vh;
-  /* opacity: 1; */
   opacity: .03;
   z-index: -10;
 }
@@ -182,23 +147,40 @@
 
 #team {
   margin: 0;
-  width: 50vw;
+  max-width: 50vw;
+  height: 450px;
+  /* min-width: 320px; */
+  object-fit: cover;
+  background-size: cover;
+  background-position: center;
+  display: block;
 }
 
 .icon {
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: space-between;
-  margin-right: 42pt;
+  margin-bottom: 15pt;
 }
 
 .icon img {
-  height: 32pt;
-  margin: 10pt;
+  width: 32pt;
+  margin-right: 10pt;
 }
 
 .social {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+
+.contact {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page h1 {
+  font-size: 32pt;
+  margin: 0;
 }
