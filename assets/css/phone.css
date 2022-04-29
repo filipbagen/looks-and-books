@@ -29,4 +29,16 @@
     .button {
         margin: 20pt;
     }
+
+    .page {
+        width: 100vw;
+    }
+
+    #page3 #imageContainer div {
+        width: 100vw;
+    }
+
+    #page3 #dots {
+        width: 100vw;
+    }
 }
