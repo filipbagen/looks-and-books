@@ -35,7 +35,7 @@ img {
     color: #fff;
     border-radius: 3pt;
     /* max-width: fit-content; */
-    /* width: 20pt; */
+    width: fit-content;
   }
 
 .button {
