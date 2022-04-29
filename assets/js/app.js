@@ -9,7 +9,11 @@ function getToday () {
 
 function highlightDayOfTheWeek() {
     const target = /** @type {HTMLElement} */ (document.querySelector('#openingHours :nth-child(' + getToday() + ')'))
+
+    // const target = /** @type {HTMLElement} */ (document.querySelector('#openingHours :nth-child(' + getToday() + ')'))
     target.classList.add('today')
+
+    console.log(target)
 }
 
 function slideshow (goTo) {
