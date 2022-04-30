@@ -18,7 +18,7 @@ function highlightDayOfTheWeek() {
 
 function slideshow (goTo) {
   const container = document.querySelector('#imageContainer')
-  const oldDot = document.querySelector('#page3 #dots .active')
+  const oldDot = document.querySelector('.slideshow #dots .active')
   const childs = document.querySelectorAll('#dots a')
   if (goTo === undefined && childs[0]) {
     const current = document.querySelector('#dots .active')

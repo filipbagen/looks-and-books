@@ -37,12 +37,6 @@
 
 .block {
   width: 50vw;
-  text-align: center;
-  /* margin: 0; */
-}
-
-.block h1 {
-  margin-top: 0;
 }
 
 #map {
@@ -65,20 +59,6 @@
 
 .button a {
   font-size: 14pt;   
-}
-
-#team {
-  margin: 0;
-  /* max-width: 50vw;
-  height: 450px; */
-  width: 100%;
-  height: 450px;
-  /* min-width: 320px; */
-  object-fit: cover;
-  background-size: cover;
-  background-position: center;
-  display: block;
-  float: right;
 }
 
 .icon {
@@ -111,41 +91,29 @@ h1 {
   margin: 0 0 10pt 0;
 }
 
-
-
-
-
-
-.page {
+.slideshow {
   padding: 50px 0;
-  min-height: calc(100vh - 100px);
+  height: 450px;
+  min-height: 0;
   width: 50vw;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-size: cover;
-  background-position: center;
-}
-
-#page3 {
-  height: 400px;
-  min-height: 0;
   overflow: hidden;
   padding: 0;
   align-items: flex-start;
   position: relative;
 }
 
-#page3 #imageContainer {
+.slideshow #imageContainer {
   transition: 512ms;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  /* position: relative; */
 }
 
-#page3 #imageContainer div {
+.slideshow #imageContainer div {
   width: 50vw;
   height: 450px;
   background-size: cover;
@@ -176,22 +144,22 @@ h1 {
   background-image: url(../img/slideshow/slideshow6.jpeg);
 }
 
-#page3 #dots {
+.slideshow #dots {
   display: flex;
   position: absolute;
-  bottom: 10px;
+  bottom: 6pt;
   width: 50vw;
   justify-content: center;
 }
 
-#page3 #dots a {
-  width: 10px;
-  height: 10px;
-  border: 1px solid #fff;
-  margin: 10px;
+.slideshow #dots a {
+  width: 8pt;
+  height: 8pt;
+  border: 1pt solid #fff;
+  margin: 6pt;
   border-radius: 50%;
 }
 
-#page3 #dots a:hover, #page3 #dots a.active {
+.slideshow #dots a:hover, .slideshow #dots a.active {
   background-color: #fff;
 }

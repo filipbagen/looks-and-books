@@ -9,17 +9,8 @@
         margin: 20pt 0 10pt 0;
     }
 
-    #team {
-        max-width: 100vw;
-        width: 100vw;
-    }
-
     #bottom {
         flex-direction: column-reverse;
-    }
-
-    .block {
-        width: 100vw;
     }
 
     .block h1 {
@@ -30,15 +21,7 @@
         margin: 20pt;
     }
 
-    .page {
-        width: 100vw;
-    }
-
-    #page3 #imageContainer div {
-        width: 100vw;
-    }
-
-    #page3 #dots {
+    .block, .slideshow, .slideshow #imageContainer div, .slideshow #dots {
         width: 100vw;
     }
 }
