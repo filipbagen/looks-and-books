@@ -96,6 +96,7 @@ h1 {
   height: 450px;
   min-height: 0;
   width: 50vw;
+  max-width: 720px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,6 +116,7 @@ h1 {
 
 .slideshow #imageContainer div {
   width: 50vw;
+  max-width: 720px;
   height: 450px;
   background-size: cover;
   background-position: center;
@@ -147,9 +149,9 @@ h1 {
 .slideshow #dots {
   display: flex;
   position: absolute;
-  bottom: 6pt;
-  width: 50vw;
-  justify-content: center;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .slideshow #dots a {

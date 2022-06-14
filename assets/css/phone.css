@@ -21,7 +21,7 @@
         margin: 20pt;
     }
 
-    .block, .slideshow, .slideshow #imageContainer div, .slideshow #dots {
+    .block, .slideshow, .slideshow #imageContainer div {
         width: 100vw;
     }
 }
