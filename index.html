@@ -1,109 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Looks & Books</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#ADAD93">
+  <title>Looks & Books</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ADAD93">
 
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap" rel="stylesheet">
-    
-    <!-- Style -->
-    <link rel="stylesheet" href="./assets/css/default.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/phone.css">
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap" rel="stylesheet">
 
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/site.webmanifest">
-    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#333333">
-    <link rel="shortcut icon" href="favicon/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="/favicon/browserconfig.xml">
+  <!-- Style -->
+  <link rel="stylesheet" href="./assets/css/default.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/phone.css">
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="manifest" href="favicon/site.webmanifest">
+  <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#333333">
+  <link rel="shortcut icon" href="favicon/favicon.ico">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="/favicon/browserconfig.xml">
 
 </head>
 
 <body>
-<!-- <body onload="init()"> -->
+  <!-- <body onload="init()"> -->
   <div id="bg">
     <img src="./assets/img/logo.svg" alt="">
   </div>
 
   <!-- Top -->
-    <img src="./assets/img/logo.svg" id="logo" alt="">
-    <h1>Välkommen</h1>
+  <img src="./assets/img/logo.svg" id="logo" alt="">
+  <h1>Välkommen</h1>
 
-    <!-- Button -->
-    <a class="button" href="https://app.easycashier.se/bokning/looksbooks/">Boka tid<img src="./assets/img/icon.svg" id="icon" alt=""></a>
-    <!--  -->
+  <!-- Button -->
+  <a class="button" href="https://boka.easycashier.se/looksbooks">Boka tid<img src="./assets/img/icon.svg" id="icon"
+      alt=""></a>
+  <!--  -->
 
-    <div class="splitScreen">
-      <div class="slideshow">
-        <div id="imageContainer">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <div id="dots">
-          <a id="slideshow1" class="active" onclick="slideshow(1)"></a>
-          <a id="slideshow2" onclick="slideshow(2)"></a>
-          <a id="slideshow3" onclick="slideshow(3)"></a>
-          <a id="slideshow4" onclick="slideshow(4)"></a>
-          <a id="slideshow5" onclick="slideshow(5)"></a>
-          <a id="slideshow6" onclick="slideshow(6)"></a>
-        </div>
+  <div class="splitScreen">
+    <div class="slideshow">
+      <div id="imageContainer">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
-
-      <!-- Hours -->
-      <div class="block">
-        <h1>Då har vi öppet</h1>
-        <div id="openingHours">
-          <p>Måndag: 10:00-18:00</p>
-          <p>Tisdag: 10:00-18:00</p>
-          <p>Onsdag: 10:00-18:00</p>
-          <p>Torsdag: 10:00-18:00</p>
-          <p>Fredag: 10:00-18:00</p>
-          <p>Lördag: 10:00-17:00</p>
-          <p>Söndag: Stängt</p>
-        </div>
+      <div id="dots">
+        <a id="slideshow1" class="active" onclick="slideshow(1)"></a>
+        <a id="slideshow2" onclick="slideshow(2)"></a>
+        <a id="slideshow3" onclick="slideshow(3)"></a>
+        <a id="slideshow4" onclick="slideshow(4)"></a>
+        <a id="slideshow5" onclick="slideshow(5)"></a>
+        <a id="slideshow6" onclick="slideshow(6)"></a>
       </div>
     </div>
 
-    <div class="splitScreen" id="bottom">
-      <!-- Contact -->
-      <div class="block contact">
-        <h1>Kontakta oss</h1>
+    <!-- Hours -->
+    <div class="block">
+      <h1>Då har vi öppet</h1>
+      <div id="openingHours">
+        <p>Måndag: 10:00-18:00</p>
+        <p>Tisdag: 10:00-18:00</p>
+        <p>Onsdag: 10:00-18:00</p>
+        <p>Torsdag: 10:00-18:00</p>
+        <p>Fredag: 10:00-18:00</p>
+        <p>Lördag: 10:00-17:00</p>
+        <p>Söndag: Stängt</p>
+      </div>
+    </div>
+  </div>
 
-        <!-- Social -->
-        <div class="social">
-          <div class="icon">
-            <img src="./assets/img/instagram.svg" class="social" alt="">
-            <a href="https://www.instagram.com/salonglooksandbooks/">@SalongLooksAndBooks</a>
-          </div>
+  <div class="splitScreen" id="bottom">
+    <!-- Contact -->
+    <div class="block contact">
+      <h1>Kontakta oss</h1>
 
-          <div class="icon">
-            <img src="./assets/img/phone.svg" class="social" alt="">
-            <a href="tel:021-12 22 10">021-12 22 10</a>
-          </div>
+      <!-- Social -->
+      <div class="social">
+        <div class="icon">
+          <img src="./assets/img/instagram.svg" class="social" alt="">
+          <a href="https://www.instagram.com/salonglooksandbooks/">@SalongLooksAndBooks</a>
+        </div>
 
-          <!-- <div class="icon">
+        <div class="icon">
+          <img src="./assets/img/phone.svg" class="social" alt="">
+          <a href="tel:021-12 22 10">021-12 22 10</a>
+        </div>
+
+        <!-- <div class="icon">
             <img src="./assets/img/mail.svg" class="social" alt="">
             <a href = "mailto: info@looksansbooks.se">info@looksandbooks.se</a>
           </div> -->
-        </div>
       </div>
-
-      <!-- Map -->
-      <iframe class="block" id="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d550.2670152337747!2d16.5426035302021!3d59.60990414709688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465e613f1689eb53%3A0x88d9247476b24a49!2zS8O2cG1hbmdhdGFuIDMsIDcyMiAxNSBWw6RzdGVyw6Vz!5e0!3m2!1sen!2sse!4v1650380962417!5m2!1sen!2sse" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
-    
+
+    <!-- Map -->
+    <iframe class="block" id="map"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d550.2670152337747!2d16.5426035302021!3d59.60990414709688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465e613f1689eb53%3A0x88d9247476b24a49!2zS8O2cG1hbmdhdGFuIDMsIDcyMiAxNSBWw6RzdGVyw6Vz!5e0!3m2!1sen!2sse!4v1650380962417!5m2!1sen!2sse"
+      style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+
 </body>
 <script src="assets/js/app.js"></script>
+
 </html>
