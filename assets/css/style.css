@@ -6,7 +6,10 @@
 }
 
 #container {
-  width: 1440px;
+  width: 1240px;
+  display: flex;
+  flex-direction: column;
+  gap: 122px;
 }
 
 #logo {
@@ -53,18 +56,12 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
-  background-color: red;
 }
 
 .textContainer {
   display: flex;
   flex-direction: column;
   gap: 22px;
-}
-
-.block {
-  width: 50vw;
 }
 
 #map {
@@ -117,6 +114,16 @@
 h1 {
   font-size: 32pt;
   margin: 0 0 10pt 0;
+}
+
+.products {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.product {
+  width: 344px;
 }
 
 .slideshow {
