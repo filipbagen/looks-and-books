@@ -1,6 +1,22 @@
+:root {
+  --primary: #ADAD96;
+  --secondary: #5E5E41;
+  --black: #353535;
+  --white: #ffffff;
+}
+
+#container {
+  width: 1440px;
+}
+
 #logo {
-    height: 56pt;
-    margin-top: 30pt;
+  height: 56pt;
+  margin-top: 30pt;
+}
+
+.line {
+  border: 1px solid var(--secondary);
+  border-radius: 5px;
 }
 
 #icon {
@@ -8,15 +24,17 @@
   margin-left: 6pt;
 }
 
-#openingHours {
-  display: flex;
-  flex-direction: column;
+#OpeningHours {
+  width: 100%;
+  justify-content: space-between;
   align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  margin: 12px 0;
 }
 
-#openingHours p {
-    margin: 8pt;
-    white-space: nowrap;
+#OpeningHours p {
+  white-space: nowrap;
 }
 
 .textContainer {
@@ -58,7 +76,7 @@
 }
 
 .button a {
-  font-size: 14pt;   
+  font-size: 14pt;
 }
 
 .icon {
@@ -157,11 +175,12 @@ h1 {
 .slideshow #dots a {
   width: 8pt;
   height: 8pt;
-  border: 1pt solid #fff;
+  border: 1pt solid var(--white);
   margin: 6pt;
   border-radius: 50%;
 }
 
-.slideshow #dots a:hover, .slideshow #dots a.active {
-  background-color: #fff;
+.slideshow #dots a:hover,
+.slideshow #dots a.active {
+  background-color: var(--white);
 }
