@@ -58,6 +58,15 @@
   align-items: center;
 }
 
+.contactAndOpeningHours {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 50%;
+
+  text-align: center;
+}
+
 .textContainer {
   display: flex;
   flex-direction: column;
@@ -65,8 +74,12 @@
 }
 
 #map {
-  height: 450px;
-  max-width: 50vw;
+  height: 364px;
+  width: 50%;
+}
+
+iframe {
+  border-radius: 12px 0 0 0;
 }
 
 #bg {
@@ -124,6 +137,10 @@ h1 {
 
 .product {
   width: 344px;
+}
+
+#footer {
+  gap: 62px;
 }
 
 .slideshow {

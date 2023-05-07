@@ -34,61 +34,63 @@
   </div>
 
   <div id="container">
-
-    <!-- Logo -->
-    <img src="./assets/img/logo.svg" id="logo" alt="">
     <div>
-      <div id="OpeningHours">
-        <p>Måndag: 10:00-18:00</p>
-        <p>Tisdag: 10:00-18:00</p>
-        <p>Onsdag: 10:00-18:00</p>
-        <p>Torsdag: 10:00-18:00</p>
-        <p>Fredag: 10:00-18:00</p>
-        <p>Lördag: 10:00-17:00</p>
-        <p>Söndag: Stängt</p>
+
+      <!-- Logo -->
+      <img src="./assets/img/logo.svg" id="logo" alt="">
+      <div>
+        <div id="OpeningHours">
+          <p>Måndag: 10:00-18:00</p>
+          <p>Tisdag: 10:00-18:00</p>
+          <p>Onsdag: 10:00-18:00</p>
+          <p>Torsdag: 10:00-18:00</p>
+          <p>Fredag: 10:00-18:00</p>
+          <p>Lördag: 10:00-17:00</p>
+          <p>Söndag: Stängt</p>
+        </div>
+
+        <hr class="line">
       </div>
 
-      <hr class="line">
-    </div>
+      <div class="splitScreen">
 
-    <div class="splitScreen">
+        <div class="intro">
+          <div class="textContainer">
+            <h1>Välkommen</h1>
 
-      <div class="intro">
-        <div class="textContainer">
-          <h1>Välkommen</h1>
+            <p>
+              Vår passion för hår och böcker har blivit till en salong i kombination med begagnade böcker.
+              <br><br>
+              Vi har lång erfarenhet inom hår, hud och barbering.
+              <br><br>
+              Vi välkomnar er alla till oss för att ta del av tjänsterna vi erbjuder. Ni kan dessutom komma in för köpa
+              böcker, hänga i våra mysiga soffor eller svänga förbi för att klappa vår salongshund Phoebe.
+            </p>
 
-          <p>
-            Vår passion för hår och böcker har blivit till en salong i kombination med begagnade böcker.
-            <br><br>
-            Vi har lång erfarenhet inom hår, hud och barbering.
-            <br><br>
-            Vi välkomnar er alla till oss för att ta del av tjänsterna vi erbjuder. Ni kan dessutom komma in för köpa
-            böcker, hänga i våra mysiga soffor eller svänga förbi för att klappa vår salongshund Phoebe.
-          </p>
-
+          </div>
+          <!-- Button -->
+          <a class="button" href="https://boka.easycashier.se/looksbooks">Boka tid<img src="./assets/img/icon.svg"
+              id="icon" alt="Boka tid"></a>
+          <!--  -->
         </div>
-        <!-- Button -->
-        <a class="button" href="https://boka.easycashier.se/looksbooks">Boka tid<img src="./assets/img/icon.svg"
-            id="icon" alt="Boka tid"></a>
-        <!--  -->
-      </div>
 
-      <div class="slideshow">
-        <div id="imageContainer">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <div id="dots">
-          <a id="slideshow1" class="active" onclick="slideshow(1)"></a>
-          <a id="slideshow2" onclick="slideshow(2)"></a>
-          <a id="slideshow3" onclick="slideshow(3)"></a>
-          <a id="slideshow4" onclick="slideshow(4)"></a>
-          <a id="slideshow5" onclick="slideshow(5)"></a>
-          <a id="slideshow6" onclick="slideshow(6)"></a>
+        <div class="slideshow">
+          <div id="imageContainer">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div id="dots">
+            <a id="slideshow1" class="active" onclick="slideshow(1)"></a>
+            <a id="slideshow2" onclick="slideshow(2)"></a>
+            <a id="slideshow3" onclick="slideshow(3)"></a>
+            <a id="slideshow4" onclick="slideshow(4)"></a>
+            <a id="slideshow5" onclick="slideshow(5)"></a>
+            <a id="slideshow6" onclick="slideshow(6)"></a>
+          </div>
         </div>
       </div>
     </div>
@@ -121,27 +123,32 @@
       </div>
     </div>
 
-    <div class="splitScreen" id="bottom">
-      <!-- Contact -->
-      <div class="block contact">
-        <h1>Kontakta oss</h1>
+    <div class="splitScreen" id="footer">
+      <div class="contactAndOpeningHours">
+        <!-- Contact -->
+        <div class="block contact">
+          <h1>Kontakta oss</h1>
 
-        <!-- Social -->
-        <div class="social">
-          <div class="icon">
-            <img src="./assets/img/instagram.svg" class="social" alt="">
-            <a href="https://www.instagram.com/salonglooksandbooks/">@SalongLooksAndBooks</a>
+          <!-- Social -->
+          <div class="social">
+            <div class="icon">
+              <img src="./assets/img/instagram.svg" class="social" alt="">
+              <a href="https://www.instagram.com/salonglooksandbooks/">@SalongLooksAndBooks</a>
+            </div>
+
+            <div class="icon">
+              <img src="./assets/img/phone.svg" class="social" alt="">
+              <a href="tel:021-12 22 10">021-12 22 10</a>
+            </div>
+
           </div>
+        </div>
 
-          <div class="icon">
-            <img src="./assets/img/phone.svg" class="social" alt="">
-            <a href="tel:021-12 22 10">021-12 22 10</a>
-          </div>
-
-          <!-- <div class="icon">
-            <img src="./assets/img/mail.svg" class="social" alt="">
-            <a href = "mailto: info@looksansbooks.se">info@looksandbooks.se</a>
-          </div> -->
+        <div>
+          <h1>Öppettider</h1>
+          <p>Måndag-Fredag: 10:00-18:00</p>
+          <p>Lördag: 10:00-17:00</p>
+          <p>Söndag: Stängt</p>
         </div>
       </div>
 
