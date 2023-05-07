@@ -12,6 +12,9 @@
 #logo {
   height: 56pt;
   margin-top: 30pt;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .line {
@@ -37,20 +40,27 @@
   white-space: nowrap;
 }
 
-.textContainer {
+.intro {
+  width: 400px;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
 }
 
 .splitScreen {
-  width: 100vw;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  max-width: 1440px;
+
+  background-color: red;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 
 .block {
@@ -110,19 +120,18 @@ h1 {
 }
 
 .slideshow {
-  padding: 50px 0;
-  height: 450px;
+  height: 100%;
   min-height: 0;
-  width: 50vw;
+  width: 600px;
   max-width: 720px;
   display: flex;
-  align-items: center;
   justify-content: center;
   flex-direction: column;
   overflow: hidden;
   padding: 0;
   align-items: flex-start;
   position: relative;
+  border-radius: 18px;
 }
 
 .slideshow #imageContainer {

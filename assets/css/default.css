@@ -1,6 +1,10 @@
+html,
+body {
+    height: 100%;
+}
+
 body {
     margin: 0;
-    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +24,7 @@ input,
 button,
 footer {
     font-family: 'Open Sans', sans-serif;
-    line-height: 1.5;
+    line-height: 1.7;
 }
 
 a,
@@ -60,7 +64,6 @@ img {
     border-style: solid;
     border-color: var(--black);
     background-color: var(--primary);
-    margin: 24pt 0;
     text-align: center;
     font-weight: 600;
     transition: .2s;
