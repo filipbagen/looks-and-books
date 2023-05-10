@@ -13,8 +13,8 @@
 }
 
 #logo {
-  height: 56pt;
-  margin-top: 30pt;
+  height: 86px;
+  margin: 30px 0;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -23,6 +23,7 @@
 .line {
   border: 1px solid var(--secondary);
   border-radius: 5px;
+  margin-bottom: 48px;
 }
 
 #icon {
@@ -36,7 +37,6 @@
   align-items: center;
   display: flex;
   flex-shrink: 0;
-  margin: 12px 0;
 }
 
 #OpeningHours p {
@@ -44,18 +44,13 @@
 }
 
 .intro {
-  width: 400px;
+  width: 440px;
+  /* height: 400px; */
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 32px;
-}
-
-.splitScreen {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .contactAndOpeningHours {
@@ -74,7 +69,7 @@
 .textContainer {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 4px;
 }
 
 .logoAndText {
@@ -95,7 +90,7 @@
 }
 
 iframe {
-  border-radius: 12px 0 0 0;
+  border-radius: 12px 12px 0 0;
 }
 
 #bg {
@@ -159,11 +154,19 @@ h1 {
   gap: 122px;
 }
 
+.splitScreen {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  /* height: 442px; */
+}
+
 .slideshow {
-  height: 100%;
+  height: 490px;
   min-height: 0;
-  width: 600px;
-  max-width: 720px;
+  width: 682px;
+  /* max-width: 720px; */
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -179,12 +182,13 @@ h1 {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  height: 100%;
 }
 
 .slideshow #imageContainer div {
   width: 50vw;
   max-width: 720px;
-  height: 450px;
+  height: 100%;
   background-size: cover;
   background-position: center;
 }
