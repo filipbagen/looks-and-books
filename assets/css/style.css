@@ -42,6 +42,7 @@
 
 #OpeningHours p {
   white-space: nowrap;
+  margin: 12px;
 }
 
 .intro {
@@ -59,7 +60,6 @@
   flex-direction: row;
   justify-content: space-between;
   width: 50%;
-
   text-align: center;
 }
 
@@ -143,12 +143,16 @@ h1 {
 
 .products {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
 }
 
 .product {
   width: 344px;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
 }
 
 #footer {

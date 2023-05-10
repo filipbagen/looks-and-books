@@ -1,7 +1,7 @@
-/* Phone */ 
-@media only screen and (max-width: 630px) {
+/* Phone */
+/* @media only screen and (max-width: 630px) {
     .splitScreen {
-      flex-direction: column;
+        flex-direction: column;
     }
 
     #map {
@@ -21,7 +21,51 @@
         margin: 20pt;
     }
 
-    .block, .slideshow, .slideshow #imageContainer div {
+    .block,
+    .slideshow,
+    .slideshow #imageContainer div {
         width: 100vw;
+    }
+} */
+
+
+
+/* Tablet */
+@media only screen and (max-width: 1290px) {
+    #container {
+        align-items: center;
+        width: 100vw;
+    }
+
+    #OpeningHours {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .line {
+        display: none;
+    }
+
+    .products {
+        width: 90vw;
+        gap: 88px;
+    }
+
+    #footer {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    #footer h1 {
+        font-size: 28px;
+    }
+
+    #map {
+        width: 100vw;
+    }
+
+    .contactAndOpeningHours {
+        justify-content: center;
+        gap: 100px;
     }
 }
