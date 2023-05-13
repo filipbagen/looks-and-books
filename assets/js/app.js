@@ -7,11 +7,29 @@ function getToday() {
   return new Date().getDay() ? new Date().getDay() : 7
 }
 
+function getDay() {
+  if (new Date().getDate() == 0) {
+    return 2
+
+  } else if (new Date().getDate() <= 5) {
+    return 0
+
+  } else {
+    return 2
+  }
+
+
+}
+
 function highlightDayOfTheWeek() {
   const target = /** @type {HTMLElement} */ (document.querySelector('#OpeningHours :nth-child(' + getToday() + ')'))
+  const footerTarget = /** @type {HTMLElement} */ (document.querySelector('#OpeningHoursFooter :nth-child(' + getDay() + ')'))
+
   target.classList.add('today')
+  footerTarget.classList.add('today')
 
   console.log(target)
+  console.log(footerTarget)
 }
 
 function slideshow(goTo) {
