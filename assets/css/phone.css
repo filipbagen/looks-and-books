@@ -68,6 +68,16 @@
         gap: 100px;
         width: 100%;
     }
+
+    .social {
+        height: 36px;
+    }
+
+    .grid-container {
+        grid-template-areas:
+            'intro intro intro intro intro'
+            'slideshow slideshow openingHours openingHours openingHours';
+    }
 }
 
 /* Phone */
@@ -132,5 +142,12 @@
 
     #map {
         height: 336px;
+    }
+
+    .grid-container {
+        grid-template-areas:
+            'intro'
+            'slideshow'
+            'openingHours';
     }
 }

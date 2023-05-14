@@ -49,7 +49,7 @@
 }
 
 .intro {
-  width: 50%;
+  /* width: 50%; */
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -61,6 +61,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
   width: 50%;
   text-align: center;
 }
@@ -220,6 +221,7 @@ h1 {
 }
 
 .slideshow #imageContainer div {
+  max-width: 782px;
   width: 50vw;
   height: 100%;
   background-size: cover;
@@ -269,4 +271,35 @@ h1 {
 .slideshow #dots a:hover,
 .slideshow #dots a.active {
   background-color: var(--white);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Testing */
+.item1 {
+  grid-area: openingHours;
+}
+
+.item2 {
+  grid-area: intro;
+}
+
+.item3 {
+  grid-area: slideshow;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'openingHours openingHours openingHours openingHours openingHours'
+    'intro intro slideshow slideshow slideshow';
+  gap: 10px;
 }

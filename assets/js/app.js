@@ -8,18 +8,9 @@ function getToday() {
 }
 
 function getDay() {
-  if (new Date().getDate() == 0) {
-    return 2
-
-  } else if (new Date().getDate() <= 5) {
-    return 0
-
-  } else {
-    return 2
-  }
-
-
+  return new Date().getDay() === 0 ? 3 : new Date().getDay() <= 5 ? 1 : 2
 }
+
 
 function highlightDayOfTheWeek() {
   const target = /** @type {HTMLElement} */ (document.querySelector('#OpeningHours :nth-child(' + getToday() + ')'))
@@ -28,8 +19,8 @@ function highlightDayOfTheWeek() {
   target.classList.add('today')
   footerTarget.classList.add('today')
 
-  console.log(target)
-  console.log(footerTarget)
+  // console.log(target)
+  // console.log(footerTarget)
 }
 
 function slideshow(goTo) {
