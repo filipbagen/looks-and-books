@@ -132,10 +132,6 @@
         width: 100vw;
     }
 
-    .top {
-        flex-direction: column-reverse;
-    }
-
     #skincareLogo {
         height: 100px;
     }
