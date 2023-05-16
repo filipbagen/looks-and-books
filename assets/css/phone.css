@@ -31,7 +31,7 @@
 
 
 /* Tablet */
-@media only screen and (max-width: 1290px) {
+@media only screen and (max-width: 1240px) {
     #container {
         align-items: center;
     }
@@ -75,8 +75,23 @@
 
     .grid-container {
         grid-template-areas:
-            'intro intro intro intro intro'
-            'slideshow slideshow openingHours openingHours openingHours';
+            'intro intro intro intro intro intro'
+            'slideshow slideshow slideshow slideshow openingHours openingHours';
+        grid-auto-columns: minmax(0, 1fr);
+    }
+
+    .openingHour {
+        /* background-color: blue; */
+    }
+
+    .slideshow {
+        /* max-width: 50vw; */
+        max-width: 100%;
+    }
+
+    .slideshow #imageContainer div {
+        /* max-width: 50vw; */
+        max-width: 100%;
     }
 }
 

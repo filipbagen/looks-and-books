@@ -8,14 +8,12 @@
 }
 
 #container {
-  max-width: 1240px;
+  max-width: 1280px;
   min-width: 270px;
-  width: 90vw;
+  width: 92vw;
   display: flex;
   flex-direction: column;
   gap: 122px;
-
-  background-color: red;
 }
 
 #logo {
@@ -37,7 +35,7 @@
 }
 
 #OpeningHours {
-  width: 100%;
+  max-width: 100%;
   justify-content: space-between;
   align-items: center;
   display: flex;
@@ -46,7 +44,6 @@
 
 #OpeningHours p {
   white-space: nowrap;
-  margin: 12px;
 }
 
 .intro {
@@ -71,6 +68,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  width: 100%;
 }
 
 .logoAndText {
@@ -196,8 +194,8 @@ h1 {
   grid-area: slideshow;
   height: 490px;
   min-height: 0;
-  width: 50%;
-  min-width: 660px;
+  width: 100%;
+  min-width: 200px;
   max-width: 722px;
   display: flex;
   justify-content: center;
@@ -207,6 +205,11 @@ h1 {
   align-items: flex-start;
   position: relative;
   border-radius: var(--borderRadius);
+
+  /* width: 100%;
+  max-width: 400px;
+  min-width: 0;
+  height: auto; */
 }
 
 .slideshow #imageContainer {
@@ -218,10 +221,16 @@ h1 {
 }
 
 .slideshow #imageContainer div {
+  /* width: 100%; */
+  /* min-width: 50px; */
+  /* max-width: 772px; */
+  /* height: auto; */
+
+  min-width: 772px;
   width: 50%;
   max-width: 722px;
-  min-width: 660px;
   height: 100%;
+
   background-size: cover;
   background-position: center;
 }
@@ -284,13 +293,13 @@ h1 {
 /* Testing */
 .openingHour {
   grid-area: openingHours;
-  max-width: 100%;
+  width: 100%;
+  max-width: 1140px;
 }
 
 .intro {
   grid-area: intro;
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -302,5 +311,9 @@ h1 {
     'openingHours openingHours openingHours openingHours openingHours'
     'intro intro slideshow slideshow slideshow';
   gap: 32px 24px;
+
+  justify-items: stretch;
+  align-items: stretch;
   max-width: 100%;
+  /* background-color: red; */
 }
