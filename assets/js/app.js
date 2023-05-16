@@ -1,6 +1,6 @@
 const init = () => {
   highlightDayOfTheWeek()
-  window.setTimeout(function () { autoScrollSlideshow() }, 4000)
+  // window.setTimeout(function () { autoScrollSlideshow() }, 4000)
 }
 
 function getToday() {

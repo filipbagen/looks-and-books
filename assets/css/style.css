@@ -7,7 +7,7 @@
 }
 
 #container {
-  max-width: 1380px;
+  max-width: 1280px;
   min-width: 270px;
   width: 90vw;
   display: flex;
@@ -151,8 +151,8 @@ iframe {
 }
 
 h1 {
-  font-size: 32pt;
-  margin: 0 0 10pt 0;
+  font-size: 28pt;
+  margin: 0 0 20pt 0;
 }
 
 .products {
@@ -353,4 +353,8 @@ h1 {
 .splide__slide img {
   height: auto;
   width: 100%;
+}
+
+.splide__arrow {
+  transition: .2s;
 }

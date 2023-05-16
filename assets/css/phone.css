@@ -69,6 +69,10 @@
     .splide__list {
         width: 100%;
     }
+
+    .intro {
+        gap: 32px;
+    }
 }
 
 /* Phone */

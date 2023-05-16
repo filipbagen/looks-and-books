@@ -140,14 +140,12 @@
         <div class="logoAndText">
           <!-- <img src="./assets/img/barber.svg" id="skincareLogo" alt=""> -->
           <p>
-            På vår frisörsalong har vi ett team av professionella barberare med lång
+            På vår frisörsalong har vi professionella barberare med lång
             erfarenhet inom området. Vi strävar alltid efter att ge våra kunder den
-            bästa barberingsupplevelsen genom att använda de bästa verktygen och
-            produkterna på marknaden. Vi är specialiserade på att skapa skarpa linjer,
+            bästa barberingsupplevelsen och det gör vi genom att använda de bästa verktygen och
+            produkterna. Vi är specialiserade på att skapa skarpa linjer,
             trendiga stilar och att ta hand om alla olika typer av skägg. Oavsett om
-            du vill ha en klassisk rakning eller en modern trimning så kan du lita på
-            oss för att ge dig en professionell och personlig service. Kom in till oss
-            för en unik barberingsupplevelse som du kommer att minnas länge!
+            du vill ha en klassisk rakning eller en modern trimning är du varmt välkommen.
           </p>
         </div>
 
@@ -199,7 +197,8 @@
   <script>
     const splide = new Splide('.splide', {
       type: 'loop',
-      perPage: 1,
+      pauseOnHover: false,
+      pauseOnFocus: false,
       gap: 0,
       padding: 0,
       rewind: false,
@@ -208,9 +207,11 @@
       cover: true,
       focus: 'center',
       autoplay: true,
-      interval: 6000
-    });
-    splide.mount();
+      rewind: true,
+      interval: 6000,
+    })
+
+    splide.mount()
 
   </script>
 </body>

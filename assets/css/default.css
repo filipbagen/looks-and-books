@@ -53,7 +53,7 @@ img {
 }
 
 .button {
-    width: 122px;
+    width: 132px;
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
@@ -63,7 +63,7 @@ img {
     padding: 12pt 18pt;
     border-radius: var(--borderRadius);
     border-style: solid;
-    border-width: 2px;
+    border-width: 3px;
     border-color: var(--black);
     background-color: var(--primary);
     text-align: center;
