@@ -19,6 +19,7 @@
 #logo {
   height: 86px;
   margin-top: 82px;
+  margin-bottom: -72px;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -83,18 +84,11 @@
   justify-content: space-between;
   gap: 48px;
   width: 100%;
-  align-items: flex-end;
-}
-
-.workContainer img {
-  border-radius: var(--borderRadius);
-  /* width: 100%; */
-  max-width: 444px;
-  min-width: 284px;
+  align-items: center;
 }
 
 #skincareLogo {
-  height: 180px;
+  height: 130px;
   min-width: fit-content;
 }
 
@@ -165,7 +159,7 @@ h1 {
 }
 
 #footer {
-  gap: 122px;
+  gap: 48px;
 }
 
 .splitScreen {
@@ -188,6 +182,20 @@ h1 {
 
 #OpeningHoursFooter p {
   margin: 0;
+}
+
+.workContainerImage {
+
+  max-height: 442px;
+  max-width: 444px;
+  min-width: 284px;
+  width: 100%;
+
+  /* width: 100px; */
+  /* height: 100px; */
+  object-fit: cover;
+  /* background-position: center center; */
+  /* background-repeat: no-repeat; */
 }
 
 .slideshow {
@@ -294,7 +302,6 @@ h1 {
 .openingHour {
   grid-area: openingHours;
   width: 100%;
-  max-width: 1140px;
 }
 
 .intro {
