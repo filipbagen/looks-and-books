@@ -56,7 +56,7 @@
     }
 
     #footer h1 {
-        font-size: 28px;
+        font-size: 36px;
     }
 
     #map {
@@ -161,5 +161,9 @@
             'slideshow'
             'openingHours';
         gap: 48px;
+    }
+
+    .workContainer:nth-child(2) {
+        flex-direction: column;
     }
 }

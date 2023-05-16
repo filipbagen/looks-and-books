@@ -87,6 +87,12 @@
   align-items: center;
 }
 
+.workContainer:nth-child(2) {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 88px;
+}
+
 #skincareLogo {
   height: 130px;
   min-width: fit-content;
