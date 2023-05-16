@@ -133,6 +133,7 @@ iframe {
 .icon img {
   width: 32pt;
   margin-right: 10pt;
+  border-radius: 0;
 }
 
 .social {
