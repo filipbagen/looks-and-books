@@ -7,7 +7,7 @@
 }
 
 #container {
-  max-width: 1280px;
+  max-width: 1380px;
   min-width: 270px;
   width: 90vw;
   display: flex;
@@ -32,6 +32,7 @@
 #icon {
   height: 20pt;
   margin-left: 6pt;
+  border-radius: 0;
 }
 
 #OpeningHours {
@@ -326,7 +327,7 @@ h1 {
   grid-template-areas:
     'openingHours openingHours openingHours openingHours openingHours'
     'intro intro slideshow slideshow slideshow';
-  gap: 32px 0;
+  gap: 42px 0;
 
   justify-items: stretch;
   align-items: stretch;
