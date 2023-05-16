@@ -3,14 +3,13 @@
   --secondary: #5E5E41;
   --black: #353535;
   --white: #ffffff;
-
   --borderRadius: 18px;
 }
 
 #container {
   max-width: 1280px;
   min-width: 270px;
-  width: 92vw;
+  width: 90vw;
   display: flex;
   flex-direction: column;
   gap: 122px;
@@ -208,17 +207,20 @@ h1 {
   grid-area: slideshow;
   height: 490px;
   min-height: 0;
+  overflow: hidden;
+  padding: 0;
+  align-items: flex-start;
+  position: relative;
+  border-radius: var(--borderRadius);
+
+
   width: 100%;
   min-width: 200px;
   max-width: 722px;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  overflow: hidden;
-  padding: 0;
-  align-items: flex-start;
-  position: relative;
-  border-radius: var(--borderRadius);
+
 
   /* width: 100%;
   max-width: 400px;
@@ -240,8 +242,8 @@ h1 {
   /* max-width: 772px; */
   /* height: auto; */
 
-  min-width: 772px;
-  width: 50%;
+  min-width: 100%;
+  width: 60px;
   max-width: 722px;
   height: 100%;
 
@@ -323,10 +325,30 @@ h1 {
   grid-template-areas:
     'openingHours openingHours openingHours openingHours openingHours'
     'intro intro slideshow slideshow slideshow';
-  gap: 32px 24px;
+  gap: 32px 0;
 
   justify-items: stretch;
   align-items: stretch;
   max-width: 100%;
   /* background-color: red; */
+}
+
+.splide {
+  margin-left: 42px;
+  grid-area: slideshow;
+}
+
+.splide__track {
+  border-radius: var(--borderRadius);
+}
+
+.splide__list {
+  width: 50vw;
+  max-width: 712px;
+  min-width: 400px;
+}
+
+.splide__slide img {
+  height: auto;
+  width: 100%;
 }
