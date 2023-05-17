@@ -95,7 +95,7 @@
 
 #skincareLogo {
   height: 130px;
-  min-width: fit-content;
+  /* min-width: fit-content; */
 }
 
 #map {
