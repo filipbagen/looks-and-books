@@ -120,10 +120,6 @@ iframe {
   z-index: -10;
 }
 
-.button a {
-  font-size: 14pt;
-}
-
 .icon {
   display: flex;
   align-items: center;
@@ -192,123 +188,13 @@ h1 {
 }
 
 .workContainerImage {
-
   max-height: 442px;
   max-width: 444px;
   min-width: 284px;
   width: 100%;
-
-  /* width: 100px; */
-  /* height: 100px; */
   object-fit: cover;
-  /* background-position: center center; */
-  /* background-repeat: no-repeat; */
 }
 
-.slideshow {
-  grid-area: slideshow;
-  height: 490px;
-  min-height: 0;
-  overflow: hidden;
-  padding: 0;
-  align-items: flex-start;
-  position: relative;
-  border-radius: var(--borderRadius);
-
-
-  width: 100%;
-  min-width: 200px;
-  max-width: 722px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-
-
-  /* width: 100%;
-  max-width: 400px;
-  min-width: 0;
-  height: auto; */
-}
-
-.slideshow #imageContainer {
-  transition: 512ms;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  height: 100%;
-}
-
-.slideshow #imageContainer div {
-  /* width: 100%; */
-  /* min-width: 50px; */
-  /* max-width: 772px; */
-  /* height: auto; */
-
-  min-width: 100%;
-  width: 60px;
-  max-width: 722px;
-  height: 100%;
-
-  background-size: cover;
-  background-position: center;
-}
-
-#imageContainer div:nth-of-type(1) {
-  background-image: url(../img/slideshow/slideshow1.jpeg);
-}
-
-#imageContainer div:nth-of-type(2) {
-  background-image: url(../img/slideshow/slideshow2.jpeg);
-}
-
-#imageContainer div:nth-of-type(3) {
-  background-image: url(../img/slideshow/slideshow3.jpeg);
-}
-
-#imageContainer div:nth-of-type(4) {
-  background-image: url(../img/slideshow/slideshow4.jpeg);
-}
-
-#imageContainer div:nth-of-type(5) {
-  background-image: url(../img/slideshow/slideshow5.jpeg);
-}
-
-#imageContainer div:nth-of-type(6) {
-  background-image: url(../img/slideshow/slideshow6.jpeg);
-}
-
-.slideshow #dots {
-  display: flex;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.slideshow #dots a {
-  width: 8pt;
-  height: 8pt;
-  border: 1pt solid var(--white);
-  margin: 6pt;
-  border-radius: 50%;
-}
-
-.slideshow #dots a:hover,
-.slideshow #dots a.active {
-  background-color: var(--white);
-}
-
-
-
-
-
-
-
-
-
-
-
-/* Testing */
 .openingHour {
   grid-area: openingHours;
   width: 100%;
