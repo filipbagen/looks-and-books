@@ -93,9 +93,9 @@
   margin-top: 88px;
 }
 
-#skincareLogo {
+#workContainerLogo {
   height: 130px;
-  /* min-width: fit-content; */
+  max-width: 92px;
 }
 
 #map {
@@ -189,7 +189,7 @@ h1 {
 
 .workContainerImage {
   max-height: 442px;
-  max-width: 444px;
+  max-width: 522px;
   min-width: 284px;
   width: 100%;
   object-fit: cover;

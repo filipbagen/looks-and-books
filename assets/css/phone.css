@@ -73,6 +73,11 @@
     .intro {
         gap: 32px;
     }
+
+
+    .workContainerImage {
+        height: fit-content;
+    }
 }
 
 /* Phone */
