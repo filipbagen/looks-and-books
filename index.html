@@ -1,230 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Looks & Books</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ADAD93" />
+    <meta
+      name="description"
+      content="Vår passion för hår och böcker har blivit till en salong i kombination med begagnade böcker. Vi har lång erfarenhet inom hår, hud och barbering."
+    />
 
-<head>
-  <title>Looks & Books</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#ADAD93">
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-RVTTMWBP98"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RVTTMWBP98"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
+      gtag('config', 'G-RVTTMWBP98');
+    </script>
 
-    gtag('config', 'G-RVTTMWBP98');
-  </script>
+    <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Style -->
+    <link rel="stylesheet" href="./assets/css/default.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/phone.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"
+    />
 
-  <!-- Style -->
-  <link rel="stylesheet" href="./assets/css/default.css">
-  <link rel="stylesheet" href="./assets/css/style.css">
-  <link rel="stylesheet" href="./assets/css/phone.css">
-  <link rel="stylesheet" type="text/css"
-    href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="favicon/safari-pinned-tab.svg"
+      color="#333333"
+    />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+  </head>
 
-  <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-  <link rel="manifest" href="favicon/site.webmanifest">
-  <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#333333">
-  <link rel="shortcut icon" href="favicon/favicon.ico">
-  <meta name="msapplication-TileColor" content="#da532c">
-  <meta name="msapplication-config" content="/favicon/browserconfig.xml">
-</head>
-
-<body onload="init()">
-  <div id="bg">
-    <img src="./assets/img/logo.svg" alt="">
-  </div>
-
-  <div id="container">
-
-    <!-- Logo -->
-    <img src="./assets/img/logo.svg" id="logo" alt="">
-
-    <div class="grid-container">
-      <div class="openingHour">
-        <!-- Opening Hours -->
-        <div id="OpeningHours">
-          <p>Måndag: 10:00-18:00</p>
-          <p>Tisdag: 10:00-18:00</p>
-          <p>Onsdag: 10:00-18:00</p>
-          <p>Torsdag: 10:00-18:00</p>
-          <p>Fredag: 10:00-18:00</p>
-          <p>Lördag: 10:00-17:00</p>
-          <p>Söndag: Stängt</p>
-        </div>
-
-        <hr class="line">
-      </div>
-
-      <div class="intro">
-        <div class="textContainer">
-          <h1>Välkommen</h1>
-
-          <p>
-            Vår passion för hår och böcker har blivit till en salong i kombination med begagnade böcker.
-            <br><br>
-            Vi har lång erfarenhet inom hår, hud och barbering.
-            <br><br>
-            Vi välkomnar er alla till oss för att ta del av tjänsterna vi erbjuder. Ni kan dessutom komma in för köpa
-            böcker, hänga i våra mysiga soffor eller svänga förbi för att klappa vår salongshund Phoebe.
-          </p>
-
-        </div>
-        <!-- Booking Button -->
-        <a class="button" href="https://boka.easycashier.se/looksbooks">Boka tid<img src="./assets/img/icon.svg"
-            id="icon" alt="Boka tid"></a>
-        <!--  -->
-      </div>
-
-      <section class="splide">
-        <div class="splide__track">
-          <ul class="splide__list">
-            <li class="splide__slide"><img src="assets/img/slideshow/slideshow1.jpg" alt=""></li>
-            <li class="splide__slide"><img src="assets/img/slideshow/slideshow2.jpg" alt=""></li>
-            <li class="splide__slide"><img src="assets/img/slideshow/slideshow3.jpg" alt=""></li>
-            <li class="splide__slide"><img src="assets/img/slideshow/slideshow4.jpg" alt=""></li>
-            <li class="splide__slide"><img src="assets/img/slideshow/slideshow5.jpg" alt=""></li>
-            <li class="splide__slide"><img src="assets/img/slideshow/slideshow6.jpg" alt=""></li>
-          </ul>
-        </div>
-      </section>
+  <body onload="init()">
+    <div id="bg">
+      <img src="./assets/img/logo.svg" alt="" />
     </div>
 
-    <div class="products">
-      <div class="product">
-        <h2>Davines</h2>
-        <p>
-          Vi arbetar med Davines, som vi tycker skapar fantastiska produkter.
-          De fokuserar på både kvalitet och miljömässig hållbarhet. Gå gärna
-          in och läs mer på Davines.com
-        </p>
-      </div>
+    <div id="container">
+      <!-- Logo -->
+      <img src="./assets/img/logo.svg" id="logo" alt="" />
 
-      <div class="product">
-        <h2>Hairtalk</h2>
-        <p>
-          Vi är certifierade hairtalk stylister, så vill du veta mer ring oss
-          på <a href="tel:021-12 22 10">021-12 22 10</a> eller läs på <a href="https://hairtalk.se">Hairtalk.se</a>
-        </p>
-      </div>
-
-      <div class="product">
-        <h2>Environ</h2>
-        <p>
-          Environ är baserat på A-vitamin och tillför dagligen detta till
-          huden för att motverka solskador, pigmenteringar och hudcancer,
-          med hjälp av antioxidanter och peptider. <a href="https://www.environskincare.com">Environskincare.com</a>
-        </p>
-      </div>
-    </div>
-
-    <div>
-      <div class="workContainer">
-        <div class="logoAndText">
-          <img src="./assets/img/charlottes_hudvard.svg" id="workContainerLogo" alt="">
-          <p>
-            Charlotte, en auktoriserad hudterapeut med över 10 års erfarenhet, valde att
-            arbeta med Environ för att ge sina kunder det bästa. Environ har vunnit Top
-            Medical Skincare sex år i rad och grundades av en av de fem bästa plastikkirurgerna
-            i världen, Dr Des Fernandes. Märket är känt för att använda A-vitamin i deras
-            unika Step-Up system, vilket hjälper till att motverka solskador, pigmenteringar,
-            hudcancer och åldrande. Environ fungerar för alla hudtyper och Charlotte
-            börjar alltid sina behandlingar med en personlig konsultation. Boka din
-            konsultation snart!
-          </p>
-        </div>
-
-        <img src="./assets/img/environ.jpg" class="workContainerImage" alt="">
-      </div>
-
-      <div class="workContainer">
-        <div class="logoAndText">
-          <img src="./assets/img/barber.svg" id="workContainerLogo" alt="">
-          <p>
-            På vår frisörsalong har vi professionella barberare med lång
-            erfarenhet inom området. Vi strävar alltid efter att ge våra kunder den
-            bästa barberingsupplevelsen och det gör vi genom att använda de bästa verktygen och
-            produkterna. Vi är specialiserade på att skapa skarpa linjer,
-            trendiga stilar och att ta hand om alla olika typer av skägg. Oavsett om
-            du vill ha en klassisk rakning eller en modern trimning är du varmt välkommen.
-          </p>
-        </div>
-
-        <img src="./assets/img/barber.jpg" class="workContainerImage" alt="">
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="splitScreen" id="footer">
-      <div class="contactAndOpeningHours">
-
-        <!-- Contact -->
-        <div class="block contact">
-          <h1>Kontakta oss</h1>
-
-          <!-- Social -->
-          <div class="social">
-            <div class="icon">
-              <img src="./assets/img/instagram.svg" class="social" alt="">
-              <a href="https://www.instagram.com/salonglooksandbooks/">@SalongLooksAndBooks</a>
-            </div>
-
-            <div class="icon">
-              <img src="./assets/img/phone.svg" class="social" alt="">
-              <a href="tel:021-12 22 10">021-12 22 10</a>
-            </div>
-
-          </div>
-        </div>
-
-        <div>
-          <h1>Öppettider</h1>
-          <div id="OpeningHoursFooter">
-            <p>Måndag-Fredag: 10:00-18:00</p>
+      <div class="grid-container">
+        <div class="openingHour">
+          <!-- Opening Hours -->
+          <div id="OpeningHours">
+            <p>Måndag: 10:00-18:00</p>
+            <p>Tisdag: 10:00-18:00</p>
+            <p>Onsdag: 10:00-18:00</p>
+            <p>Torsdag: 10:00-18:00</p>
+            <p>Fredag: 10:00-18:00</p>
             <p>Lördag: 10:00-17:00</p>
             <p>Söndag: Stängt</p>
           </div>
+
+          <hr class="line" />
+        </div>
+
+        <div class="intro">
+          <div class="textContainer">
+            <h1>Välkommen</h1>
+
+            <p>
+              Vår passion för hår och böcker har blivit till en salong i
+              kombination med begagnade böcker.
+              <br /><br />
+              Vi har lång erfarenhet inom hår, hud och barbering.
+              <br /><br />
+              Vi välkomnar er alla till oss för att ta del av tjänsterna vi
+              erbjuder. Ni kan dessutom komma in för köpa böcker, hänga i våra
+              mysiga soffor eller svänga förbi för att klappa vår salongshund
+              Phoebe.
+            </p>
+          </div>
+          <!-- Booking Button -->
+          <a class="button" href="https://boka.easycashier.se/looksbooks"
+            >Boka tid<img src="./assets/img/icon.svg" id="icon" alt="Boka tid"
+          /></a>
+          <!--  -->
+        </div>
+
+        <section class="splide">
+          <div class="splide__track">
+            <ul class="splide__list">
+              <li class="splide__slide">
+                <img src="assets/img/slideshow/slideshow1.jpg" alt="" />
+              </li>
+              <li class="splide__slide">
+                <img src="assets/img/slideshow/slideshow2.jpg" alt="" />
+              </li>
+              <li class="splide__slide">
+                <img src="assets/img/slideshow/slideshow3.jpg" alt="" />
+              </li>
+              <li class="splide__slide">
+                <img src="assets/img/slideshow/slideshow4.jpg" alt="" />
+              </li>
+              <li class="splide__slide">
+                <img src="assets/img/slideshow/slideshow5.jpg" alt="" />
+              </li>
+              <li class="splide__slide">
+                <img src="assets/img/slideshow/slideshow6.jpg" alt="" />
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+
+      <div data-nosnippet class="products">
+        <div class="product">
+          <h2>Davines</h2>
+          <p>
+            Vi arbetar med Davines, som vi tycker skapar fantastiska produkter.
+            De fokuserar på både kvalitet och miljömässig hållbarhet. Gå gärna
+            in och läs mer på Davines.com
+          </p>
+        </div>
+
+        <div class="product">
+          <h2>Hairtalk</h2>
+          <p>
+            Vi är certifierade hairtalk stylister, så vill du veta mer ring oss
+            på <a href="tel:021-12 22 10">021-12 22 10</a> eller läs på
+            <a href="https://hairtalk.se">Hairtalk.se</a>
+          </p>
+        </div>
+
+        <div class="product">
+          <h2>Environ</h2>
+          <p>
+            Environ är baserat på A-vitamin och tillför dagligen detta till
+            huden för att motverka solskador, pigmenteringar och hudcancer, med
+            hjälp av antioxidanter och peptider.
+            <a href="https://www.environskincare.com">Environskincare.com</a>
+          </p>
         </div>
       </div>
 
-      <!-- Map -->
-      <iframe class="block" id="map"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2018.385285702785!2d16.540642877786656!3d59.6099475747515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465e619bcfa15ac9%3A0x651d75d180d78f5!2sLooks%20%26%20Books!5e0!3m2!1sen!2sse!4v1683709479155!5m2!1sen!2sse"
-        style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div>
+        <div class="workContainer">
+          <div class="logoAndText">
+            <img
+              src="./assets/img/charlottes_hudvard.svg"
+              id="workContainerLogo"
+              alt=""
+            />
+            <p data-nosnippet>
+              Charlotte, en auktoriserad hudterapeut med över 10 års erfarenhet,
+              valde att arbeta med Environ för att ge sina kunder det bästa.
+              Environ har vunnit Top Medical Skincare sex år i rad och grundades
+              av en av de fem bästa plastikkirurgerna i världen, Dr Des
+              Fernandes. Märket är känt för att använda A-vitamin i deras unika
+              Step-Up system, vilket hjälper till att motverka solskador,
+              pigmenteringar, hudcancer och åldrande. Environ fungerar för alla
+              hudtyper och Charlotte börjar alltid sina behandlingar med en
+              personlig konsultation. Boka din konsultation snart!
+            </p>
+          </div>
+
+          <img
+            src="./assets/img/environ.jpg"
+            class="workContainerImage"
+            alt=""
+          />
+        </div>
+
+        <div class="workContainer">
+          <div class="logoAndText">
+            <img src="./assets/img/barber.svg" id="workContainerLogo" alt="" />
+            <p>
+              På vår frisörsalong har vi professionella barberare med lång
+              erfarenhet inom området. Vi strävar alltid efter att ge våra
+              kunder den bästa barberingsupplevelsen och det gör vi genom att
+              använda de bästa verktygen och produkterna. Vi är specialiserade
+              på att skapa skarpa linjer, trendiga stilar och att ta hand om
+              alla olika typer av skägg. Oavsett om du vill ha en klassisk
+              rakning eller en modern trimning är du varmt välkommen.
+            </p>
+          </div>
+
+          <img
+            src="./assets/img/barber.jpg"
+            class="workContainerImage"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="splitScreen" id="footer">
+        <div class="contactAndOpeningHours">
+          <!-- Contact -->
+          <div class="block contact">
+            <h1>Kontakta oss</h1>
+
+            <!-- Social -->
+            <div class="social">
+              <div class="icon">
+                <img src="./assets/img/instagram.svg" class="social" alt="" />
+                <a href="https://www.instagram.com/salonglooksandbooks/"
+                  >@SalongLooksAndBooks</a
+                >
+              </div>
+
+              <div class="icon">
+                <img src="./assets/img/phone.svg" class="social" alt="" />
+                <a href="tel:021-12 22 10">021-12 22 10</a>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h1>Öppettider</h1>
+            <div id="OpeningHoursFooter">
+              <p>Måndag-Fredag: 10:00-18:00</p>
+              <p>Lördag: 10:00-17:00</p>
+              <p>Söndag: Stängt</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <iframe
+          class="block"
+          id="map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2018.385285702785!2d16.540642877786656!3d59.6099475747515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465e619bcfa15ac9%3A0x651d75d180d78f5!2sLooks%20%26%20Books!5e0!3m2!1sen!2sse!4v1683709479155!5m2!1sen!2sse"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
     </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-  <script>
-    const splide = new Splide('.splide', {
-      type: 'loop',
-      pauseOnHover: false,
-      pauseOnFocus: false,
-      gap: 0,
-      padding: 0,
-      rewind: false,
-      width: '100%',
-      height: 490,
-      cover: true,
-      focus: 'center',
-      autoplay: true,
-      rewind: true,
-      interval: 6000,
-    })
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script>
+      const splide = new Splide('.splide', {
+        type: 'loop',
+        pauseOnHover: false,
+        pauseOnFocus: false,
+        gap: 0,
+        padding: 0,
+        rewind: false,
+        width: '100%',
+        height: 490,
+        cover: true,
+        focus: 'center',
+        autoplay: true,
+        rewind: true,
+        interval: 6000,
+      });
 
-    splide.mount()
-
-  </script>
-</body>
-<script src="assets/js/app.js"></script>
-
+      splide.mount();
+    </script>
+  </body>
+  <script src="assets/js/app.js"></script>
 </html>
