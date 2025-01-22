@@ -3,9 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Booking System</title>
+    <style>
+      .hidden {
+        display: none;
+      }
+      .section {
+        margin: 20px 0;
+      }
+      .grid {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+      .button {
+        padding: 10px;
+        cursor: pointer;
+      }
+      .button.selected {
+        background-color: #e0e0e0;
+      }
+      .confirmation-form {
+        max-width: 400px;
+        margin: 20px 0;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 8px;
+      }
+    </style>
   </head>
-  <body>
+  <!-- <body>
     <div class="container">
       <div id="staffSection" class="section">
         <h2>Choose Staff</h2>
@@ -17,16 +52,40 @@
         <div id="serviceButtons" class="grid"></div>
       </div>
 
-      <div id="dateSection" class="section hidden">
-        <h2>Choose Date</h2>
-        <input type="date" id="dateSelect" />
-      </div>
-
       <div id="timeSection" class="section hidden">
         <h2>Choose Time</h2>
         <div id="timeSlots" class="grid"></div>
       </div>
+
+      <div id="confirmationSection" class="section hidden">
+        <h2>Confirm Booking</h2>
+        <div id="bookingSummary"></div>
+        <form id="confirmationForm" class="confirmation-form">
+          <div class="form-group">
+            <label for="customerName">Name:</label>
+            <input type="text" id="customerName" required />
+          </div>
+          <div class="form-group">
+            <label for="customerEmail">Email:</label>
+            <input type="email" id="customerEmail" required />
+          </div>
+          <div class="form-group">
+            <label for="customerPhone">Phone (including country code):</label>
+            <input
+              type="tel"
+              id="customerPhone"
+              placeholder="46XXXXXXXXX"
+              required
+            />
+          </div>
+          <button type="submit" class="button">Confirm Booking</button>
+        </form>
+      </div>
     </div>
+    <script src="booking.js"></script>
+  </body> -->
+  <body>
+    <button onclick="makeBooking()">Book Appointment</button>
     <script src="booking.js"></script>
   </body>
 </html>
