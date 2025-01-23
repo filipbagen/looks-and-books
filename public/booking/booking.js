@@ -73,7 +73,7 @@ function populateStaffContainer() {
     container.id = staff.resourceId;
 
     // Assuming staff image follows a similar pattern to System 2
-    img.src = `../assets/img/profile/${staff.img || 'default'}.jpg`;
+    img.src = `../assets/img/profile/${staff.name || 'default'}.jpg`;
     img.onerror = () => (img.src = '../assets/img/profile/default.jpg'); // Fallback image
 
     ring.classList.add('ring');
