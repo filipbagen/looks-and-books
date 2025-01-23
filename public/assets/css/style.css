@@ -355,10 +355,10 @@ button:disabled {
   position: relative;
 }
 
-#staffButtons > div:hover,
+/* #staffButtons > div:hover,
 #staffButtons > div.activeRing {
   transform: scale(1.1);
-}
+} */
 
 #staffButtons > div img {
   width: 150px;
@@ -374,7 +374,7 @@ button:disabled {
   height: 150px;
   border-radius: 50%;
   padding: 10px;
-  border: 1px solid #333;
+  border: 1px solid var(--secondary);
   z-index: -1;
   transform: scale(0);
 }
@@ -390,4 +390,26 @@ button:disabled {
 
 #staffButtons > div p {
   margin: 0;
+}
+
+.staff-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.staff-image-container {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.staff-image-container:hover,
+.staff-button.activeRing .staff-image-container {
+  transform: scale(1.1);
+}
+
+.staff-button p {
+  margin: 0;
+  text-align: center;
 }

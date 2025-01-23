@@ -41,10 +41,9 @@ async function fetchServices() {
 function populateStaffContainer() {
   const staffContainer = document.getElementById('staffButtons');
   if (staffContainer) {
-    staffContainer.innerHTML = ''; // Clear existing content
+    staffContainer.innerHTML = '';
   }
 
-  // Collect unique staff from services
   const uniqueStaff = new Set();
   const staffList = [];
 
@@ -59,28 +58,30 @@ function populateStaffContainer() {
     });
   });
 
-  // Render staff with enhanced UI similar to System 2
   staffList.forEach((staff) => {
     const container = document.createElement('div');
+    const imageContainer = document.createElement('div');
     const img = document.createElement('img');
     const ring = document.createElement('div');
     const firstName = document.createElement('p');
+
+    container.classList.add('staff-button');
+    imageContainer.classList.add('staff-image-container');
 
     container.addEventListener('click', function () {
       selectStaff(staff, container);
     });
 
     container.id = staff.resourceId;
-
-    // Assuming staff image follows a similar pattern to System 2
     img.src = `../assets/img/profile/${staff.name || 'default'}.jpg`;
-    img.onerror = () => (img.src = '../assets/img/profile/default.jpg'); // Fallback image
+    img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
 
     ring.classList.add('ring');
     firstName.textContent = staff.name;
 
-    container.appendChild(ring);
-    container.appendChild(img);
+    imageContainer.appendChild(ring);
+    imageContainer.appendChild(img);
+    container.appendChild(imageContainer);
     container.appendChild(firstName);
 
     if (staffContainer) {
