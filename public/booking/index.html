@@ -1,172 +1,172 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
   <head>
+    <title>Looks & Books - Frisörsalong och antikvariat</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Booking System</title>
-    <style>
-      .hidden {
-        display: none;
-      }
-      .section {
-        margin: 20px 0;
-      }
-      .grid {
-        display: grid;
-        gap: 10px;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      }
-      .button {
-        padding: 10px;
-        cursor: pointer;
-      }
-      .button.selected {
-        background-color: #e0e0e0;
-      }
-      .confirmation-form {
-        max-width: 400px;
-        margin: 20px 0;
-      }
-      .form-group {
-        margin-bottom: 15px;
-      }
-      .form-group label {
-        display: block;
-        margin-bottom: 5px;
-      }
-      .form-group input {
-        width: 100%;
-        padding: 8px;
-      }
-      .summary-box {
-        background: #f5f5f5;
-        padding: 20px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-      }
+    <meta name="theme-color" content="#ADAD93" />
+    <meta
+      name="description"
+      content="Vår passion för hår och böcker har blivit till en salong i kombination med begagnade böcker. Vi har lång erfarenhet inom hår, hud och barbering. Vi välkomnar er alla till oss för att ta del av tjänsterna vi erbjuder. Ni kan dessutom komma in för att köpa böcker, hänga i våra mysiga soffor eller svänga förbi för att klappa vår salongshund Phoebe."
+    />
 
-      .checkbox {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+    <!-- schema.org structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "HairSalon",
+        "name": "Looks & Books",
+        "image": "https://looksandbooks.se/assets/img/logo.svg",
+        "@id": "",
+        "url": "https://looksandbooks.se",
+        "telephone": "021-12 22 10",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Köpmangatan 3",
+          "addressLocality": "Västerås",
+          "postalCode": "722 15",
+          "addressCountry": "Sweden"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 59.60995332787172,
+          "longitude": 16.54324667081415
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "10:00",
+            "closes": "18:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Saturday",
+            "opens": "10:00",
+            "closes": "17:00"
+          }
+        ],
+        "sameAs": ["https://www.instagram.com/salonglooksandbooks/"]
       }
+    </script>
 
-      .checkbox input {
-        width: auto;
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-RVTTMWBP98"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
       }
-      textarea {
-        width: 100%;
-        min-height: 100px;
-        padding: 8px;
-      }
+      gtag('js', new Date());
 
-      button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
+      gtag('config', 'G-RVTTMWBP98');
+    </script>
 
-      .name-group,
-      .email-group,
-      .message-group,
-      .checkbox-group {
-        display: none;
-      }
+    <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
 
-      .success-section {
-        max-width: 600px;
-        margin: 40px auto;
-        text-align: center;
-      }
-
-      .success-section h2 {
-        color: #4caf50;
-        margin-bottom: 30px;
-      }
-
-      .success-summary {
-        background: #f5f5f5;
-        padding: 20px;
-        border-radius: 8px;
-        text-align: left;
-        margin-bottom: 20px;
-      }
-
-      .success-summary hr {
-        border: none;
-        border-top: 1px solid #ddd;
-        margin: 15px 0;
-      }
-
-      .success-message {
-        color: #666;
-        font-style: italic;
-      }
-    </style>
+    <!-- Style -->
+    <link rel="stylesheet" href="../assets/css/default.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/phone.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"
+    />
   </head>
+
   <body>
-    <div class="container">
-      <div id="staffSection" class="section">
-        <h2>Choose Staff</h2>
-        <div id="staffButtons" class="grid"></div>
-      </div>
+    <div id="bg">
+      <img src="../assets/img/logo.svg" alt="Looks & Books Logo" />
+    </div>
 
-      <div id="serviceSection" class="section hidden">
-        <h2>Choose Service</h2>
-        <div id="serviceButtons" class="grid"></div>
-      </div>
+    <div id="container">
+      <!-- Logo -->
+      <img src="../assets/img/logo.svg" id="logo" alt="Looks & Books Logo" />
 
-      <div id="timeSection" class="section hidden">
-        <h2>Choose Time</h2>
-        <div id="timeSlots" class="grid"></div>
-      </div>
+      <div class="container">
+        <div id="staffSection" class="section">
+          <h2>Choose Staff</h2>
+          <div id="staffButtons" class="grid"></div>
+        </div>
 
-      <div id="confirmationSection" class="section hidden">
-        <div id="bookingSummary" class="summary-box"></div>
+        <div id="serviceSection" class="section hidden">
+          <h2>Choose Service</h2>
+          <div id="serviceButtons" class="grid"></div>
+        </div>
 
-        <!-- Phone Form -->
-        <form id="phoneForm" class="confirmation-form">
-          <div class="form-group">
-            <label for="customerPhone">Phone Number:</label>
-            <input
-              type="tel"
-              id="customerPhone"
-              required
-              placeholder="46XXXXXXXXX"
-            />
-          </div>
-          <button type="submit" class="button">Continue</button>
-        </form>
+        <div id="timeSection" class="section hidden">
+          <h2>Choose Time</h2>
+          <div id="timeSlots" class="grid"></div>
+        </div>
 
-        <!-- Final Booking Form -->
-        <form
-          id="finalBookingForm"
-          class="confirmation-form"
-          style="display: none"
-        >
-          <div class="form-group name-group" style="display: none">
-            <label for="customerName">Name:</label>
-            <input type="text" id="customerName" required />
-          </div>
-          <div class="form-group email-group" style="display: none">
-            <label for="customerEmail">Email:</label>
-            <input type="email" id="customerEmail" required />
-          </div>
-          <div class="form-group">
-            <label for="notes">Message (optional):</label>
-            <textarea id="notes"></textarea>
-          </div>
-          <div class="form-group">
-            <label class="checkbox">
-              <input type="checkbox" id="termsAccepted" required />
-              <span>Jag godkänner härmed bokningsvillkoren</span>
-            </label>
-          </div>
-          <button type="submit" id="bookButton" class="button" disabled>
-            Book
-          </button>
-        </form>
+        <div id="confirmationSection" class="section hidden">
+          <div id="bookingSummary" class="summary-box"></div>
+
+          <!-- Phone Form -->
+          <form id="phoneForm" class="confirmation-form">
+            <div class="form-group">
+              <label for="customerPhone">Phone Number:</label>
+              <input
+                type="tel"
+                id="customerPhone"
+                required
+                placeholder="46XXXXXXXXX"
+              />
+            </div>
+            <button type="submit" class="button">Continue</button>
+          </form>
+
+          <!-- Final Booking Form -->
+          <form
+            id="finalBookingForm"
+            class="confirmation-form"
+            style="display: none"
+          >
+            <div class="form-group name-group" style="display: none">
+              <label for="customerName">Name:</label>
+              <input type="text" id="customerName" required />
+            </div>
+            <div class="form-group email-group" style="display: none">
+              <label for="customerEmail">Email:</label>
+              <input type="email" id="customerEmail" required />
+            </div>
+            <div class="form-group">
+              <label for="notes">Message (optional):</label>
+              <textarea id="notes"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="checkbox">
+                <input type="checkbox" id="termsAccepted" required />
+                <span>Jag godkänner härmed bokningsvillkoren</span>
+              </label>
+            </div>
+            <button type="submit" id="bookButton" class="button" disabled>
+              Book
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-    <script src="booking.js"></script>
+
+    <script src="./booking.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
   </body>
 </html>

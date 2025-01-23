@@ -31,10 +31,62 @@ async function fetchServices() {
     const response = await fetch(`${cfg.baseUrl}/services`);
     const data = await response.json();
     services = data.serviceGroups;
-    displayStaff();
+    // displayStaff();
+    populateStaffContainer();
   } catch (error) {
     console.error('Error fetching services:', error);
   }
+}
+
+function populateStaffContainer() {
+  const staffContainer = document.getElementById('staffButtons');
+  if (staffContainer) {
+    staffContainer.innerHTML = ''; // Clear existing content
+  }
+
+  // Collect unique staff from services
+  const uniqueStaff = new Set();
+  const staffList = [];
+
+  services.forEach((group) => {
+    group.services.forEach((service) => {
+      service.resourceServices.forEach((staff) => {
+        if (!uniqueStaff.has(staff.resourceId)) {
+          uniqueStaff.add(staff.resourceId);
+          staffList.push(staff);
+        }
+      });
+    });
+  });
+
+  // Render staff with enhanced UI similar to System 2
+  staffList.forEach((staff) => {
+    const container = document.createElement('div');
+    const img = document.createElement('img');
+    const ring = document.createElement('div');
+    const firstName = document.createElement('p');
+
+    container.addEventListener('click', function () {
+      selectStaff(staff, container);
+    });
+
+    container.id = staff.resourceId;
+
+    // Assuming staff image follows a similar pattern to System 2
+    img.src = `../assets/img/profile/${staff.img || 'default'}.jpg`;
+    img.onerror = () => (img.src = '../assets/img/profile/default.jpg'); // Fallback image
+
+    ring.classList.add('ring');
+    firstName.textContent = staff.name;
+
+    container.appendChild(ring);
+    container.appendChild(img);
+    container.appendChild(firstName);
+
+    if (staffContainer) {
+      staffContainer.appendChild(container);
+    }
+  });
 }
 
 // Display staff members
@@ -56,26 +108,78 @@ function displayStaff() {
 }
 
 // Display services for selected staff
-function displayServices() {
-  const serviceContainer = document.getElementById('serviceButtons');
-  serviceContainer.innerHTML = '';
+// function displayServices() {
+//   const serviceContainer = document.getElementById('serviceButtons');
+//   serviceContainer.innerHTML = '';
 
-  services.forEach((group) => {
-    group.services.forEach((service) => {
-      if (
-        service.resourceServices.some(
-          (rs) => rs.resourceId === selectedStaff.resourceId
-        )
-      ) {
-        const button = createButton(
-          `${service.name} - ${service.length}min (${service.priceIncludingVat}kr)`,
-          () => selectService(service)
-        );
-        serviceContainer.appendChild(button);
-      }
+//   services.forEach((group) => {
+//     group.services.forEach((service) => {
+//       if (
+//         service.resourceServices.some(
+//           (rs) => rs.resourceId === selectedStaff.resourceId
+//         )
+//       ) {
+//         const button = createButton(
+//           `${service.name} - ${service.length}min (${service.priceIncludingVat}kr)`,
+//           () => selectService(service)
+//         );
+//         serviceContainer.appendChild(button);
+//       }
+//     });
+//   });
+
+//   document.getElementById('serviceSection').classList.remove('hidden');
+// }
+
+function populateServiceContainer() {
+  const serviceContainer = document.getElementById('serviceButtons');
+  if (serviceContainer) {
+    serviceContainer.innerHTML = ''; // Clear existing content
+  }
+
+  // Filter services for the selected staff
+  const staffServices = services.flatMap((group) =>
+    group.services.filter((service) =>
+      service.resourceServices.some(
+        (rs) => rs.resourceId === selectedStaff.resourceId
+      )
+    )
+  );
+
+  staffServices.forEach((service) => {
+    const row = document.createElement('div');
+    const name = document.createElement('p');
+    const timeIcon = document.createElement('i');
+    const time = document.createElement('p');
+    const price = document.createElement('p');
+
+    row.addEventListener('click', function () {
+      selectService(service, row);
     });
+
+    row.id = String(service.serviceId);
+    name.textContent = service.name;
+
+    // Add clock icon (using Font Awesome class, adjust if using different icon library)
+    timeIcon.className = 'fa fa-clock';
+
+    // Handle service duration display
+    time.textContent = `${service.length}min`;
+
+    // Format price
+    price.textContent = `${service.priceIncludingVat}kr`;
+
+    row.appendChild(name);
+    row.appendChild(timeIcon);
+    row.appendChild(time);
+    row.appendChild(price);
+
+    if (serviceContainer) {
+      serviceContainer.appendChild(row);
+    }
   });
 
+  // Show service section
   document.getElementById('serviceSection').classList.remove('hidden');
 }
 
@@ -308,25 +412,102 @@ function createButton(text, onClick) {
 }
 
 // Event handlers
-function selectStaff(staff) {
+function selectStaff(staff, selectedElement) {
+  // Remove active state from all staff elements
+  document.querySelectorAll('#staffButtons > div').forEach((el) => {
+    el.classList.remove('activeRing');
+  });
+
+  // Add active state to selected element
+  if (selectedElement) {
+    selectedElement.classList.add('activeRing');
+  }
+
+  // Store selected staff
   selectedStaff = staff;
-  document
-    .querySelectorAll('#staffButtons .button')
-    .forEach((btn) => btn.classList.remove('selected'));
-  event.target.classList.add('selected');
-  displayServices();
+
+  // Proceed to next step (likely displaying services)
+  // displayServices();
+  populateServiceContainer();
 }
 
-function selectService(service) {
-  selectedService = service;
-  document
-    .querySelectorAll('#serviceButtons .button')
-    .forEach((btn) => btn.classList.remove('selected'));
-  event.target.classList.add('selected');
+function selectService(service, selectedElement) {
+  // Remove active state from all service elements
+  document.querySelectorAll('#serviceButtons > div').forEach((el) => {
+    el.classList.remove('activeResourceOption');
+  });
 
-  // Automatically fetch time slots for the next 30 days
+  // Add active state to selected element
+  if (selectedElement) {
+    selectedElement.classList.add('activeResourceOption');
+  }
+
+  // Store selected service
+  selectedService = service;
+
+  // Fetch time slots
   fetchTimeSlots();
 }
+
+// CSS to match System 2's styling
+const serviceContainerStyles = `
+#serviceSection {
+  max-width: 960px;
+  width: 100vw;
+}
+
+#serviceButtons {
+  display: flex;
+  flex-direction: column;
+}
+
+#serviceButtons > div {
+  display: flex;
+  justify-content: space-between;
+  transition: 200ms;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+}
+
+#serviceButtons > div:hover {
+  border-left: 3px solid #333;
+}
+
+#serviceButtons > div.activeResourceOption {
+  background-color: #333;
+  color: #fff;
+}
+
+#serviceButtons > div p {
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+
+#serviceButtons > div p:nth-of-type(2) {
+  min-width: 66px;
+  padding-right: 0;
+}
+
+#serviceButtons > div p:last-of-type {
+  padding-left: 0;
+  min-width: 85px;
+  justify-content: flex-end;
+}
+
+#serviceButtons > div i {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
+}
+`;
+
+// Add styles to the document
+const styleElement = document.createElement('style');
+styleElement.textContent = serviceContainerStyles;
+document.head.appendChild(styleElement);
 
 // Initialize the booking system
 fetchServices();
