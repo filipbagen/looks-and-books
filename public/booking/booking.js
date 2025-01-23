@@ -1,3 +1,20 @@
+const config = {
+  development: {
+    baseUrl: 'http://localhost:3000',
+    onlineBookingUrlName: 'looksbooks',
+  },
+  production: {
+    baseUrl: 'https://looksandbooks.se/booking-api',
+    onlineBookingUrlName: 'looksbooks',
+  },
+};
+
+function getConfig() {
+  return window.location.hostname === 'localhost'
+    ? config.development
+    : config.production;
+}
+
 let services = [];
 let selectedStaff = null;
 let selectedService = null;
@@ -9,8 +26,9 @@ let appointmentId = null;
 
 // Fetch initial services data
 async function fetchServices() {
+  const cfg = getConfig();
   try {
-    const response = await fetch('http://localhost:3000/services');
+    const response = await fetch(`${cfg.baseUrl}/services`);
     const data = await response.json();
     services = data.serviceGroups;
     displayStaff();
@@ -62,7 +80,8 @@ function displayServices() {
 }
 
 // Fetch time slots using the working proxy endpoint
-async function fetchTimeSlots() {
+function fetchTimeSlots() {
+  const cfg = getConfig();
   const dateStart = new Date().toISOString().split('T')[0];
   const dateEnd = new Date();
   dateEnd.setDate(dateEnd.getDate() + 30);
@@ -70,18 +89,15 @@ async function fetchTimeSlots() {
   const params = new URLSearchParams({
     dateStart,
     dateStop: dateEnd.toISOString().split('T')[0],
-    onlineBookingUrlName: 'looksbooks',
+    onlineBookingUrlName: cfg.onlineBookingUrlName,
     serviceIds: selectedService.serviceId,
     resourceIds: selectedStaff.resourceId,
   });
 
-  try {
-    const response = await fetch(`http://localhost:3000/timeslots?${params}`);
-    const data = await response.json();
-    displayTimeSlots(data);
-  } catch (error) {
-    console.error('Error fetching time slots:', error);
-  }
+  fetch(`${cfg.baseUrl}/timeslots?${params}`)
+    .then((response) => response.json())
+    .then(displayTimeSlots)
+    .catch(console.error);
 }
 
 // Display available time slots
@@ -140,13 +156,14 @@ document
   .addEventListener('submit', async function (e) {
     e.preventDefault();
     const phoneNumber = document.getElementById('customerPhone').value;
+    const cfg = getConfig();
 
     try {
-      const reserveResponse = await fetch('http://localhost:3000/reserve', {
+      const reserveResponse = await fetch(`${cfg.baseUrl}/reserve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          onlineBookingUrlName: 'looksbooks',
+          onlineBookingUrlName: cfg.onlineBookingUrlName,
           resourceIds: [selectedStaff.resourceId],
           serviceIds: [selectedService.serviceId],
           startDate: selectedDate,
@@ -245,9 +262,10 @@ document
   .getElementById('finalBookingForm')
   .addEventListener('submit', async function (e) {
     e.preventDefault();
+    const cfg = getConfig();
 
     const confirmData = {
-      onlineBookingUrlName: 'looksbooks',
+      onlineBookingUrlName: cfg.onlineBookingUrlName,
       appointmentId: appointmentId,
       customerPhoneNumber: document.getElementById('customerPhone').value,
       notes: document.getElementById('notes').value || '',
@@ -263,7 +281,7 @@ document
     }
 
     try {
-      const confirmResponse = await fetch('http://localhost:3000/confirm', {
+      const confirmResponse = await fetch(`${cfg.baseUrl}/confirm`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(confirmData),
@@ -312,3 +330,6 @@ function selectService(service) {
 
 // Initialize the booking system
 fetchServices();
+
+// npx http-server
+// node proxy.js

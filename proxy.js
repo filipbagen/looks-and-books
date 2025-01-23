@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const config = require('./config');
 const app = express();
 
 const BASE_URL = 'https://boka.easycashier.se/v1/open/calendar/onlineBooking';
@@ -14,7 +15,7 @@ app.use(express.static('public'));
 app.get('/services', async (req, res) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}/getServices?onlineBookingUrlName=looksbooks`
+      `${BASE_URL}/getServices?onlineBookingUrlName=${config.onlineBookingUrlName}`
     );
     res.json(response.data);
   } catch (error) {
