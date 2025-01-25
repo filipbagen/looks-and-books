@@ -1,4 +1,5 @@
-const config = {
+// Configuration management
+const CONFIG = {
   development: {
     baseUrl: 'http://localhost:3000',
     onlineBookingUrlName: 'looksbooks',
@@ -9,45 +10,47 @@ const config = {
   },
 };
 
+// Booking state management
+const bookingState = {
+  services: [],
+  selectedStaff: null,
+  selectedService: null,
+  selectedDate: null,
+  selectedTimeSlot: null,
+  appointmentId: null,
+  customerInfo: null,
+};
+
+// Helper function to get configuration based on environment
 function getConfig() {
   return window.location.hostname === 'localhost'
-    ? config.development
-    : config.production;
+    ? CONFIG.development
+    : CONFIG.production;
 }
 
-let services = [];
-let selectedStaff = null;
-let selectedService = null;
-let selectedDate = null;
-let selectedTimeSlot = null;
-let reservedAppointmentId = null;
-let customerInfo = null;
-let appointmentId = null;
-
-// Fetch initial services data
+// Fetch and initialize services
 async function fetchServices() {
   const cfg = getConfig();
   try {
     const response = await fetch(`${cfg.baseUrl}/services`);
     const data = await response.json();
-    services = data.serviceGroups;
-    // displayStaff();
+    bookingState.services = data.serviceGroups;
     populateStaffContainer();
   } catch (error) {
     console.error('Error fetching services:', error);
   }
 }
 
+// Populate staff container with unique staff members
 function populateStaffContainer() {
   const staffContainer = document.getElementById('staffButtons');
-  if (staffContainer) {
-    staffContainer.innerHTML = '';
-  }
+  if (!staffContainer) return;
 
+  staffContainer.innerHTML = '';
   const uniqueStaff = new Set();
   const staffList = [];
 
-  services.forEach((group) => {
+  bookingState.services.forEach((group) => {
     group.services.forEach((service) => {
       service.resourceServices.forEach((staff) => {
         if (!uniqueStaff.has(staff.resourceId)) {
@@ -59,132 +62,89 @@ function populateStaffContainer() {
   });
 
   staffList.forEach((staff) => {
-    const container = document.createElement('div');
-    const imageContainer = document.createElement('div');
-    const img = document.createElement('img');
-    const ring = document.createElement('div');
-    const firstName = document.createElement('p');
-
-    container.classList.add('staff-button');
-    imageContainer.classList.add('staff-image-container');
-
-    container.addEventListener('click', function () {
-      selectStaff(staff, container);
-    });
-
-    container.id = staff.resourceId;
-    img.src = `../assets/img/profile/${staff.name || 'default'}.jpg`;
-    img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
-
-    ring.classList.add('ring');
-    firstName.textContent = staff.name;
-
-    imageContainer.appendChild(ring);
-    imageContainer.appendChild(img);
-    container.appendChild(imageContainer);
-    container.appendChild(firstName);
-
-    if (staffContainer) {
-      staffContainer.appendChild(container);
-    }
+    const container = createStaffButton(staff);
+    staffContainer.appendChild(container);
   });
 }
 
-// Display staff members
-function displayStaff() {
-  const staffContainer = document.getElementById('staffButtons');
-  const uniqueStaff = new Set();
+// Create staff button element
+function createStaffButton(staff) {
+  const container = document.createElement('div');
+  const imageContainer = document.createElement('div');
+  const img = document.createElement('img');
+  const ring = document.createElement('div');
+  const firstName = document.createElement('p');
 
-  services.forEach((group) => {
-    group.services.forEach((service) => {
-      service.resourceServices.forEach((staff) => {
-        if (!uniqueStaff.has(staff.resourceId)) {
-          uniqueStaff.add(staff.resourceId);
-          const button = createButton(staff.name, () => selectStaff(staff));
-          staffContainer.appendChild(button);
-        }
-      });
-    });
-  });
+  container.classList.add('staff-button');
+  imageContainer.classList.add('staff-image-container');
+
+  container.addEventListener('click', () => selectStaff(staff, container));
+
+  container.id = staff.resourceId;
+  img.src = `../assets/img/profile/${staff.name || 'default'}.jpg`;
+  img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
+
+  ring.classList.add('ring');
+  firstName.textContent = staff.name;
+
+  imageContainer.appendChild(ring);
+  imageContainer.appendChild(img);
+  container.appendChild(imageContainer);
+  container.appendChild(firstName);
+
+  return container;
 }
 
-// Display services for selected staff
-// function displayServices() {
-//   const serviceContainer = document.getElementById('serviceButtons');
-//   serviceContainer.innerHTML = '';
-
-//   services.forEach((group) => {
-//     group.services.forEach((service) => {
-//       if (
-//         service.resourceServices.some(
-//           (rs) => rs.resourceId === selectedStaff.resourceId
-//         )
-//       ) {
-//         const button = createButton(
-//           `${service.name} - ${service.length}min (${service.priceIncludingVat}kr)`,
-//           () => selectService(service)
-//         );
-//         serviceContainer.appendChild(button);
-//       }
-//     });
-//   });
-
-//   document.getElementById('serviceSection').classList.remove('hidden');
-// }
-
+// Populate service container for selected staff
 function populateServiceContainer() {
   const serviceContainer = document.getElementById('serviceButtons');
-  if (serviceContainer) {
-    serviceContainer.innerHTML = ''; // Clear existing content
-  }
+  if (!serviceContainer) return;
+
+  serviceContainer.innerHTML = '';
 
   // Filter services for the selected staff
-  const staffServices = services.flatMap((group) =>
+  const staffServices = bookingState.services.flatMap((group) =>
     group.services.filter((service) =>
       service.resourceServices.some(
-        (rs) => rs.resourceId === selectedStaff.resourceId
+        (rs) => rs.resourceId === bookingState.selectedStaff.resourceId
       )
     )
   );
 
   staffServices.forEach((service) => {
-    const row = document.createElement('div');
-    const name = document.createElement('p');
-    const timeIcon = document.createElement('i');
-    const time = document.createElement('p');
-    const price = document.createElement('p');
-
-    row.addEventListener('click', function () {
-      selectService(service, row);
-    });
-
-    row.id = String(service.serviceId);
-    name.textContent = service.name;
-
-    // Add clock icon (using Font Awesome class, adjust if using different icon library)
-    timeIcon.className = 'fa fa-clock';
-
-    // Handle service duration display
-    time.textContent = `${service.length}min`;
-
-    // Format price
-    price.textContent = `${service.priceIncludingVat}kr`;
-
-    row.appendChild(name);
-    row.appendChild(timeIcon);
-    row.appendChild(time);
-    row.appendChild(price);
-
-    if (serviceContainer) {
-      serviceContainer.appendChild(row);
-    }
+    const row = createServiceRow(service);
+    serviceContainer.appendChild(row);
   });
 
   // Show service section
   document.getElementById('serviceSection').classList.remove('hidden');
 }
 
-// Fetch time slots using the working proxy endpoint
+// Create service row element
+function createServiceRow(service) {
+  const row = document.createElement('div');
+  const name = document.createElement('p');
+  const timeIcon = document.createElement('i');
+  const time = document.createElement('p');
+  const price = document.createElement('p');
+
+  row.addEventListener('click', () => selectService(service, row));
+
+  row.id = String(service.serviceId);
+  name.textContent = service.name;
+  timeIcon.className = 'fa fa-clock';
+  time.textContent = `${service.length}min`;
+  price.textContent = `${service.priceIncludingVat}kr`;
+
+  row.appendChild(name);
+  row.appendChild(timeIcon);
+  row.appendChild(time);
+  row.appendChild(price);
+
+  return row;
+}
+
+// Fetch available time slots
 function fetchTimeSlots() {
   const cfg = getConfig();
   const dateStart = new Date().toISOString().split('T')[0];
@@ -195,8 +155,8 @@ function fetchTimeSlots() {
     dateStart,
     dateStop: dateEnd.toISOString().split('T')[0],
     onlineBookingUrlName: cfg.onlineBookingUrlName,
-    serviceIds: selectedService.serviceId,
-    resourceIds: selectedStaff.resourceId,
+    serviceIds: bookingState.selectedService.serviceId,
+    resourceIds: bookingState.selectedStaff.resourceId,
   });
 
   fetch(`${cfg.baseUrl}/timeslots?${params}`)
@@ -207,14 +167,13 @@ function fetchTimeSlots() {
 
 // Display available time slots
 function displayTimeSlots(data) {
-  if (!data || !data.dates || !Array.isArray(data.dates)) {
-    console.error('Invalid data format:', data);
-    document.getElementById('timeSlots').innerHTML =
-      '<p>No available slots found.</p>';
+  const container = document.getElementById('timeSlots');
+
+  if (!data?.dates || !Array.isArray(data.dates)) {
+    container.innerHTML = '<p>No available slots found.</p>';
     return;
   }
 
-  const container = document.getElementById('timeSlots');
   container.innerHTML = '';
 
   data.dates.forEach((dateGroup) => {
@@ -224,8 +183,8 @@ function displayTimeSlots(data) {
 
     dateGroup.timeSlots.forEach((slot) => {
       const timeButton = createButton(slot.startTime, () => {
-        selectedDate = dateGroup.date;
-        selectedTimeSlot = slot;
+        bookingState.selectedDate = dateGroup.date;
+        bookingState.selectedTimeSlot = slot;
         showConfirmationForm();
       });
       container.appendChild(timeButton);
@@ -235,18 +194,18 @@ function displayTimeSlots(data) {
   document.getElementById('timeSection').classList.remove('hidden');
 }
 
+// Show confirmation form
 function showConfirmationForm() {
   const confirmationSection = document.getElementById('confirmationSection');
   confirmationSection.classList.remove('hidden');
 
-  // Show initial summary and phone form
   const summaryHtml = `
     <h3>Booking Details</h3>
-    <p><strong>Hairdresser:</strong> ${selectedStaff.name}</p>
-    <p><strong>Service:</strong> ${selectedService.name}</p>
-    <p><strong>Date:</strong> ${selectedDate}</p>
-    <p><strong>Time:</strong> ${selectedTimeSlot.startTime}</p>
-    <p><strong>Price:</strong> ${selectedService.priceIncludingVat}kr</p>
+    <p><strong>Hairdresser:</strong> ${bookingState.selectedStaff.name}</p>
+    <p><strong>Service:</strong> ${bookingState.selectedService.name}</p>
+    <p><strong>Date:</strong> ${bookingState.selectedDate}</p>
+    <p><strong>Time:</strong> ${bookingState.selectedTimeSlot.startTime}</p>
+    <p><strong>Price:</strong> ${bookingState.selectedService.priceIncludingVat}kr</p>
   `;
   document.getElementById('bookingSummary').innerHTML = summaryHtml;
 
@@ -255,153 +214,172 @@ function showConfirmationForm() {
   document.getElementById('finalBookingForm').style.display = 'none';
 }
 
-// Phone form submission
-document
-  .getElementById('phoneForm')
-  .addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const phoneNumber = document.getElementById('customerPhone').value;
-    const cfg = getConfig();
+// Phone form submission handler
+async function handlePhoneFormSubmit(e) {
+  e.preventDefault();
+  const cfg = getConfig();
+  const phoneNumber = document.getElementById('customerPhone').value;
 
-    try {
-      const reserveResponse = await fetch(`${cfg.baseUrl}/reserve`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          onlineBookingUrlName: cfg.onlineBookingUrlName,
-          resourceIds: [selectedStaff.resourceId],
-          serviceIds: [selectedService.serviceId],
-          startDate: selectedDate,
-          startTime: selectedTimeSlot.startTime,
-          customerPhoneNumber: phoneNumber,
-        }),
-      });
+  try {
+    const reserveResponse = await fetch(`${cfg.baseUrl}/reserve`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        onlineBookingUrlName: cfg.onlineBookingUrlName,
+        resourceIds: [bookingState.selectedStaff.resourceId],
+        serviceIds: [bookingState.selectedService.serviceId],
+        startDate: bookingState.selectedDate,
+        startTime: bookingState.selectedTimeSlot.startTime,
+        customerPhoneNumber: phoneNumber,
+      }),
+    });
 
-      const reserveData = await reserveResponse.json();
-      appointmentId = reserveData.appointmentId;
+    const reserveData = await reserveResponse.json();
+    bookingState.appointmentId = reserveData.appointmentId;
 
-      // Show final booking form
-      document.getElementById('phoneForm').style.display = 'none';
-      document.getElementById('finalBookingForm').style.display = 'block';
+    // Show final booking form
+    document.getElementById('phoneForm').style.display = 'none';
+    document.getElementById('finalBookingForm').style.display = 'block';
 
-      const nameInput = document.getElementById('customerName');
-      const emailInput = document.getElementById('customerEmail');
-      const nameGroup = document.querySelector('.name-group');
-      const emailGroup = document.querySelector('.email-group');
+    configureCustomerForm(reserveData);
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Error checking customer. Please try again.');
+  }
+}
 
-      if (reserveData.maskedCustomers?.[0]) {
-        customerInfo = {
-          exists: true,
-          name: reserveData.maskedCustomers[0].maskedName.replace(/\*/g, ''),
-          email: reserveData.maskedCustomers[0].maskedEmail.replace(/\*/g, ''),
-          customerId: reserveData.maskedCustomers[0].id,
-        };
-        nameInput.value = customerInfo.name;
-        emailInput.value = customerInfo.email;
-        nameInput.readOnly = true;
-        emailInput.readOnly = true;
-        nameGroup.style.display = 'none';
-        emailGroup.style.display = 'none';
-      } else {
-        customerInfo = { exists: false };
-        nameInput.value = '';
-        emailInput.value = '';
-        nameInput.readOnly = false;
-        emailInput.readOnly = false;
-        nameGroup.style.display = 'block';
-        emailGroup.style.display = 'block';
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error checking customer. Please try again.');
-    }
-  });
+// Configure customer form based on existing customer
+function configureCustomerForm(reserveData) {
+  const nameInput = document.getElementById('customerName');
+  const emailInput = document.getElementById('customerEmail');
+  const nameGroup = document.querySelector('.name-group');
+  const emailGroup = document.querySelector('.email-group');
 
+  if (reserveData.maskedCustomers?.[0]) {
+    bookingState.customerInfo = {
+      exists: true,
+      name: reserveData.maskedCustomers[0].maskedName.replace(/\*/g, ''),
+      email: reserveData.maskedCustomers[0].maskedEmail.replace(/\*/g, ''),
+      customerId: reserveData.maskedCustomers[0].id,
+    };
+
+    nameInput.value = bookingState.customerInfo.name;
+    emailInput.value = bookingState.customerInfo.email;
+    nameInput.readOnly = true;
+    emailInput.readOnly = true;
+    nameGroup.style.display = 'none';
+    emailGroup.style.display = 'none';
+  } else {
+    bookingState.customerInfo = { exists: false };
+    nameInput.value = '';
+    emailInput.value = '';
+    nameInput.readOnly = false;
+    emailInput.readOnly = false;
+    nameGroup.style.display = 'block';
+    emailGroup.style.display = 'block';
+  }
+}
+
+// Show success page
 async function showSuccessPage(confirmData) {
   const container = document.querySelector('.container');
   container.innerHTML = `
-      <div class="success-section">
-        <h2>Tack för din bokning!</h2>
-        <div class="success-summary">
-          <p><strong>Frisör:</strong> ${selectedStaff.name}</p>
-          <p><strong>Behandling:</strong> ${selectedService.name}</p>
-          <p><strong>Datum:</strong> ${selectedDate}</p>
-          <p><strong>Tid:</strong> ${selectedTimeSlot.startTime}</p>
-          <p><strong>Pris:</strong> ${selectedService.priceIncludingVat}kr</p>
-          <hr>
-          <p><strong>Telefon:</strong> ${confirmData.customerPhoneNumber}</p>
-          ${
-            customerInfo.exists
-              ? ''
-              : `
-            <p><strong>Namn:</strong> ${confirmData.customerName}</p>
-            <p><strong>Email:</strong> ${confirmData.customerEmail}</p>
-          `
-          }
-          ${
-            confirmData.notes
-              ? `<p><strong>Meddelande:</strong> ${confirmData.notes}</p>`
-              : ''
-          }
-        </div>
-        <p class="success-message">En bokningsbekräftelse har skickats till din e-post</p>
+    <div class="success-section">
+      <h2>Tack för din bokning!</h2>
+      <div class="success-summary">
+        <p><strong>Frisör:</strong> ${bookingState.selectedStaff.name}</p>
+        <p><strong>Behandling:</strong> ${bookingState.selectedService.name}</p>
+        <p><strong>Datum:</strong> ${bookingState.selectedDate}</p>
+        <p><strong>Tid:</strong> ${bookingState.selectedTimeSlot.startTime}</p>
+        <p><strong>Pris:</strong> ${
+          bookingState.selectedService.priceIncludingVat
+        }kr</p>
+        <hr>
+        <p><strong>Telefon:</strong> ${confirmData.customerPhoneNumber}</p>
+        ${
+          !bookingState.customerInfo.exists
+            ? `
+          <p><strong>Namn:</strong> ${confirmData.customerName}</p>
+          <p><strong>Email:</strong> ${confirmData.customerEmail}</p>
+        `
+            : ''
+        }
+        ${
+          confirmData.notes
+            ? `<p><strong>Meddelande:</strong> ${confirmData.notes}</p>`
+            : ''
+        }
       </div>
-    `;
+      <p class="success-message">En bokningsbekräftelse har skickats till din e-post</p>
+    </div>
+  `;
 }
 
-// Terms checkbox handler
-document
-  .getElementById('termsAccepted')
-  .addEventListener('change', function (e) {
-    const bookButton = document.getElementById('bookButton');
-    const nameInput = document.getElementById('customerName');
-    const emailInput = document.getElementById('customerEmail');
+// Final booking confirmation handler
+async function handleFinalBookingSubmit(e) {
+  e.preventDefault();
+  const cfg = getConfig();
 
-    const hasNameEmail =
-      customerInfo.exists || (nameInput.value && emailInput.value);
-    bookButton.disabled = !(e.target.checked && hasNameEmail);
-  });
+  const confirmData = {
+    onlineBookingUrlName: cfg.onlineBookingUrlName,
+    appointmentId: bookingState.appointmentId,
+    customerPhoneNumber: document.getElementById('customerPhone').value,
+    notes: document.getElementById('notes').value || '',
+    termsAndConditionsApproved: true,
+  };
 
-// Update form submission handler
-document
-  .getElementById('finalBookingForm')
-  .addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const cfg = getConfig();
+  if (!bookingState.customerInfo.exists) {
+    confirmData.customerName = document.getElementById('customerName').value;
+    confirmData.customerEmail = document.getElementById('customerEmail').value;
+  } else {
+    confirmData.customerId = bookingState.customerInfo.customerId;
+  }
 
-    const confirmData = {
-      onlineBookingUrlName: cfg.onlineBookingUrlName,
-      appointmentId: appointmentId,
-      customerPhoneNumber: document.getElementById('customerPhone').value,
-      notes: document.getElementById('notes').value || '',
-      termsAndConditionsApproved: true,
-    };
+  try {
+    const confirmResponse = await fetch(`${cfg.baseUrl}/confirm`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(confirmData),
+    });
 
-    if (!customerInfo.exists) {
-      confirmData.customerName = document.getElementById('customerName').value;
-      confirmData.customerEmail =
-        document.getElementById('customerEmail').value;
-    } else {
-      confirmData.customerId = customerInfo.customerId;
+    if (!confirmResponse.ok) {
+      throw new Error('Booking failed');
     }
 
-    try {
-      const confirmResponse = await fetch(`${cfg.baseUrl}/confirm`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(confirmData),
-      });
+    await showSuccessPage(confirmData);
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Error confirming booking. Please try again.');
+  }
+}
 
-      if (!confirmResponse.ok) {
-        throw new Error('Booking failed');
-      }
-
-      await showSuccessPage(confirmData);
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error confirming booking. Please try again.');
-    }
+// Staff selection handler
+function selectStaff(staff, selectedElement) {
+  document.querySelectorAll('#staffButtons > div').forEach((el) => {
+    el.classList.remove('activeRing');
   });
+
+  if (selectedElement) {
+    selectedElement.classList.add('activeRing');
+  }
+
+  bookingState.selectedStaff = staff;
+  populateServiceContainer();
+}
+
+// Service selection handler
+function selectService(service, selectedElement) {
+  document.querySelectorAll('#serviceButtons > div').forEach((el) => {
+    el.classList.remove('activeResourceOption');
+  });
+
+  if (selectedElement) {
+    selectedElement.classList.add('activeResourceOption');
+  }
+
+  bookingState.selectedService = service;
+  fetchTimeSlots();
+}
 
 // Helper function to create buttons
 function createButton(text, onClick) {
@@ -412,106 +390,34 @@ function createButton(text, onClick) {
   return button;
 }
 
-// Event handlers
-function selectStaff(staff, selectedElement) {
-  // Remove active state from all staff elements
-  document.querySelectorAll('#staffButtons > div').forEach((el) => {
-    el.classList.remove('activeRing');
-  });
+// Terms checkbox handler
+function handleTermsCheckbox(e) {
+  const bookButton = document.getElementById('bookButton');
+  const nameInput = document.getElementById('customerName');
+  const emailInput = document.getElementById('customerEmail');
 
-  // Add active state to selected element
-  if (selectedElement) {
-    selectedElement.classList.add('activeRing');
-  }
-
-  // Store selected staff
-  selectedStaff = staff;
-
-  // Proceed to next step (likely displaying services)
-  // displayServices();
-  populateServiceContainer();
+  const hasNameEmail =
+    bookingState.customerInfo.exists || (nameInput.value && emailInput.value);
+  bookButton.disabled = !(e.target.checked && hasNameEmail);
 }
 
-function selectService(service, selectedElement) {
-  // Remove active state from all service elements
-  document.querySelectorAll('#serviceButtons > div').forEach((el) => {
-    el.classList.remove('activeResourceOption');
-  });
+// Event listeners
+function setupEventListeners() {
+  document
+    .getElementById('phoneForm')
+    .addEventListener('submit', handlePhoneFormSubmit);
 
-  // Add active state to selected element
-  if (selectedElement) {
-    selectedElement.classList.add('activeResourceOption');
-  }
+  document
+    .getElementById('finalBookingForm')
+    .addEventListener('submit', handleFinalBookingSubmit);
 
-  // Store selected service
-  selectedService = service;
-
-  // Fetch time slots
-  fetchTimeSlots();
+  document
+    .getElementById('termsAccepted')
+    .addEventListener('change', handleTermsCheckbox);
 }
-
-// CSS to match System 2's styling
-const serviceContainerStyles = `
-#serviceSection {
-  max-width: 960px;
-  width: 100vw;
-}
-
-#serviceButtons {
-  display: flex;
-  flex-direction: column;
-}
-
-#serviceButtons > div {
-  display: flex;
-  justify-content: space-between;
-  transition: 200ms;
-  cursor: pointer;
-  border-left: 3px solid transparent;
-}
-
-#serviceButtons > div:hover {
-  border-left: 3px solid #333;
-}
-
-#serviceButtons > div.activeResourceOption {
-  background-color: #333;
-  color: #fff;
-}
-
-#serviceButtons > div p {
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  text-align: left;
-}
-
-#serviceButtons > div p:nth-of-type(2) {
-  min-width: 66px;
-  padding-right: 0;
-}
-
-#serviceButtons > div p:last-of-type {
-  padding-left: 0;
-  min-width: 85px;
-  justify-content: flex-end;
-}
-
-#serviceButtons > div i {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  justify-content: flex-end;
-}
-`;
-
-// Add styles to the document
-const styleElement = document.createElement('style');
-styleElement.textContent = serviceContainerStyles;
-document.head.appendChild(styleElement);
 
 // Initialize the booking system
-fetchServices();
-
-// npx http-server
-// node proxy.js
+function initBookingSystem() {
+  setupEventListeners();
+  fetchServices();
+}

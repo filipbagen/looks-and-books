@@ -24,11 +24,6 @@
   margin-right: auto;
 }
 
-.line {
-  border: 1px solid var(--secondary);
-  border-radius: 5px;
-}
-
 #icon {
   height: 20pt;
   margin-left: 6pt;
@@ -314,7 +309,7 @@ button:disabled {
 }
 
 .success-section h2 {
-  color: #4caf50;
+  color: var(--secondary);
   margin-bottom: 30px;
 }
 
@@ -412,4 +407,56 @@ button:disabled {
 .staff-button p {
   margin: 0;
   text-align: center;
+}
+
+#serviceSection {
+  max-width: 960px;
+  width: 100vw;
+}
+
+#serviceButtons {
+  display: flex;
+  flex-direction: column;
+}
+
+#serviceButtons > div {
+  display: flex;
+  justify-content: space-between;
+  transition: 200ms;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+}
+
+#serviceButtons > div:hover {
+  border-left: 3px solid #333;
+}
+
+#serviceButtons > div.activeResourceOption {
+  background-color: #333;
+  color: #fff;
+}
+
+#serviceButtons > div p {
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+
+#serviceButtons > div p:nth-of-type(2) {
+  min-width: 66px;
+  padding-right: 0;
+}
+
+#serviceButtons > div p:last-of-type {
+  padding-left: 0;
+  min-width: 85px;
+  justify-content: flex-end;
+}
+
+#serviceButtons > div i {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
 }

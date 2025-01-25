@@ -1,158 +1,130 @@
 /* Tablet */
 @media only screen and (max-width: 1240px) {
-    #container {
-        align-items: center;
-    }
+  #container {
+    align-items: center;
+  }
 
-    #OpeningHours {
-        flex-direction: column;
-        gap: 0;
-    }
+  #OpeningHours {
+    flex-direction: column;
+    gap: 0;
+  }
 
-    .line {
-        display: none;
-    }
+  .products {
+    width: 90vw;
+    gap: 58px;
+  }
 
-    .products {
-        width: 90vw;
-        gap: 58px;
-    }
+  #footer {
+    flex-direction: column;
+    gap: 38px;
+  }
 
-    #footer {
-        flex-direction: column;
-        gap: 38px;
-    }
+  #footer h1 {
+    font-size: 36px;
+  }
 
-    #footer h1 {
-        font-size: 36px;
-    }
+  #map {
+    width: 100%;
+  }
 
-    #map {
-        width: 100%;
-    }
+  .contactAndOpeningHours {
+    justify-content: center;
+    gap: 100px;
+    width: 100%;
+  }
 
-    .contactAndOpeningHours {
-        justify-content: center;
-        gap: 100px;
-        width: 100%;
-    }
+  .social {
+    height: 36px;
+  }
 
-    .social {
-        height: 36px;
-    }
+  .grid-container {
+    grid-template-areas:
+      'intro intro intro intro intro intro'
+      'slideshow slideshow slideshow slideshow openingHours openingHours';
+    grid-auto-columns: minmax(0, 1fr);
+  }
 
-    .grid-container {
-        grid-template-areas:
-            'intro intro intro intro intro intro'
-            'slideshow slideshow slideshow slideshow openingHours openingHours';
-        grid-auto-columns: minmax(0, 1fr);
-    }
+  .splide {
+    margin-left: 0;
+  }
 
-    .openingHour {
-        /* background-color: blue; */
-    }
+  .splide__list {
+    width: 100%;
+  }
 
-    .slideshow {
-        /* max-width: 50vw; */
-        max-width: 100%;
-    }
+  .intro {
+    gap: 32px;
+  }
 
-    .slideshow #imageContainer div {
-        /* max-width: 50vw; */
-        max-width: 100%;
-    }
-
-    .splide {
-        margin-left: 0;
-    }
-
-    .splide__list {
-        width: 100%;
-    }
-
-    .intro {
-        gap: 32px;
-    }
-
-
-    .workContainerImage {
-        height: fit-content;
-    }
+  .workContainerImage {
+    height: fit-content;
+  }
 }
 
 /* Phone */
 @media only screen and (max-width: 720px) {
-    #container {
-        justify-content: center;
-        align-items: center;
-        gap: 58px;
-    }
+  #container {
+    justify-content: center;
+    align-items: center;
+    gap: 58px;
+  }
 
-    .products {
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-    }
+  .products {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
 
-    .product {
-        width: 100%;
-    }
+  .product {
+    width: 100%;
+  }
 
-    .splitScreen {
-        flex-direction: column;
-    }
+  .splitScreen {
+    flex-direction: column;
+  }
 
-    .contactAndOpeningHours {
-        flex-direction: column;
-        align-items: center;
-    }
+  .contactAndOpeningHours {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .intro {
-        gap: 12px;
-        width: 100%;
-        height: auto;
-    }
+  .intro {
+    gap: 12px;
+    width: 100%;
+    height: auto;
+  }
 
-    .workContainer {
-        flex-direction: column;
-        align-items: center;
-        gap: 28px;
-    }
+  .workContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
 
-    .workContainer img {
-        max-width: 100%;
-    }
+  .workContainer img {
+    max-width: 100%;
+  }
 
-    .slideshow {
-        /* width: 90vw; */
-        /* max-width: 100%; */
-    }
+  #skincareLogo {
+    height: 100px;
+  }
 
-    .slideshow #imageContainer div {
-        /* width: 100vw; */
-    }
+  #map {
+    height: 336px;
+  }
 
-    #skincareLogo {
-        height: 100px;
-    }
+  .grid-container {
+    grid-template-areas:
+      'intro'
+      'slideshow'
+      'openingHours';
+    gap: 48px;
+  }
 
-    #map {
-        height: 336px;
-    }
+  .workContainer:nth-child(2) {
+    flex-direction: column;
+  }
 
-    .grid-container {
-        grid-template-areas:
-            'intro'
-            'slideshow'
-            'openingHours';
-        gap: 48px;
-    }
-
-    .workContainer:nth-child(2) {
-        flex-direction: column;
-    }
-
-    #logo {
-        margin-bottom: 0;
-    }
+  #logo {
+    margin-bottom: 0;
+  }
 }
