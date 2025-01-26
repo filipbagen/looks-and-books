@@ -115,12 +115,33 @@ function createStaffButton(staff) {
   return container;
 }
 
+function animateContainer(state, id) {
+  const target = document.querySelector(id);
+
+  if (target) {
+    if (state) {
+      const items = document.querySelector(id + ' .content');
+      if (target && items) {
+        target.style.height = items.scrollHeight + 'px';
+      }
+    } else {
+      target.style.height = '0px';
+    }
+  }
+}
+
 // Populate service container for selected staff
 function populateServiceContainer() {
   const serviceContainer = document.getElementById('serviceButtons');
   if (!serviceContainer) return;
 
   serviceContainer.innerHTML = '';
+
+  // Check if a staff is selected
+  if (!bookingState.selectedStaff) {
+    animateContainer(false, '#serviceSection');
+    return;
+  }
 
   // Filter services for the selected staff
   const staffServices = bookingState.services.flatMap((group) =>
@@ -130,6 +151,12 @@ function populateServiceContainer() {
       )
     )
   );
+
+  if (staffServices.length === 0) {
+    // No services available for this staff
+    animateContainer(false, '#serviceSection');
+    return;
+  }
 
   staffServices.forEach((service) => {
     const row = createServiceRow(service);
@@ -143,6 +170,8 @@ function populateServiceContainer() {
 // Create service row element
 function createServiceRow(service) {
   const row = document.createElement('div');
+  const leftDiv = document.createElement('div');
+  const rightDiv = document.createElement('div');
   const name = document.createElement('p');
   const time = document.createElement('p');
   const price = document.createElement('p');
@@ -154,9 +183,13 @@ function createServiceRow(service) {
   time.textContent = `${service.length} min`;
   price.textContent = `${service.priceIncludingVat}kr`;
 
-  row.appendChild(name);
-  row.appendChild(time);
-  row.appendChild(price);
+  rightDiv.classList.add('service-info');
+
+  leftDiv.appendChild(name);
+  rightDiv.appendChild(time);
+  rightDiv.appendChild(price);
+  row.appendChild(leftDiv);
+  row.appendChild(rightDiv);
 
   return row;
 }
@@ -186,8 +219,9 @@ function fetchTimeSlots() {
 function displayTimeSlots(data) {
   const container = document.getElementById('timeSlots');
 
-  if (!data?.dates || !Array.isArray(data.dates)) {
+  if (!data?.dates || !Array.isArray(data.dates) || data.dates.length === 0) {
     container.innerHTML = '<p>No available slots found.</p>';
+    animateContainer(false, '#timeSlots');
     return;
   }
 
@@ -207,6 +241,7 @@ function displayTimeSlots(data) {
   });
 
   document.getElementById('timeSection').classList.remove('hidden');
+  animateContainer(true, '#timeSection');
 }
 
 // Show confirmation form
@@ -370,10 +405,22 @@ async function handleFinalBookingSubmit(e) {
 
 // Staff selection handler
 function selectStaff(staff, selectedElement) {
+  // Check if the same staff is already selected
+  const isCurrentStaff =
+    bookingState.selectedStaff &&
+    bookingState.selectedStaff.resourceId === staff.resourceId;
+
   // Remove active state from all staff elements
   document.querySelectorAll('#staffButtons > div').forEach((el) => {
     el.classList.remove('activeRing');
   });
+
+  // If clicking the same staff, reset the selection
+  if (isCurrentStaff) {
+    bookingState.selectedStaff = null;
+    animateContainer(false, '#serviceSection');
+    return;
+  }
 
   // Add active state to selected element
   if (selectedElement) {
@@ -392,7 +439,8 @@ function selectStaff(staff, selectedElement) {
     // Ensure the section is visible
     serviceSection.classList.remove('hidden');
 
-    // Use smooth scroll to move to the services
+    // Animate service section
+    animateContainer(true, '#serviceSection');
     smoothScrollTo('serviceSection');
   }
 }
@@ -421,7 +469,8 @@ function selectService(service, selectedElement) {
     // Ensure the section is visible
     timeSection.classList.remove('hidden');
 
-    // Use smooth scroll to move to the time slots
+    // Animate time section
+    animateContainer(true, '#timeSection');
     smoothScrollTo('timeSection');
   }
 }

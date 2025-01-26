@@ -1,6 +1,6 @@
 export function smoothScrollTo(targetId) {
   const scrollDuration = 700;
-  const delayDuration = 310;
+  const delayDuration = 50;
   const target = document.getElementById(targetId);
 
   if (!target) return;

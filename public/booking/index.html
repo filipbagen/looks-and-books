@@ -104,16 +104,22 @@
       <div class="container">
         <div id="staffSection" class="section">
           <h2>Vem vill du ska ta hand om dig?</h2>
+          <hr />
           <div id="staffButtons" class="grid"></div>
         </div>
 
         <div id="serviceSection" class="section hidden">
-          <h2>Vilken behandling vill du ha?</h2>
-          <div id="serviceButtons" class="grid"></div>
+          <div class="content">
+            <!-- Added this wrapper -->
+            <h2>Vilken behandling vill du ha?</h2>
+            <hr />
+            <div id="serviceButtons" class="grid"></div>
+          </div>
         </div>
 
         <div id="timeSection" class="section hidden">
           <h2>Vilken tid passar dig?</h2>
+          <hr />
           <div id="timeSlots"></div>
         </div>
 
@@ -164,6 +170,12 @@
           </form>
         </div>
       </div>
+
+      <img
+        src="../assets/img/slideshow/slideshow1.jpg"
+        style="width: 100%"
+        alt=""
+      />
     </div>
 
     <script src="./booking.js"></script>
