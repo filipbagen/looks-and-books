@@ -12,6 +12,18 @@ const CONFIG = {
   },
 };
 
+const staffTitles = {
+  Petra: 'Frisör',
+  Hannah: 'Frisör',
+  Fadi: 'Frisör',
+  Emma: 'Frisör',
+  Olivia: 'Frisör',
+  Simon: 'Frisör',
+  Charlotte: 'Hudterapeut & hudcoach ',
+  Meja: 'Nagelterapeut',
+  // Add more staff members as needed
+};
+
 // Booking state management
 const bookingState = {
   services: [],
@@ -75,10 +87,13 @@ function createStaffButton(staff) {
   const imageContainer = document.createElement('div');
   const img = document.createElement('img');
   const ring = document.createElement('div');
-  const firstName = document.createElement('p');
+  const textContainer = document.createElement('div');
+  const name = document.createElement('h2');
+  const title = document.createElement('p');
 
   container.classList.add('staff-button');
   imageContainer.classList.add('staff-image-container');
+  textContainer.classList.add('staff-text-container');
 
   container.addEventListener('click', () => selectStaff(staff, container));
 
@@ -87,12 +102,15 @@ function createStaffButton(staff) {
   img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
 
   ring.classList.add('ring');
-  firstName.textContent = staff.name;
+  name.textContent = staff.name;
+  title.textContent = staffTitles[staff.name] || 'Hair Dresser';
 
   imageContainer.appendChild(ring);
   imageContainer.appendChild(img);
+  textContainer.appendChild(name);
+  textContainer.appendChild(title);
   container.appendChild(imageContainer);
-  container.appendChild(firstName);
+  container.appendChild(textContainer);
 
   return container;
 }
@@ -126,7 +144,6 @@ function populateServiceContainer() {
 function createServiceRow(service) {
   const row = document.createElement('div');
   const name = document.createElement('p');
-  const timeIcon = document.createElement('i');
   const time = document.createElement('p');
   const price = document.createElement('p');
 
@@ -134,12 +151,10 @@ function createServiceRow(service) {
 
   row.id = String(service.serviceId);
   name.textContent = service.name;
-  timeIcon.className = 'fa fa-clock';
-  time.textContent = `${service.length}min`;
+  time.textContent = `${service.length} min`;
   price.textContent = `${service.priceIncludingVat}kr`;
 
   row.appendChild(name);
-  row.appendChild(timeIcon);
   row.appendChild(time);
   row.appendChild(price);
 

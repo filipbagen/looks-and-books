@@ -213,7 +213,6 @@ h1 {
   justify-items: stretch;
   align-items: stretch;
   max-width: 100%;
-  /* background-color: red; */
 }
 
 .splide {
@@ -249,7 +248,7 @@ h1 {
 }
 .grid {
   display: grid;
-  gap: 10px;
+  gap: 52px;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 
@@ -339,48 +338,24 @@ button:disabled {
 }
 
 #staffButtons > div {
-  width: 200px;
-  padding: 10px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   transition: transform 200ms;
-  border-radius: 5px;
   cursor: pointer;
   position: relative;
 }
 
-/* #staffButtons > div:hover,
-#staffButtons > div.activeRing {
-  transform: scale(1.1);
-} */
-
 #staffButtons > div img {
-  width: 150px;
-  height: 150px;
+  width: 164px;
+  height: 164px;
   border-radius: 50%;
-  padding: 11px;
   object-fit: cover;
-}
-
-#staffButtons > div .ring {
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  padding: 10px;
-  border: 1px solid var(--secondary);
-  z-index: -1;
-  transform: scale(0);
+  position: relative;
+  border: 3px solid var(--secondary);
 }
 
 #staffButtons > div.activeRing .ring {
   transform: scale(1);
-}
-
-#staffButtons > div p:first-of-type {
-  font-weight: bold;
-  margin-top: 10px;
 }
 
 #staffButtons > div p {
@@ -397,11 +372,29 @@ button:disabled {
 .staff-image-container {
   position: relative;
   transition: transform 0.3s ease;
+  margin-bottom: 9px;
 }
 
 .staff-image-container:hover,
 .staff-button.activeRing .staff-image-container {
   transform: scale(1.1);
+}
+
+.staff-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.staff-text-container h2 {
+  margin: 0;
+}
+
+.staff-text-container p {
+  margin: 0;
+  font-size: 0.9em;
+  color: var(--secondary);
 }
 
 .staff-button p {
@@ -417,6 +410,7 @@ button:disabled {
 #serviceButtons {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 #serviceButtons > div {
@@ -442,6 +436,7 @@ button:disabled {
   display: flex;
   align-items: center;
   text-align: left;
+  line-height: 1;
 }
 
 #serviceButtons > div p:nth-of-type(2) {
@@ -455,7 +450,7 @@ button:disabled {
   justify-content: flex-end;
 }
 
-#serviceButtons > div i {
+#serviceButtons > div p:nth-child(2) {
   display: flex;
   align-items: center;
   flex: 1;
