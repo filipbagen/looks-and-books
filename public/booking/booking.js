@@ -1,3 +1,5 @@
+import { smoothScrollTo } from '../assets/js/smoothScroll.js';
+
 // Configuration management
 const CONFIG = {
   development: {
@@ -183,9 +185,7 @@ function displayTimeSlots(data) {
 
     dateGroup.timeSlots.forEach((slot) => {
       const timeButton = createButton(slot.startTime, () => {
-        bookingState.selectedDate = dateGroup.date;
-        bookingState.selectedTimeSlot = slot;
-        showConfirmationForm();
+        selectDateAndTime(dateGroup.date, slot);
       });
       container.appendChild(timeButton);
     });
@@ -355,30 +355,84 @@ async function handleFinalBookingSubmit(e) {
 
 // Staff selection handler
 function selectStaff(staff, selectedElement) {
+  // Remove active state from all staff elements
   document.querySelectorAll('#staffButtons > div').forEach((el) => {
     el.classList.remove('activeRing');
   });
 
+  // Add active state to selected element
   if (selectedElement) {
     selectedElement.classList.add('activeRing');
   }
 
+  // Store selected staff
   bookingState.selectedStaff = staff;
+
+  // Populate and reveal service container
   populateServiceContainer();
+
+  // Smoothly scroll to the services section
+  const serviceSection = document.getElementById('serviceSection');
+  if (serviceSection) {
+    // Ensure the section is visible
+    serviceSection.classList.remove('hidden');
+
+    // Use smooth scroll to move to the services
+    smoothScrollTo('serviceSection');
+  }
 }
 
 // Service selection handler
 function selectService(service, selectedElement) {
+  // Remove active state from all service elements
   document.querySelectorAll('#serviceButtons > div').forEach((el) => {
     el.classList.remove('activeResourceOption');
   });
 
+  // Add active state to selected element
   if (selectedElement) {
     selectedElement.classList.add('activeResourceOption');
   }
 
+  // Store selected service
   bookingState.selectedService = service;
+
+  // Fetch and display time slots
   fetchTimeSlots();
+
+  // Smoothly scroll to the time slots section
+  const timeSection = document.getElementById('timeSection');
+  if (timeSection) {
+    // Ensure the section is visible
+    timeSection.classList.remove('hidden');
+
+    // Use smooth scroll to move to the time slots
+    smoothScrollTo('timeSection');
+  }
+}
+
+function selectDateAndTime(date, timeSlot) {
+  // Remove active state from all time slot elements
+  document.querySelectorAll('#timeSlots > button').forEach((el) => {
+    el.classList.remove('activeTimeSlot');
+  });
+
+  // Store selected date and time slot
+  bookingState.selectedDate = date;
+  bookingState.selectedTimeSlot = timeSlot;
+
+  // Show confirmation form
+  showConfirmationForm();
+
+  // Smoothly scroll to the confirmation section
+  const confirmationSection = document.getElementById('confirmationSection');
+  if (confirmationSection) {
+    // Ensure the section is visible
+    confirmationSection.classList.remove('hidden');
+
+    // Use smooth scroll to move to the confirmation
+    smoothScrollTo('confirmationSection');
+  }
 }
 
 // Helper function to create buttons
@@ -417,7 +471,7 @@ function setupEventListeners() {
 }
 
 // Initialize the booking system
-function initBookingSystem() {
+export function initBookingSystem() {
   setupEventListeners();
   fetchServices();
 }

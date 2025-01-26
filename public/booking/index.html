@@ -92,7 +92,7 @@
     />
   </head>
 
-  <body onload="initBookingSystem()">
+  <body>
     <div id="bg">
       <img src="../assets/img/logo.svg" alt="Looks & Books Logo" />
     </div>
@@ -103,17 +103,17 @@
 
       <div class="container">
         <div id="staffSection" class="section">
-          <h2>Choose Staff</h2>
+          <h2>Vem vill du ska ta hand om dig?</h2>
           <div id="staffButtons" class="grid"></div>
         </div>
 
         <div id="serviceSection" class="section hidden">
-          <h2>Choose Service</h2>
+          <h2>Vilken behandling vill du ha?</h2>
           <div id="serviceButtons" class="grid"></div>
         </div>
 
         <div id="timeSection" class="section hidden">
-          <h2>Choose Time</h2>
+          <h2>Vilken tid passar dig?</h2>
           <div id="timeSlots" class="grid"></div>
         </div>
 
@@ -167,6 +167,11 @@
     </div>
 
     <script src="./booking.js"></script>
+    <script src="../assets/js/smoothScroll.js" type="module"></script>
+    <script type="module">
+      import { initBookingSystem } from './booking.js';
+      document.addEventListener('DOMContentLoaded', initBookingSystem);
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
   </body>
 </html>

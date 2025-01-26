@@ -120,7 +120,7 @@
     <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
   </head>
 
-  <body onload="init()">
+  <body>
     <div id="bg">
       <img src="./assets/img/logo.svg" alt="Looks & Books Logo" />
     </div>
@@ -357,6 +357,7 @@
     </div>
 
     <script src="booking.js"></script>
+    <script src="../assets/js/smoothScroll.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script>
       const splide = new Splide('.splide', {
@@ -377,6 +378,11 @@
 
       splide.mount();
     </script>
+    <script type="module">
+      import { init } from './assets/js/app.js';
+      document.addEventListener('DOMContentLoaded', init);
+    </script>
   </body>
+
   <script src="assets/js/app.js"></script>
 </html>

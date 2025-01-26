@@ -432,8 +432,9 @@ button:disabled {
 }
 
 #serviceButtons > div.activeResourceOption {
-  background-color: #333;
+  background-color: var(--secondary);
   color: #fff;
+  border-radius: 8px;
 }
 
 #serviceButtons > div p {
