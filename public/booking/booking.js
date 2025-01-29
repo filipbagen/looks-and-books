@@ -8,7 +8,7 @@ import {
   animateContainer,
 } from './utils.js';
 
-let activeSchedule = new Date(); // Start with the current date
+let activeSchedule = getPreviousMonday(new Date()); // Start with the previous Monday
 
 // Configuration management
 const CONFIG = {
@@ -315,6 +315,12 @@ function populateScheduleDate() {
     scheduleInfobar.appendChild(weekElement);
     scheduleInfobar.appendChild(dateElement);
   }
+}
+
+function getPreviousMonday(date) {
+  const day = date.getDay(); // 0 (Sunday) to 6 (Saturday)
+  const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Adjust to Monday
+  return new Date(date.setDate(diff));
 }
 
 function scheduleArrowClick(type) {
