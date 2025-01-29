@@ -1,0 +1,240 @@
+#staffButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#staffButtons > div {
+  display: flex;
+  align-items: center;
+  transition: transform 200ms;
+  cursor: pointer;
+  position: relative;
+}
+
+#staffButtons > div img {
+  width: 164px;
+  height: 164px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  border: 4px solid var(--secondary);
+}
+
+#staffButtons > div.activeRing .ring {
+  transform: scale(1);
+}
+
+#staffButtons > div p {
+  margin: 0;
+}
+
+.staff-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.staff-image-container {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.staff-image-container:hover,
+.staff-button.activeRing .staff-image-container {
+  transform: scale(1.1);
+}
+
+.staff-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.staff-text-container h2 {
+  margin: 0;
+}
+
+.staff-text-container p {
+  margin: 0;
+  font-size: 0.9em;
+  color: var(--secondary);
+}
+
+.staff-button p {
+  margin: 0;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  gap: 42px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+#what {
+  height: 0;
+  overflow: hidden;
+  max-width: 960px;
+  width: 100vw;
+  transition: height 620ms ease;
+}
+
+#serviceButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+#serviceButtons > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  transition: 200ms;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+}
+
+#serviceButtons > div:hover {
+  border-left: 3px solid var(--secondary);
+}
+
+#serviceButtons > div.activeResourceOption {
+  background-color: var(--secondary);
+  color: #fff;
+  border-radius: 8px;
+}
+
+#serviceButtons > div p {
+  margin: 0;
+  padding: 0;
+}
+
+#serviceButtons > div p:nth-of-type(2) {
+  min-width: 66px;
+  padding-right: 0;
+}
+
+#serviceButtons > div p:last-of-type {
+  padding-left: 0;
+  min-width: 85px;
+  justify-content: flex-end;
+}
+
+#serviceButtons > div p:nth-child(2) {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.service-info {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.service-info p:first-child {
+  min-width: 66px;
+}
+
+.service-info p:last-child {
+  min-width: 85px;
+  text-align: right;
+}
+
+#when .infobar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#when .infobar a {
+  display: flex;
+  align-items: center;
+  color: #000;
+  margin: 0 20px;
+  cursor: pointer;
+}
+
+#timeSlots {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#timeSlots .column div:first-of-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100px;
+  height: 100px;
+  background-color: #333;
+  color: #fff;
+  margin: 10px;
+}
+
+#timeSlots .column .slot {
+  padding: 8px;
+  border-radius: 6px;
+  margin: 10px;
+  background-color: var(--secondary);
+  color: #fff;
+  transition: 200ms;
+  cursor: pointer;
+  text-align: center;
+}
+
+#timeSlots .column .slot.activeSlot {
+  background-color: rgba(51, 51, 51, 0);
+  color: #333;
+}
+
+#timeSlots .column .slot:hover {
+  background-color: rgba(51, 51, 51, 0);
+  color: #333;
+}
+
+#timeSlots .column div * {
+  margin: 0;
+}
+
+#complete {
+  height: 0;
+  transition: 512ms;
+  overflow: hidden;
+}
+
+#complete div.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#complete div.content a {
+  border-color: #333;
+  color: #333;
+  background-color: #fff;
+}
+
+#complete div.content a:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+#complete .row {
+  flex-shrink: 0;
+}
+
+#complete .button {
+  margin: 10px;
+}
+
+.bookingContainer {
+  max-width: 1000px;
+}
