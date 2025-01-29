@@ -1,4 +1,11 @@
 import { smoothScrollTo } from '../assets/js/smoothScroll.js';
+import {
+  getDayShortName,
+  getMonthShortName,
+  addDays,
+  getWeekNumber,
+  animateContainer,
+} from './utils.js';
 
 // Configuration management
 const CONFIG = {
@@ -84,25 +91,27 @@ function populateStaffContainer() {
 // Create staff button element
 function createStaffButton(staff) {
   const container = document.createElement('div');
-  const imageContainer = document.createElement('div');
-  const img = document.createElement('img');
-  const ring = document.createElement('div');
-  const textContainer = document.createElement('div');
-  const name = document.createElement('h2');
-  const title = document.createElement('p');
-
   container.classList.add('staff-button');
-  imageContainer.classList.add('staff-image-container');
-  textContainer.classList.add('staff-text-container');
-
+  container.id = staff.resourceId;
   container.addEventListener('click', () => selectStaff(staff, container));
 
-  container.id = staff.resourceId;
+  const imageContainer = document.createElement('div');
+  imageContainer.classList.add('staff-image-container');
+
+  const img = document.createElement('img');
   img.src = `../assets/img/profile/${staff.name || 'default'}.jpg`;
   img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
 
+  const ring = document.createElement('div');
   ring.classList.add('ring');
+
+  const textContainer = document.createElement('div');
+  textContainer.classList.add('staff-text-container');
+
+  const name = document.createElement('h2');
   name.textContent = staff.name;
+
+  const title = document.createElement('p');
   title.textContent = staffTitles[staff.name] || 'Hair Dresser';
 
   imageContainer.appendChild(ring);
@@ -113,21 +122,6 @@ function createStaffButton(staff) {
   container.appendChild(textContainer);
 
   return container;
-}
-
-function animateContainer(state, id) {
-  const target = document.querySelector(id);
-
-  if (target) {
-    if (state) {
-      const items = document.querySelector(id + ' .content');
-      if (target && items) {
-        target.style.height = items.scrollHeight + 10 + 'px';
-      }
-    } else {
-      target.style.height = '0px';
-    }
-  }
 }
 
 // Populate service container for selected staff
@@ -214,35 +208,6 @@ function fetchTimeSlots() {
     .then(displayTimeSlots)
     .catch(console.error);
 }
-
-// Display available time slots
-// function displayTimeSlots(data) {
-//   const container = document.getElementById('timeSlots');
-
-//   if (!data?.dates || !Array.isArray(data.dates) || data.dates.length === 0) {
-//     container.innerHTML = '<p>No available slots found.</p>';
-//     animateContainer(false, '#timeSlots');
-//     return;
-//   }
-
-//   container.innerHTML = '';
-
-//   data.dates.forEach((dateGroup) => {
-//     const dateHeader = document.createElement('h3');
-//     dateHeader.textContent = `Date: ${dateGroup.date}`;
-//     container.appendChild(dateHeader);
-
-//     dateGroup.timeSlots.forEach((slot) => {
-//       const timeButton = createButton(slot.startTime, () => {
-//         selectDateAndTime(dateGroup.date, slot);
-//       });
-//       container.appendChild(timeButton);
-//     });
-//   });
-
-//   document.getElementById('timeSection').classList.remove('hidden');
-//   animateContainer(true, '#timeSection');
-// }
 
 function displayTimeSlots(data) {
   if (!data || !data.dates || !Array.isArray(data.dates)) {
@@ -370,83 +335,6 @@ function populateScheduleDate() {
     scheduleInfobar.appendChild(weekElement);
     scheduleInfobar.appendChild(dateElement);
   }
-}
-
-// Add specified number of days to a date
-function addDays(date, days) {
-  const result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
-}
-
-// Get week number of a date
-function getWeekNumber(date) {
-  // Copy date so don't modify original
-  const d = new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
-  );
-  // Set to nearest Thursday: current date + 4 - current day number
-  // Make Sunday's day number 7
-  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-  // Get first day of year
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  // Calculate full weeks to nearest Thursday
-  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-  return weekNo;
-}
-
-// Get short name of day (Mon, Tue, etc.)
-function getDayShortName(date) {
-  const dayNames = ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'];
-  return dayNames[date.getDay()];
-}
-
-// Get short name of month (Jan, Feb, etc.)
-function getMonthShortName(date) {
-  const monthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'Maj',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Okt',
-    'Nov',
-    'Dec',
-  ];
-  return monthNames[date.getMonth()];
-}
-
-// Additional utility function to compare dates (ignoring time)
-function isSameDate(date1, date2) {
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  );
-}
-
-// Format time from Date object to HH:MM format
-function formatTime(date) {
-  return date.toTimeString().substring(0, 5);
-}
-
-// Get start of week (Monday) for a given date
-function getStartOfWeek(date) {
-  const result = new Date(date);
-  const day = result.getDay();
-  const diff = result.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
-  result.setDate(diff);
-  return result;
-}
-
-// Get end of week (Sunday) for a given date
-function getEndOfWeek(date) {
-  const result = getStartOfWeek(date);
-  return addDays(result, 6);
 }
 
 // Show confirmation form
@@ -608,46 +496,29 @@ async function handleFinalBookingSubmit(e) {
   }
 }
 
+function toggleActiveState(selector, className, targetElement) {
+  document.querySelectorAll(selector).forEach((el) => {
+    el.classList.remove(className);
+  });
+  if (targetElement) {
+    targetElement.classList.add(className);
+  }
+}
+
 // Staff selection handler
 function selectStaff(staff, selectedElement) {
-  // Check if the same staff is already selected
-  const isCurrentStaff =
-    bookingState.selectedStaff &&
-    bookingState.selectedStaff.resourceId === staff.resourceId;
+  toggleActiveState('#staffButtons > div', 'activeRing', selectedElement);
 
-  // Remove active state from all staff elements
-  document.querySelectorAll('#staffButtons > div').forEach((el) => {
-    el.classList.remove('activeRing');
-  });
-
-  // If clicking the same staff, reset the selection
-  if (isCurrentStaff) {
+  if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
     bookingState.selectedStaff = null;
     animateContainer(false, '#serviceSection');
     return;
   }
 
-  // Add active state to selected element
-  if (selectedElement) {
-    selectedElement.classList.add('activeRing');
-  }
-
-  // Store selected staff
   bookingState.selectedStaff = staff;
-
-  // Populate and reveal service container
   populateServiceContainer();
-
-  // Smoothly scroll to the services section
-  const serviceSection = document.getElementById('serviceSection');
-  if (serviceSection) {
-    // Ensure the section is visible
-    serviceSection.classList.remove('hidden');
-
-    // Animate service section
-    animateContainer(true, '#serviceSection');
-    smoothScrollTo('serviceSection');
-  }
+  animateContainer(true, '#serviceSection');
+  smoothScrollTo('serviceSection');
 }
 
 // Service selection handler
@@ -678,39 +549,6 @@ function selectService(service, selectedElement) {
     animateContainer(true, '#timeSection');
     smoothScrollTo('timeSection');
   }
-}
-
-function selectDateAndTime(date, timeSlot) {
-  // Remove active state from all time slot elements
-  document.querySelectorAll('#timeSlots > button').forEach((el) => {
-    el.classList.remove('activeTimeSlot');
-  });
-
-  // Store selected date and time slot
-  bookingState.selectedDate = date;
-  bookingState.selectedTimeSlot = timeSlot;
-
-  // Show confirmation form
-  showConfirmationForm();
-
-  // Smoothly scroll to the confirmation section
-  const confirmationSection = document.getElementById('confirmationSection');
-  if (confirmationSection) {
-    // Ensure the section is visible
-    confirmationSection.classList.remove('hidden');
-
-    // Use smooth scroll to move to the confirmation
-    smoothScrollTo('confirmationSection');
-  }
-}
-
-// Helper function to create buttons
-function createButton(text, onClick) {
-  const button = document.createElement('button');
-  button.className = 'button';
-  button.textContent = text;
-  button.onclick = onClick;
-  return button;
 }
 
 // Terms checkbox handler
