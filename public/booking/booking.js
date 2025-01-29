@@ -122,7 +122,7 @@ function animateContainer(state, id) {
     if (state) {
       const items = document.querySelector(id + ' .content');
       if (target && items) {
-        target.style.height = items.scrollHeight + 'px';
+        target.style.height = items.scrollHeight + 10 + 'px';
       }
     } else {
       target.style.height = '0px';
@@ -216,32 +216,237 @@ function fetchTimeSlots() {
 }
 
 // Display available time slots
-function displayTimeSlots(data) {
-  const container = document.getElementById('timeSlots');
+// function displayTimeSlots(data) {
+//   const container = document.getElementById('timeSlots');
 
-  if (!data?.dates || !Array.isArray(data.dates) || data.dates.length === 0) {
-    container.innerHTML = '<p>No available slots found.</p>';
-    animateContainer(false, '#timeSlots');
+//   if (!data?.dates || !Array.isArray(data.dates) || data.dates.length === 0) {
+//     container.innerHTML = '<p>No available slots found.</p>';
+//     animateContainer(false, '#timeSlots');
+//     return;
+//   }
+
+//   container.innerHTML = '';
+
+//   data.dates.forEach((dateGroup) => {
+//     const dateHeader = document.createElement('h3');
+//     dateHeader.textContent = `Date: ${dateGroup.date}`;
+//     container.appendChild(dateHeader);
+
+//     dateGroup.timeSlots.forEach((slot) => {
+//       const timeButton = createButton(slot.startTime, () => {
+//         selectDateAndTime(dateGroup.date, slot);
+//       });
+//       container.appendChild(timeButton);
+//     });
+//   });
+
+//   document.getElementById('timeSection').classList.remove('hidden');
+//   animateContainer(true, '#timeSection');
+// }
+
+function displayTimeSlots(data) {
+  if (!data || !data.dates || !Array.isArray(data.dates)) {
+    console.error('Invalid data format:', data);
     return;
   }
 
-  container.innerHTML = '';
+  // Setup navigation and date info
+  setupScheduleNavigation();
+  populateScheduleDate();
 
-  data.dates.forEach((dateGroup) => {
-    const dateHeader = document.createElement('h3');
-    dateHeader.textContent = `Date: ${dateGroup.date}`;
-    container.appendChild(dateHeader);
+  const target = document.getElementById('timeSlots');
+  if (target) {
+    target.innerHTML = '';
+    target.classList.add('resourceScheduleContainer');
 
-    dateGroup.timeSlots.forEach((slot) => {
-      const timeButton = createButton(slot.startTime, () => {
-        selectDateAndTime(dateGroup.date, slot);
-      });
-      container.appendChild(timeButton);
+    // Render time slots for a week
+    data.dates.forEach((dateGroup) => {
+      const container = document.createElement('div');
+      container.classList.add('column');
+
+      // Create date header
+      const day = document.createElement('div');
+      const dayName = document.createElement('h2');
+      const dayDate = document.createElement('p');
+
+      const slotDate = new Date(dateGroup.date);
+      dayName.textContent = getDayShortName(slotDate);
+      dayDate.textContent = `${slotDate.getDate()} ${getMonthShortName(
+        slotDate
+      )}`;
+
+      day.appendChild(dayName);
+      day.appendChild(dayDate);
+      container.appendChild(day);
+
+      // Render time slots
+      if (dateGroup.timeSlots.length > 0) {
+        dateGroup.timeSlots.forEach((slot) => {
+          const slotElement = document.createElement('div');
+          slotElement.classList.add('slot');
+
+          const timeText = document.createElement('p');
+          timeText.textContent = slot.startTime;
+
+          slotElement.appendChild(timeText);
+          slotElement.addEventListener('click', () =>
+            selectTimeSlot(dateGroup.date, slot)
+          );
+
+          container.appendChild(slotElement);
+        });
+      } else {
+        const noSlotsElement = document.createElement('p');
+        noSlotsElement.textContent = 'Inga lediga tider';
+        noSlotsElement.style.fontSize = '10px';
+        container.appendChild(noSlotsElement);
+      }
+
+      target.appendChild(container);
     });
+
+    // Show time section
+    document.getElementById('timeSection').classList.remove('hidden');
+  }
+}
+
+function selectTimeSlot(date, slot) {
+  // Remove active state from all slot elements
+  document.querySelectorAll('#timeSlots .slot').forEach((el) => {
+    el.classList.remove('activeSlot');
   });
 
-  document.getElementById('timeSection').classList.remove('hidden');
-  animateContainer(true, '#timeSection');
+  // Add active state to selected slot
+  event.target.classList.add('activeSlot');
+
+  // Store selected date and time slot
+  selectedDate = date;
+  selectedTimeSlot = slot;
+
+  // Proceed to next step
+  showConfirmationForm();
+}
+
+function setupScheduleNavigation() {
+  const navigationHtml = `
+    <div class="infobar">
+      <a onclick="scheduleArrowClick('backward')">
+        <i class="fas fa-chevron-left fa-2x"></i>
+      </a>
+      <div id="scheduleInfobar"></div>
+      <a onclick="scheduleArrowClick('forward')">
+        <i class="fas fa-chevron-right fa-2x"></i>
+      </a>
+    </div>
+  `;
+
+  const navigationContainer = document.createElement('div');
+  navigationContainer.innerHTML = navigationHtml;
+
+  const timeSection = document.getElementById('timeSection');
+  timeSection.insertBefore(
+    navigationContainer.firstChild,
+    timeSection.firstChild
+  );
+}
+
+function populateScheduleDate() {
+  const scheduleInfobar = document.getElementById('scheduleInfobar');
+  if (scheduleInfobar) {
+    scheduleInfobar.innerHTML = '';
+
+    const weekElement = document.createElement('h2');
+    const dateElement = document.createElement('p');
+
+    // You'll need to implement these helper functions
+    const startDate = new Date(); // Or your current active schedule date
+    const oneWeekForward = addDays(new Date(startDate.getTime()), 6);
+
+    weekElement.textContent = `Vecka ${getWeekNumber(startDate)}`;
+    dateElement.textContent = `${startDate.getDate()} ${getMonthShortName(
+      startDate
+    )} - ${oneWeekForward.getDate()} ${getMonthShortName(oneWeekForward)}`;
+
+    scheduleInfobar.appendChild(weekElement);
+    scheduleInfobar.appendChild(dateElement);
+  }
+}
+
+// Add specified number of days to a date
+function addDays(date, days) {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+// Get week number of a date
+function getWeekNumber(date) {
+  // Copy date so don't modify original
+  const d = new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  );
+  // Set to nearest Thursday: current date + 4 - current day number
+  // Make Sunday's day number 7
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  // Get first day of year
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  // Calculate full weeks to nearest Thursday
+  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+  return weekNo;
+}
+
+// Get short name of day (Mon, Tue, etc.)
+function getDayShortName(date) {
+  const dayNames = ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'];
+  return dayNames[date.getDay()];
+}
+
+// Get short name of month (Jan, Feb, etc.)
+function getMonthShortName(date) {
+  const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'Maj',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Okt',
+    'Nov',
+    'Dec',
+  ];
+  return monthNames[date.getMonth()];
+}
+
+// Additional utility function to compare dates (ignoring time)
+function isSameDate(date1, date2) {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  );
+}
+
+// Format time from Date object to HH:MM format
+function formatTime(date) {
+  return date.toTimeString().substring(0, 5);
+}
+
+// Get start of week (Monday) for a given date
+function getStartOfWeek(date) {
+  const result = new Date(date);
+  const day = result.getDay();
+  const diff = result.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
+  result.setDate(diff);
+  return result;
+}
+
+// Get end of week (Sunday) for a given date
+function getEndOfWeek(date) {
+  const result = getStartOfWeek(date);
+  return addDays(result, 6);
 }
 
 // Show confirmation form
@@ -539,3 +744,6 @@ export function initBookingSystem() {
   setupEventListeners();
   fetchServices();
 }
+
+// npx http-server
+// node proxy.js
