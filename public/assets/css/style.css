@@ -243,9 +243,9 @@ h1 {
   display: none;
 }
 
-.section {
+/* .section {
   margin: 20px 0;
-}
+} */
 
 .grid {
   display: grid;
@@ -402,7 +402,7 @@ button:disabled {
   text-align: center;
 }
 
-#serviceSection {
+#what {
   height: 0;
   overflow: hidden;
   max-width: 960px;
@@ -473,14 +473,14 @@ button:disabled {
   text-align: right;
 }
 
-#timeSection .infobar {
+#when .infobar {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
 
-#timeSection .infobar a {
+#when .infobar a {
   display: flex;
   align-items: center;
   color: #000;
@@ -529,4 +529,39 @@ button:disabled {
 
 #timeSlots .column div * {
   margin: 0;
+}
+
+#complete {
+  height: 0;
+  transition: 512ms;
+  overflow: hidden;
+}
+
+#complete div.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#complete div.content a {
+  border-color: #333;
+  color: #333;
+  background-color: #fff;
+}
+
+#complete div.content a:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+#complete .row {
+  flex-shrink: 0;
+}
+
+#complete .button {
+  margin: 10px;
+}
+
+.bookingContainer {
+  max-width: 1000px;
 }

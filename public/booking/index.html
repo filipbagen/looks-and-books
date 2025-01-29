@@ -81,6 +81,12 @@
       rel="stylesheet"
     />
 
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/bde765b426.js"
+      crossorigin="anonymous"
+    ></script>
+
     <!-- Style -->
     <link rel="stylesheet" href="../assets/css/default.css" />
     <link rel="stylesheet" href="../assets/css/style.css" />
@@ -97,42 +103,56 @@
       <img src="../assets/img/logo.svg" alt="Looks & Books Logo" />
     </div>
 
-    <div id="container">
-      <!-- Logo -->
-      <img src="../assets/img/logo.svg" id="logo" alt="Looks & Books Logo" />
-
-      <div class="container">
-        <div id="staffSection" class="section">
+    <div class="bookingContainer">
+      <!-- Who Section -->
+      <div id="who">
+        <div class="content">
           <h2>Vem vill du ska ta hand om dig?</h2>
-          <hr />
           <div id="staffButtons" class="grid">
-            <!-- Render resources here -->
+            <!-- Render staff here -->
           </div>
         </div>
+      </div>
 
-        <div id="serviceSection" class="section hidden">
+      <!-- What Section -->
+      <div id="what" class="hidden">
+        <div class="content">
           <h2>Vilken behandling vill du ha?</h2>
-          <hr />
           <div id="serviceButtons" class="grid">
             <!-- Render services here -->
           </div>
         </div>
+      </div>
 
-        <div id="timeSection" class="section hidden">
+      <!-- When Section -->
+      <div id="when" class="hidden">
+        <div class="content">
           <h2>Vilken tid passar dig?</h2>
-          <hr />
-          <div id="timeSlots">
-            <!-- Render dates here -->
+          <div class="infobar">
+            <a onclick="scheduleArrowClick('backward')">
+              <i class="fas fa-chevron-left fa-2x"></i>
+            </a>
+            <div id="scheduleInfobar"></div>
+            <a onclick="scheduleArrowClick('forward')">
+              <i class="fas fa-chevron-right fa-2x"></i>
+            </a>
+          </div>
+          <div id="timeSlots" class="resourceScheduleContainer">
+            <!-- Render time slots here -->
           </div>
         </div>
+      </div>
 
-        <div id="confirmationSection" class="section hidden">
-          <div id="bookingSummary" class="summary-box"></div>
-
-          <!-- Phone Form -->
+      <!-- Summary Section -->
+      <div id="summary" class="hidden">
+        <div class="content">
+          <h2>Sammanställning</h2>
+          <div id="bookingSummary" class="summary-box">
+            <!-- Render booking summary here -->
+          </div>
           <form id="phoneForm" class="confirmation-form">
             <div class="form-group">
-              <label for="customerPhone">Phone Number:</label>
+              <label for="customerPhone">Telefonnummer:</label>
               <input
                 type="tel"
                 id="customerPhone"
@@ -140,25 +160,23 @@
                 placeholder="46XXXXXXXXX"
               />
             </div>
-            <button type="submit" class="button">Continue</button>
+            <button type="submit" class="button">Fortsätt</button>
           </form>
-
-          <!-- Final Booking Form -->
           <form
             id="finalBookingForm"
             class="confirmation-form"
             style="display: none"
           >
             <div class="form-group name-group" style="display: none">
-              <label for="customerName">Name:</label>
+              <label for="customerName">Namn:</label>
               <input type="text" id="customerName" required />
             </div>
             <div class="form-group email-group" style="display: none">
-              <label for="customerEmail">Email:</label>
+              <label for="customerEmail">E-post:</label>
               <input type="email" id="customerEmail" required />
             </div>
             <div class="form-group">
-              <label for="notes">Message (optional):</label>
+              <label for="notes">Meddelande (valfritt):</label>
               <textarea id="notes"></textarea>
             </div>
             <div class="form-group">
@@ -168,9 +186,30 @@
               </label>
             </div>
             <button type="submit" id="bookButton" class="button" disabled>
-              Book
+              Boka
             </button>
           </form>
+        </div>
+      </div>
+
+      <!-- Complete Section -->
+      <div id="complete" class="hidden">
+        <div class="content">
+          <h2>
+            Bokning Bekräftad!
+            <i
+              class="fa fa-check-circle"
+              aria-hidden="true"
+              style="color: green"
+            ></i>
+          </h2>
+          <div id="successSummary" class="success-summary">
+            <!-- Render success summary here -->
+          </div>
+          <div class="row">
+            <a class="button" id="ical-download-link">Lägg till i kalender</a>
+            <a class="button" onclick="newBooking()">Gör en till bokning</a>
+          </div>
         </div>
       </div>
     </div>

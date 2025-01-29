@@ -4,8 +4,11 @@ import {
   getMonthShortName,
   addDays,
   getWeekNumber,
+  isSameDate,
   animateContainer,
 } from './utils.js';
+
+let activeSchedule = new Date(); // Start with the current date
 
 // Configuration management
 const CONFIG = {
@@ -133,7 +136,7 @@ function populateServiceContainer() {
 
   // Check if a staff is selected
   if (!bookingState.selectedStaff) {
-    animateContainer(false, '#serviceSection');
+    animateContainer(false, '#what');
     return;
   }
 
@@ -148,7 +151,7 @@ function populateServiceContainer() {
 
   if (staffServices.length === 0) {
     // No services available for this staff
-    animateContainer(false, '#serviceSection');
+    animateContainer(false, '#what');
     return;
   }
 
@@ -158,7 +161,7 @@ function populateServiceContainer() {
   });
 
   // Show service section
-  document.getElementById('serviceSection').classList.remove('hidden');
+  document.getElementById('what').classList.remove('hidden');
 }
 
 // Create service row element
@@ -215,64 +218,65 @@ function displayTimeSlots(data) {
     return;
   }
 
-  // Setup navigation and date info
-  setupScheduleNavigation();
-  populateScheduleDate();
-
   const target = document.getElementById('timeSlots');
-  if (target) {
-    target.innerHTML = '';
-    target.classList.add('resourceScheduleContainer');
+  if (!target) return;
 
-    // Render time slots for a week
-    data.dates.forEach((dateGroup) => {
-      const container = document.createElement('div');
-      container.classList.add('column');
+  target.innerHTML = '';
+  const startDate = activeSchedule;
+  const oneWeekForward = addDays(new Date(startDate.getTime()), 6);
 
-      // Create date header
-      const day = document.createElement('div');
-      const dayName = document.createElement('h2');
-      const dayDate = document.createElement('p');
+  // Render time slots for each day in the week
+  for (
+    let i = new Date(startDate.getTime());
+    i <= oneWeekForward;
+    i = addDays(i, 1)
+  ) {
+    const container = document.createElement('div');
+    container.classList.add('column');
 
-      const slotDate = new Date(dateGroup.date);
-      dayName.textContent = getDayShortName(slotDate);
-      dayDate.textContent = `${slotDate.getDate()} ${getMonthShortName(
-        slotDate
-      )}`;
+    // Create date header
+    const day = document.createElement('div');
+    const dayName = document.createElement('h2');
+    const dayDate = document.createElement('p');
 
-      day.appendChild(dayName);
-      day.appendChild(dayDate);
-      container.appendChild(day);
+    dayName.textContent = getDayShortName(i);
+    dayDate.textContent = `${i.getDate()} ${getMonthShortName(i)}`;
 
-      // Render time slots
-      if (dateGroup.timeSlots.length > 0) {
-        dateGroup.timeSlots.forEach((slot) => {
-          const slotElement = document.createElement('div');
-          slotElement.classList.add('slot');
+    day.appendChild(dayName);
+    day.appendChild(dayDate);
+    container.appendChild(day);
 
-          const timeText = document.createElement('p');
-          timeText.textContent = slot.startTime;
+    // Find time slots for the current date
+    const dateGroup = data.dates.find((group) =>
+      isSameDate(new Date(group.date), i)
+    );
+    if (dateGroup && dateGroup.timeSlots.length > 0) {
+      dateGroup.timeSlots.forEach((slot) => {
+        const slotElement = document.createElement('div');
+        slotElement.classList.add('slot');
 
-          slotElement.appendChild(timeText);
-          slotElement.addEventListener('click', () =>
-            selectTimeSlot(dateGroup.date, slot)
-          );
+        const timeText = document.createElement('p');
+        timeText.textContent = slot.startTime;
 
-          container.appendChild(slotElement);
-        });
-      } else {
-        const noSlotsElement = document.createElement('p');
-        noSlotsElement.textContent = 'Inga lediga tider';
-        noSlotsElement.style.fontSize = '10px';
-        container.appendChild(noSlotsElement);
-      }
+        slotElement.appendChild(timeText);
+        slotElement.addEventListener('click', () =>
+          selectTimeSlot(dateGroup.date, slot)
+        );
 
-      target.appendChild(container);
-    });
+        container.appendChild(slotElement);
+      });
+    } else {
+      const noSlotsElement = document.createElement('p');
+      noSlotsElement.textContent = 'Inga lediga tider';
+      noSlotsElement.style.fontSize = '10px';
+      container.appendChild(noSlotsElement);
+    }
 
-    // Show time section
-    document.getElementById('timeSection').classList.remove('hidden');
+    target.appendChild(container);
   }
+
+  // Update the schedule infobar with the current week's dates
+  populateScheduleDate();
 }
 
 function selectTimeSlot(date, slot) {
@@ -285,34 +289,11 @@ function selectTimeSlot(date, slot) {
   event.target.classList.add('activeSlot');
 
   // Store selected date and time slot
-  selectedDate = date;
-  selectedTimeSlot = slot;
+  bookingState.selectedDate = date;
+  bookingState.selectedTimeSlot = slot;
 
   // Proceed to next step
   showConfirmationForm();
-}
-
-function setupScheduleNavigation() {
-  const navigationHtml = `
-    <div class="infobar">
-      <a onclick="scheduleArrowClick('backward')">
-        <i class="fas fa-chevron-left fa-2x"></i>
-      </a>
-      <div id="scheduleInfobar"></div>
-      <a onclick="scheduleArrowClick('forward')">
-        <i class="fas fa-chevron-right fa-2x"></i>
-      </a>
-    </div>
-  `;
-
-  const navigationContainer = document.createElement('div');
-  navigationContainer.innerHTML = navigationHtml;
-
-  const timeSection = document.getElementById('timeSection');
-  timeSection.insertBefore(
-    navigationContainer.firstChild,
-    timeSection.firstChild
-  );
 }
 
 function populateScheduleDate() {
@@ -323,8 +304,7 @@ function populateScheduleDate() {
     const weekElement = document.createElement('h2');
     const dateElement = document.createElement('p');
 
-    // You'll need to implement these helper functions
-    const startDate = new Date(); // Or your current active schedule date
+    const startDate = activeSchedule;
     const oneWeekForward = addDays(new Date(startDate.getTime()), 6);
 
     weekElement.textContent = `Vecka ${getWeekNumber(startDate)}`;
@@ -335,6 +315,17 @@ function populateScheduleDate() {
     scheduleInfobar.appendChild(weekElement);
     scheduleInfobar.appendChild(dateElement);
   }
+}
+
+function scheduleArrowClick(type) {
+  if (type === 'forward') {
+    activeSchedule = addDays(activeSchedule, 7);
+  } else if (type === 'backward') {
+    activeSchedule = addDays(activeSchedule, -7);
+  }
+
+  // Fetch and display time slots for the new week
+  fetchTimeSlots();
 }
 
 // Show confirmation form
@@ -425,7 +416,7 @@ function configureCustomerForm(reserveData) {
 
 // Show success page
 async function showSuccessPage(confirmData) {
-  const container = document.querySelector('.container');
+  const container = document.querySelector('.content');
   container.innerHTML = `
     <div class="success-section">
       <h2>Tack för din bokning!</h2>
@@ -511,14 +502,14 @@ function selectStaff(staff, selectedElement) {
 
   if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
     bookingState.selectedStaff = null;
-    animateContainer(false, '#serviceSection');
+    animateContainer(false, '#what');
     return;
   }
 
   bookingState.selectedStaff = staff;
   populateServiceContainer();
-  animateContainer(true, '#serviceSection');
-  smoothScrollTo('serviceSection');
+  animateContainer(true, '#what');
+  smoothScrollTo('what');
 }
 
 // Service selection handler
@@ -540,14 +531,14 @@ function selectService(service, selectedElement) {
   fetchTimeSlots();
 
   // Smoothly scroll to the time slots section
-  const timeSection = document.getElementById('timeSection');
-  if (timeSection) {
+  const when = document.getElementById('when');
+  if (when) {
     // Ensure the section is visible
-    timeSection.classList.remove('hidden');
+    when.classList.remove('hidden');
 
     // Animate time section
-    animateContainer(true, '#timeSection');
-    smoothScrollTo('timeSection');
+    animateContainer(true, '#when');
+    smoothScrollTo('when');
   }
 }
 
@@ -582,6 +573,8 @@ export function initBookingSystem() {
   setupEventListeners();
   fetchServices();
 }
+
+window['scheduleArrowClick'] = scheduleArrowClick;
 
 // npx http-server
 // node proxy.js
