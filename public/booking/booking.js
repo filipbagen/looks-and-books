@@ -87,8 +87,63 @@ function populateStaffContainer() {
 
   staffList.forEach((staff) => {
     const container = createStaffButton(staff);
+    container.addEventListener('click', () =>
+      handleStaffClick(staff, container)
+    );
     staffContainer.appendChild(container);
   });
+}
+
+// Handle staff click (similar to resourceClick in old code)
+function handleStaffClick(staff, container) {
+  console.log('Selected staff before:', bookingState.selectedStaff); // Debugging
+
+  if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
+    // If the same staff member is clicked again, reset the booking state
+    bookingState.selectedStaff = null;
+    bookingState.selectedService = null;
+    bookingState.selectedDate = null;
+    bookingState.selectedTimeSlot = null;
+
+    // Hide the "what" and "when" sections
+    animateContainer(false, '#what');
+    animateContainer(false, '#when');
+    animateContainer(false, '#summary');
+  } else {
+    // Select the staff member and show the "what" section
+    bookingState.selectedStaff = staff;
+    populateServiceContainer();
+    animateContainer(true, '#what');
+    smoothScrollTo('what');
+  }
+
+  console.log('Selected staff after:', bookingState.selectedStaff); // Debugging
+
+  // Toggle the active state of the staff member's ring
+  toggleActiveState('#staffButtons > div', 'activeRing', container);
+}
+
+function populateSummaryContainer() {
+  const target = document.getElementById('bookingSummary');
+  if (!target) return;
+
+  const title = document.createElement('h3');
+  const p = document.createElement('p');
+  const date = new Date(bookingState.selectedDate);
+  const dateString = `${date.getDate()} ${getMonthShortName(
+    date
+  )} ${date.getFullYear()}, ${bookingState.selectedTimeSlot.startTime}`;
+
+  target.innerHTML = '';
+  title.textContent = `${bookingState.selectedService.name} med ${bookingState.selectedStaff.name}`;
+  p.textContent = dateString;
+
+  target.appendChild(title);
+  target.appendChild(p);
+
+  // Show the summary section and scroll to it
+  animateContainer(true, '#summary');
+  smoothScrollTo('#summary');
 }
 
 // Create staff button element
@@ -96,7 +151,6 @@ function createStaffButton(staff) {
   const container = document.createElement('div');
   container.classList.add('staff-button');
   container.id = staff.resourceId;
-  container.addEventListener('click', () => selectStaff(staff, container));
 
   const imageContainer = document.createElement('div');
   imageContainer.classList.add('staff-image-container');
@@ -124,11 +178,15 @@ function createStaffButton(staff) {
   container.appendChild(imageContainer);
   container.appendChild(textContainer);
 
+  // Attach the handleStaffClick function to the container
+  container.addEventListener('click', () => handleStaffClick(staff, container));
+
   return container;
 }
 
 // Populate service container for selected staff
 function populateServiceContainer() {
+  console.log('Populating service container...'); // Debugging
   const serviceContainer = document.getElementById('serviceButtons');
   if (!serviceContainer) return;
 
@@ -160,8 +218,11 @@ function populateServiceContainer() {
     serviceContainer.appendChild(row);
   });
 
-  // Show service section
-  document.getElementById('what').classList.remove('hidden');
+  // Show service section after content is populated
+  setTimeout(() => {
+    animateContainer(true, '#what');
+    smoothScrollTo('what');
+  }, 10); // Small delay to ensure DOM is updated
 }
 
 // Create service row element
@@ -193,6 +254,11 @@ function createServiceRow(service) {
 
 // Fetch available time slots
 function fetchTimeSlots() {
+  if (!bookingState.selectedStaff || !bookingState.selectedService) {
+    console.error('No staff or service selected');
+    return;
+  }
+
   const cfg = getConfig();
   const dateStart = new Date().toISOString().split('T')[0];
   const dateEnd = new Date();
@@ -280,6 +346,8 @@ function displayTimeSlots(data) {
 }
 
 function selectTimeSlot(date, slot) {
+  console.log('Selected time slot:', date, slot); // Debugging
+
   // Remove active state from all slot elements
   document.querySelectorAll('#timeSlots .slot').forEach((el) => {
     el.classList.remove('activeSlot');
@@ -292,8 +360,12 @@ function selectTimeSlot(date, slot) {
   bookingState.selectedDate = date;
   bookingState.selectedTimeSlot = slot;
 
-  // Proceed to next step
-  showConfirmationForm();
+  // Populate the summary container and show it
+  populateSummaryContainer();
+
+  // Smoothly scroll to the summary section
+  animateContainer(true, '#summary');
+  smoothScrollTo('#summary');
 }
 
 function populateScheduleDate() {
@@ -332,26 +404,6 @@ function scheduleArrowClick(type) {
 
   // Fetch and display time slots for the new week
   fetchTimeSlots();
-}
-
-// Show confirmation form
-function showConfirmationForm() {
-  const confirmationSection = document.getElementById('confirmationSection');
-  confirmationSection.classList.remove('hidden');
-
-  const summaryHtml = `
-    <h3>Booking Details</h3>
-    <p><strong>Hairdresser:</strong> ${bookingState.selectedStaff.name}</p>
-    <p><strong>Service:</strong> ${bookingState.selectedService.name}</p>
-    <p><strong>Date:</strong> ${bookingState.selectedDate}</p>
-    <p><strong>Time:</strong> ${bookingState.selectedTimeSlot.startTime}</p>
-    <p><strong>Price:</strong> ${bookingState.selectedService.priceIncludingVat}kr</p>
-  `;
-  document.getElementById('bookingSummary').innerHTML = summaryHtml;
-
-  // Show phone form, hide final form
-  document.getElementById('phoneForm').style.display = 'block';
-  document.getElementById('finalBookingForm').style.display = 'none';
 }
 
 // Phone form submission handler
@@ -502,24 +554,10 @@ function toggleActiveState(selector, className, targetElement) {
   }
 }
 
-// Staff selection handler
-function selectStaff(staff, selectedElement) {
-  toggleActiveState('#staffButtons > div', 'activeRing', selectedElement);
-
-  if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
-    bookingState.selectedStaff = null;
-    animateContainer(false, '#what');
-    return;
-  }
-
-  bookingState.selectedStaff = staff;
-  populateServiceContainer();
-  animateContainer(true, '#what');
-  smoothScrollTo('what');
-}
-
 // Service selection handler
 function selectService(service, selectedElement) {
+  console.log('Selected service:', service); // Debugging
+
   // Remove active state from all service elements
   document.querySelectorAll('#serviceButtons > div').forEach((el) => {
     el.classList.remove('activeResourceOption');

@@ -48,17 +48,16 @@ export function isSameDate(date1, date2) {
   );
 }
 
-export function animateContainer(state, id) {
-  const target = document.querySelector(id);
+export function animateContainer(show, selector) {
+  console.log(`Animating container: ${selector}, show: ${show}`); // Debugging
+  const container = document.querySelector(selector);
+  if (!container) return;
 
-  if (target) {
-    if (state) {
-      const items = document.querySelector(id);
-      if (target && items) {
-        target.style.height = items.scrollHeight + 10 + 'px';
-      }
-    } else {
-      target.style.height = '0px';
-    }
+  if (show) {
+    container.classList.remove('hidden');
+    container.classList.add('expanded'); // Add expanded class
+  } else {
+    container.classList.remove('expanded'); // Remove expanded class
+    container.classList.add('hidden');
   }
 }

@@ -82,6 +82,14 @@
   transition: height 620ms ease;
 }
 
+#what.expanded {
+  height: auto; /* Let the browser calculate the height */
+}
+
+#what.hidden {
+  height: 0;
+}
+
 #serviceButtons {
   display: flex;
   flex-direction: column;
