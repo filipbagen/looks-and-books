@@ -1,6 +1,6 @@
 :root {
-  --primary: #ADAD96;
-  --secondary: #5E5E41;
+  --primary: #adad96;
+  --secondary: #5e5e41;
   --black: #353535;
   --white: #ffffff;
   --borderRadius: 18px;
@@ -116,7 +116,7 @@ iframe {
   position: absolute;
   right: -50vw;
   height: 100vh;
-  opacity: .03;
+  opacity: 0.03;
   z-index: -10;
 }
 
@@ -242,5 +242,10 @@ h1 {
 }
 
 .splide__arrow {
-  transition: .2s;
+  transition: 0.2s;
+}
+
+.bookingButtons {
+  display: flex;
+  gap: 16px;
 }
