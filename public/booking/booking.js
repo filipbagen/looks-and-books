@@ -285,7 +285,12 @@ function displayTimeSlots(data) {
   }
 
   const target = document.getElementById('timeSlots');
-  if (!target) return;
+  if (!target) {
+    console.error('Time slots container not found');
+    return;
+  }
+
+  console.log('Populating time slots container:', target); // Debugging
 
   target.innerHTML = '';
   const startDate = activeSchedule;
@@ -340,6 +345,8 @@ function displayTimeSlots(data) {
 
     target.appendChild(container);
   }
+
+  console.log('Time slots container populated:', target); // Debugging
 
   // Update the schedule infobar with the current week's dates
   populateScheduleDate();
