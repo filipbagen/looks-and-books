@@ -68,6 +68,11 @@
   text-align: center;
 }
 
+#what .content,
+#when .content {
+  height: 100%;
+}
+
 /* What */
 #what {
   height: 0;
@@ -138,6 +143,19 @@
 .service-info p:last-child {
   min-width: 85px;
   text-align: right;
+}
+
+/* When */
+#when {
+  height: 0;
+  overflow: hidden;
+  max-width: 960px;
+  width: 100vw;
+  transition: height 620ms ease;
+}
+
+.hidden {
+  height: 0 !important;
 }
 
 #when .infobar {

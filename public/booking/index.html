@@ -107,37 +107,43 @@
     <div class="bookingContainer">
       <!-- Who Section -->
       <div id="who">
-        <h2>Vem vill du ska ta hand om dig?</h2>
-        <hr />
-        <div id="resourceContainer">
-          <!-- Render staff here -->
+        <div class="content">
+          <h2>Vem vill du ska ta hand om dig?</h2>
+          <hr />
+          <div id="resourceContainer">
+            <!-- Render staff here -->
+          </div>
         </div>
       </div>
 
       <!-- What Section -->
       <div id="what" class="hidden">
-        <h2>Vilken behandling vill du ha?</h2>
-        <hr />
-        <div id="serviceContainer">
-          <!-- Render services here -->
+        <div class="content">
+          <h2>Vilken behandling vill du ha?</h2>
+          <hr />
+          <div id="serviceContainer">
+            <!-- Render services here -->
+          </div>
         </div>
       </div>
 
       <!-- When Section -->
       <div id="when" class="hidden">
-        <h2>Vilken tid passar dig?</h2>
-        <hr />
-        <div class="infobar">
-          <a onclick="scheduleArrowClick('backward')">
-            <i class="fas fa-chevron-left fa-2x"></i>
-          </a>
-          <div id="scheduleInfobar"></div>
-          <a onclick="scheduleArrowClick('forward')">
-            <i class="fas fa-chevron-right fa-2x"></i>
-          </a>
-        </div>
-        <div id="timeSlots" class="resourceScheduleContainer">
-          <!-- Render time slots here -->
+        <div class="content">
+          <h2>Vilken tid passar dig?</h2>
+          <hr />
+          <div class="infobar">
+            <a onclick="scheduleArrowClick('backward')">
+              <i class="fas fa-chevron-left fa-2x"></i>
+            </a>
+            <div id="scheduleInfobar"></div>
+            <a onclick="scheduleArrowClick('forward')">
+              <i class="fas fa-chevron-right fa-2x"></i>
+            </a>
+          </div>
+          <div id="timeSlots" class="resourceScheduleContainer">
+            <!-- Render time slots here -->
+          </div>
         </div>
       </div>
 
@@ -212,11 +218,11 @@
       </div>
     </div>
 
-    <!-- <img
+    <img
       src="../assets/img/slideshow/slideshow1.jpg"
       style="width: 100%"
       alt=""
-    /> -->
+    />
 
     <script src="./booking.js"></script>
     <script src="../assets/js/smoothScroll.js" type="module"></script>

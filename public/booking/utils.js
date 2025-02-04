@@ -53,12 +53,17 @@ export function animateContainer(state, id) {
 
   if (target) {
     if (state) {
-      const items = document.querySelector(id);
+      const items = target.querySelector('div.content');
       if (target && items) {
-        target.style.height = items.scrollHeight + 10 + 'px';
+        // Wait for next frame to ensure content is rendered
+        requestAnimationFrame(() => {
+          target.style.height = `${items.scrollHeight}px`;
+        });
       }
+      target.classList.remove('hidden');
     } else {
       target.style.height = '0px';
+      target.classList.add('hidden');
     }
   }
 }

@@ -273,6 +273,12 @@ function displayTimeSlots(data) {
 
   // Update the schedule infobar with the current week's dates
   populateScheduleDate();
+
+  // Re-calculate and update the container height
+  const whenSection = document.getElementById('when');
+  if (whenSection && !whenSection.classList.contains('hidden')) {
+    animateContainer(true, '#when');
+  }
 }
 
 function selectTimeSlot(date, slot) {
@@ -491,48 +497,57 @@ async function handleFinalBookingSubmit(e) {
 
 // Staff selection handler
 function selectStaff(staff) {
+  // Clear active state from all staff buttons
+  document.querySelectorAll('.staff-button').forEach((btn) => {
+    btn.classList.remove('activeRing');
+  });
+
   if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
+    // Deselecting current staff
     bookingState.selectedStaff = null;
+    bookingState.selectedService = null;
+
+    // Hide service and time sections with animation
     animateContainer(false, '#what');
     animateContainer(false, '#when');
-    console.log('Deselected staff');
+
     return;
   }
 
+  // Selecting new staff
+  document.getElementById(staff.resourceId).classList.add('activeRing');
   bookingState.selectedStaff = staff;
+
+  // Show service section
   populateServiceContainer();
   animateContainer(true, '#what');
+  animateContainer(false, '#when');
+
   smoothScrollTo('what');
 }
 
-// Service selection handler
 function selectService(service, selectedElement) {
   // Remove active state from all service elements
   document.querySelectorAll('#serviceContainer > div').forEach((el) => {
     el.classList.remove('activeResourceOption');
   });
 
-  // Add active state to selected element
-  if (selectedElement) {
-    selectedElement.classList.add('activeResourceOption');
+  if (bookingState.selectedService?.serviceId === service.serviceId) {
+    // Deselecting current service
+    bookingState.selectedService = null;
+    selectedElement.classList.remove('activeResourceOption');
+    animateContainer(false, '#when');
+    return;
   }
 
-  // Store selected service
+  // Selecting new service
+  selectedElement.classList.add('activeResourceOption');
   bookingState.selectedService = service;
 
   // Fetch and display time slots
   fetchTimeSlots();
-
-  // Smoothly scroll to the time slots section
-  const when = document.getElementById('when');
-  if (when) {
-    // Ensure the section is visible
-    when.classList.remove('hidden');
-
-    // Animate time section
-    animateContainer(true, '#when');
-    smoothScrollTo('when');
-  }
+  animateContainer(true, '#when');
+  smoothScrollTo('when');
 }
 
 // Terms checkbox handler
