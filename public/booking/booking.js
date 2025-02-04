@@ -29,7 +29,7 @@ const staffTitles = {
   Emma: 'Frisör',
   Olivia: 'Frisör',
   Simon: 'Frisör',
-  Charlotte: 'Hudterapeut & hudcoach ',
+  Charlotte: 'Hudterapeut & hudcoach',
   Meja: 'Nagelterapeut',
   // Add more staff members as needed
 };
@@ -67,7 +67,7 @@ async function fetchServices() {
 
 // Populate staff container with unique staff members
 function populateStaffContainer() {
-  const staffContainer = document.getElementById('staffButtons');
+  const staffContainer = document.getElementById('resourceContainer');
   if (!staffContainer) return;
 
   staffContainer.innerHTML = '';
@@ -105,9 +105,6 @@ function createStaffButton(staff) {
   img.src = `../assets/img/profile/${staff.name || 'default'}.jpg`;
   img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
 
-  const ring = document.createElement('div');
-  ring.classList.add('ring');
-
   const textContainer = document.createElement('div');
   textContainer.classList.add('staff-text-container');
 
@@ -117,7 +114,6 @@ function createStaffButton(staff) {
   const title = document.createElement('p');
   title.textContent = staffTitles[staff.name] || 'Hair Dresser';
 
-  imageContainer.appendChild(ring);
   imageContainer.appendChild(img);
   textContainer.appendChild(name);
   textContainer.appendChild(title);
@@ -129,7 +125,7 @@ function createStaffButton(staff) {
 
 // Populate service container for selected staff
 function populateServiceContainer() {
-  const serviceContainer = document.getElementById('serviceButtons');
+  const serviceContainer = document.getElementById('serviceContainer');
   if (!serviceContainer) return;
 
   serviceContainer.innerHTML = '';
@@ -493,22 +489,13 @@ async function handleFinalBookingSubmit(e) {
   }
 }
 
-function toggleActiveState(selector, className, targetElement) {
-  document.querySelectorAll(selector).forEach((el) => {
-    el.classList.remove(className);
-  });
-  if (targetElement) {
-    targetElement.classList.add(className);
-  }
-}
-
 // Staff selection handler
-function selectStaff(staff, selectedElement) {
-  toggleActiveState('#staffButtons > div', 'activeRing', selectedElement);
-
+function selectStaff(staff) {
   if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
     bookingState.selectedStaff = null;
     animateContainer(false, '#what');
+    animateContainer(false, '#when');
+    console.log('Deselected staff');
     return;
   }
 
@@ -521,7 +508,7 @@ function selectStaff(staff, selectedElement) {
 // Service selection handler
 function selectService(service, selectedElement) {
   // Remove active state from all service elements
-  document.querySelectorAll('#serviceButtons > div').forEach((el) => {
+  document.querySelectorAll('#serviceContainer > div').forEach((el) => {
     el.classList.remove('activeResourceOption');
   });
 
