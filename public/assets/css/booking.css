@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 42px;
+  gap: 12px;
 }
 
 #resourceContainer > div {
@@ -242,4 +242,12 @@
 
 .bookingContainer {
   max-width: 1000px;
+}
+
+#summary {
+  height: 0;
+  overflow: hidden;
+  max-width: 960px;
+  width: 100vw;
+  transition: height 620ms ease;
 }

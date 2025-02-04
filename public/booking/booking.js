@@ -294,8 +294,20 @@ function selectTimeSlot(date, slot) {
   bookingState.selectedDate = date;
   bookingState.selectedTimeSlot = slot;
 
-  // Proceed to next step
-  showConfirmationForm();
+  // Update booking summary content
+  const summaryHtml = `
+    <h3>Din bokning</h3>
+    <p><strong>Frisör:</strong> ${bookingState.selectedStaff.name}</p>
+    <p><strong>Behandling:</strong> ${bookingState.selectedService.name}</p>
+    <p><strong>Datum:</strong> ${date}</p>
+    <p><strong>Tid:</strong> ${slot.startTime}</p>
+    <p><strong>Pris:</strong> ${bookingState.selectedService.priceIncludingVat}kr</p>
+  `;
+  document.getElementById('bookingSummary').innerHTML = summaryHtml;
+
+  // Show summary section with animation
+  animateContainer(true, '#summary');
+  smoothScrollTo('summary');
 }
 
 function populateScheduleDate() {
