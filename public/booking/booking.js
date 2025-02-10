@@ -513,34 +513,30 @@ async function handleFinalBookingSubmit(e) {
   e.preventDefault();
   const cfg = getConfig();
 
+  // Base confirm data
   const confirmData = {
     onlineBookingUrlName: cfg.onlineBookingUrlName,
+    appointmentId: bookingState.appointmentId,
     customerPhoneNumber: document.getElementById('customerPhone').value,
-    customerName: document.getElementById('customerName').value,
-    customerEmail: document.getElementById('customerEmail').value,
-    notes: document.getElementById('notes').value || '',
     termsAndConditionsApproved: true,
   };
 
+  // Only add email and name for new customers
+  if (!bookingState.customerInfo?.exists) {
+    confirmData.customerName = document.getElementById('customerName').value;
+    confirmData.customerEmail = document.getElementById('customerEmail').value;
+  } else {
+    // For existing customers, add their customerId
+    confirmData.customerId = bookingState.customerInfo.customerId;
+  }
+
+  // Add notes if present
+  const notes = document.getElementById('notes').value;
+  if (notes) {
+    confirmData.notes = notes;
+  }
+
   try {
-    // First make the reserve call
-    const reserveResponse = await fetch(`${cfg.baseUrl}/reserve`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        onlineBookingUrlName: cfg.onlineBookingUrlName,
-        resourceIds: [bookingState.selectedStaff.resourceId],
-        serviceIds: [bookingState.selectedService.serviceId],
-        startDate: bookingState.selectedDate,
-        startTime: bookingState.selectedTimeSlot.startTime,
-        customerPhoneNumber: confirmData.customerPhoneNumber,
-      }),
-    });
-
-    const reserveData = await reserveResponse.json();
-    confirmData.appointmentId = reserveData.appointmentId;
-
-    // Then make the confirm call
     const confirmResponse = await fetch(`${cfg.baseUrl}/confirm`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -548,13 +544,15 @@ async function handleFinalBookingSubmit(e) {
     });
 
     if (!confirmResponse.ok) {
-      throw new Error('Booking failed');
+      const errorData = await confirmResponse.json();
+      throw new Error(errorData.error?.error?.message || 'Booking failed');
     }
 
-    await showSuccessPage(confirmData);
+    const confirmResponseData = await confirmResponse.json();
+    await showSuccessPage(confirmResponseData);
   } catch (error) {
     console.error('Error:', error);
-    alert('Error confirming booking. Please try again.');
+    alert('Error confirming booking: ' + error.message);
   }
 }
 
