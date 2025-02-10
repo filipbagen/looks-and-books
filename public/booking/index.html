@@ -150,27 +150,27 @@
       <!-- Summary Section -->
       <div id="summary" class="hidden">
         <div class="content">
-          <h2>Sammanställning</h2>
-          <div id="bookingSummary" class="summary-box">
-            <!-- Render booking summary here -->
-          </div>
-          <form id="phoneForm" class="confirmation-form">
-            <div class="form-group">
-              <label for="customerPhone">Telefonnummer:</label>
-              <input
-                type="tel"
-                id="customerPhone"
-                required
-                placeholder="46XXXXXXXXX"
-              />
+          <h2>Bekräfta bokning</h2>
+          <hr />
+          <div id="bookingSummaryContainer">
+            <div id="bookingSummary">
+              <!-- Render booking summary here -->
             </div>
-            <button type="submit" class="button">Fortsätt</button>
-          </form>
-          <form
-            id="finalBookingForm"
-            class="confirmation-form"
-            style="display: none"
-          >
+            <form id="phoneForm">
+              <p>Ange ditt telefonnummer för att reservera tiden</p>
+              <div class="form-group">
+                <input
+                  type="tel"
+                  id="customerPhone"
+                  required
+                  placeholder="Telefonnummer"
+                />
+                <button type="submit" class="new-button">Nästa</button>
+              </div>
+            </form>
+          </div>
+
+          <form id="finalBookingForm" style="display: none">
             <div class="form-group name-group" style="display: none">
               <label for="customerName">Namn:</label>
               <input type="text" id="customerName" required />

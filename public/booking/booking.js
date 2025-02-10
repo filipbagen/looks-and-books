@@ -335,12 +335,8 @@ function selectTimeSlot(date, slot) {
 
   // Update booking summary content
   const summaryHtml = `
-    <h3>Din bokning</h3>
-    <p><strong>Frisör:</strong> ${bookingState.selectedStaff.name}</p>
-    <p><strong>Behandling:</strong> ${bookingState.selectedService.name}</p>
-    <p><strong>Datum:</strong> ${date}</p>
-    <p><strong>Tid:</strong> ${slot.startTime}</p>
-    <p><strong>Pris:</strong> ${bookingState.selectedService.priceIncludingVat} kr</p>
+    <h2>${bookingState.selectedService.name} av ${bookingState.selectedStaff.name}</h2>
+    <p>${date}, ${slot.startTime} | [DURATION] / ${bookingState.selectedService.priceIncludingVat} kr</p>
   `;
   document.getElementById('bookingSummary').innerHTML = summaryHtml;
 
