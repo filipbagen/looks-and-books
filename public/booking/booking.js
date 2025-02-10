@@ -85,10 +85,45 @@ function populateStaffContainer() {
     });
   });
 
+  // Add regular staff
   staffList.forEach((staff) => {
     const container = createStaffButton(staff);
     staffContainer.appendChild(container);
   });
+
+  // Add Charlotte manually with Google redirect
+  const charlotteContainer = document.createElement('div');
+  charlotteContainer.classList.add('staff-button');
+  charlotteContainer.addEventListener('click', () =>
+    window.open(
+      'https://bokadirekt.se/places/charlottes-hudv%C3%A5rd-61742',
+      '_blank'
+    )
+  );
+
+  const imageContainer = document.createElement('div');
+  imageContainer.classList.add('staff-image-container');
+
+  const img = document.createElement('img');
+  img.src = '../assets/img/profile/Charlotte.jpg';
+  img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
+
+  const textContainer = document.createElement('div');
+  textContainer.classList.add('staff-text-container');
+
+  const name = document.createElement('h2');
+  name.textContent = 'Charlotte';
+
+  const title = document.createElement('p');
+  title.textContent = staffTitles['Charlotte']; // Will show "Hudterapeut & hudcoach"
+
+  imageContainer.appendChild(img);
+  textContainer.appendChild(name);
+  textContainer.appendChild(title);
+  charlotteContainer.appendChild(imageContainer);
+  charlotteContainer.appendChild(textContainer);
+
+  staffContainer.appendChild(charlotteContainer);
 }
 
 // Create staff button element
