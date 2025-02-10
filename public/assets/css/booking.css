@@ -4,10 +4,16 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
+  /* background-color: var(--white); */
+  border-radius: 8px;
+  padding: 12px;
 }
 
 #resourceContainer > div {
-  flex: 0 0 200px; /* Set fixed width similar to grid */
+  /* Changed from flex: 0 0 200px to percentage-based width */
+  flex: 0 1 calc(25% - 18px); /* 25% for 4 items per row, minus gap spacing */
+  min-width: 200px; /* Minimum width to prevent too small items */
+  max-width: 250px; /* Maximum width to maintain consistency */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,17 +74,11 @@
   text-align: center;
 }
 
-#what .content,
-#when .content {
-  height: 100%;
-}
-
 /* What */
 #what {
   height: 0;
   overflow: hidden;
-  max-width: 960px;
-  width: 100vw;
+  width: 100%;
   transition: height 620ms ease;
 }
 
@@ -98,12 +98,14 @@
 }
 
 #serviceContainer > div:hover {
-  border-left: 3px solid var(--secondary);
+  /* border-left: 3px solid var(--secondary); */
+  background-color: var(--secondary_low_opacity);
+  border-radius: 8px;
 }
 
 #serviceContainer > div.activeResourceOption {
   background-color: var(--secondary);
-  color: #fff;
+  color: var(--white);
   border-radius: 8px;
 }
 
@@ -149,8 +151,7 @@
 #when {
   height: 0;
   overflow: hidden;
-  max-width: 960px;
-  width: 100vw;
+  width: 100%;
   transition: height 620ms ease;
 }
 
@@ -187,8 +188,8 @@
   flex-direction: column;
   width: 100px;
   height: 100px;
-  background-color: #333;
-  color: #fff;
+  background-color: var(--black);
+  color: var(--white);
   margin: 10px;
 }
 
@@ -197,7 +198,7 @@
   border-radius: 6px;
   margin: 10px;
   background-color: var(--secondary);
-  color: #fff;
+  color: var(--white);
   transition: 200ms;
   cursor: pointer;
   text-align: center;
@@ -205,16 +206,23 @@
 
 #timeSlots .column .slot.activeSlot {
   background-color: rgba(51, 51, 51, 0);
-  color: #333;
+  color: var(--black);
 }
 
 #timeSlots .column .slot:hover {
   background-color: rgba(51, 51, 51, 0);
-  color: #333;
+  color: var(--black);
 }
 
 #timeSlots .column div * {
   margin: 0;
+}
+
+#scheduleInfobar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #complete {
@@ -230,18 +238,21 @@
 }
 
 #complete div.content a {
-  border-color: #333;
-  color: #333;
-  background-color: #fff;
+  border-color: var(--black);
+  color: var(--black);
+  background-color: var(--white);
 }
 
 #complete div.content a:hover {
-  background-color: #333;
-  color: #fff;
+  background-color: var(--black);
+  color: var(--white);
 }
 
 .bookingContainer {
-  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  align-items: center;
 }
 
 #summary {
@@ -250,4 +261,110 @@
   max-width: 960px;
   width: 100vw;
   transition: height 620ms ease;
+}
+
+/* Summary Section Styling */
+#summary .content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+#summary h2 {
+  /* font-size: 2rem; */
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.summary-box {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.confirmation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4a4a4a;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--secondary);
+  outline: none;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.checkbox input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--secondary);
+}
+
+.button {
+  background: var(--secondary);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, var(--secondary) 0.2s;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  background: #8a8a74;
+}
+
+.button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.masked-info {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.masked-info p:first-child {
+  color: var(--secondary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.masked-info p {
+  margin: 0.25rem 0;
 }

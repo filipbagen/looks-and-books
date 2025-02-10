@@ -174,7 +174,7 @@ function createServiceRow(service) {
   row.id = String(service.serviceId);
   name.textContent = service.name;
   time.textContent = `${service.length} min`;
-  price.textContent = `${service.priceIncludingVat}kr`;
+  price.textContent = `${service.priceIncludingVat} kr`;
 
   rightDiv.classList.add('service-info');
 
@@ -301,7 +301,7 @@ function selectTimeSlot(date, slot) {
     <p><strong>Behandling:</strong> ${bookingState.selectedService.name}</p>
     <p><strong>Datum:</strong> ${date}</p>
     <p><strong>Tid:</strong> ${slot.startTime}</p>
-    <p><strong>Pris:</strong> ${bookingState.selectedService.priceIncludingVat}kr</p>
+    <p><strong>Pris:</strong> ${bookingState.selectedService.priceIncludingVat} kr</p>
   `;
   document.getElementById('bookingSummary').innerHTML = summaryHtml;
 
@@ -345,6 +345,7 @@ function scheduleArrowClick(type) {
   }
 
   // Fetch and display time slots for the new week
+  smoothScrollTo('when');
   fetchTimeSlots();
 }
 
@@ -359,13 +360,29 @@ function showConfirmationForm() {
     <p><strong>Service:</strong> ${bookingState.selectedService.name}</p>
     <p><strong>Date:</strong> ${bookingState.selectedDate}</p>
     <p><strong>Time:</strong> ${bookingState.selectedTimeSlot.startTime}</p>
-    <p><strong>Price:</strong> ${bookingState.selectedService.priceIncludingVat}kr</p>
+    <p><strong>Price:</strong> ${bookingState.selectedService.priceIncludingVat} kr</p>
   `;
   document.getElementById('bookingSummary').innerHTML = summaryHtml;
 
-  // Show phone form, hide final form
-  document.getElementById('phoneForm').style.display = 'block';
-  document.getElementById('finalBookingForm').style.display = 'none';
+  // Show final booking form directly, remove phone form step
+  document.getElementById('phoneForm').style.display = 'none';
+  document.getElementById('finalBookingForm').style.display = 'block';
+
+  // Show all input fields
+  document.querySelector('.name-group').style.display = 'block';
+  document.querySelector('.email-group').style.display = 'block';
+
+  // Add phone field to final form
+  const phoneGroup = document.createElement('div');
+  phoneGroup.classList.add('form-group');
+  phoneGroup.innerHTML = `
+    <label for="customerPhone">Telefonnummer:</label>
+    <input type="tel" id="customerPhone" required placeholder="46XXXXXXXXX" />
+  `;
+
+  // Insert phone field at the beginning of the form
+  const finalForm = document.getElementById('finalBookingForm');
+  finalForm.insertBefore(phoneGroup, finalForm.firstChild);
 }
 
 // Phone form submission handler
@@ -391,11 +408,33 @@ async function handlePhoneFormSubmit(e) {
     const reserveData = await reserveResponse.json();
     bookingState.appointmentId = reserveData.appointmentId;
 
+    // Check if there's a recognized customer
+    if (reserveData.maskedCustomers?.[0]) {
+      const customer = reserveData.maskedCustomers[0];
+      const maskedInfoHtml = `
+        <div class="masked-info">
+          <p>Välkommen tillbaka!</p>
+          <p><strong>Namn:</strong> ${customer.maskedName}</p>
+          <p><strong>E-post:</strong> ${customer.maskedEmail}</p>
+        </div>
+      `;
+
+      // Update summary box with masked info
+      const summaryBox = document.getElementById('bookingSummary');
+      summaryBox.insertAdjacentHTML('beforeend', maskedInfoHtml);
+    }
+
     // Show final booking form
     document.getElementById('phoneForm').style.display = 'none';
     document.getElementById('finalBookingForm').style.display = 'block';
 
+    // Configure customer form and recalculate height
     configureCustomerForm(reserveData);
+
+    // Wait for DOM updates and recalculate height
+    requestAnimationFrame(() => {
+      animateContainer(true, '#summary');
+    });
   } catch (error) {
     console.error('Error:', error);
     alert('Error checking customer. Please try again.');
@@ -447,7 +486,7 @@ async function showSuccessPage(confirmData) {
         <p><strong>Tid:</strong> ${bookingState.selectedTimeSlot.startTime}</p>
         <p><strong>Pris:</strong> ${
           bookingState.selectedService.priceIncludingVat
-        }kr</p>
+        } kr</p>
         <hr>
         <p><strong>Telefon:</strong> ${confirmData.customerPhoneNumber}</p>
         ${
@@ -476,20 +515,32 @@ async function handleFinalBookingSubmit(e) {
 
   const confirmData = {
     onlineBookingUrlName: cfg.onlineBookingUrlName,
-    appointmentId: bookingState.appointmentId,
     customerPhoneNumber: document.getElementById('customerPhone').value,
+    customerName: document.getElementById('customerName').value,
+    customerEmail: document.getElementById('customerEmail').value,
     notes: document.getElementById('notes').value || '',
     termsAndConditionsApproved: true,
   };
 
-  if (!bookingState.customerInfo.exists) {
-    confirmData.customerName = document.getElementById('customerName').value;
-    confirmData.customerEmail = document.getElementById('customerEmail').value;
-  } else {
-    confirmData.customerId = bookingState.customerInfo.customerId;
-  }
-
   try {
+    // First make the reserve call
+    const reserveResponse = await fetch(`${cfg.baseUrl}/reserve`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        onlineBookingUrlName: cfg.onlineBookingUrlName,
+        resourceIds: [bookingState.selectedStaff.resourceId],
+        serviceIds: [bookingState.selectedService.serviceId],
+        startDate: bookingState.selectedDate,
+        startTime: bookingState.selectedTimeSlot.startTime,
+        customerPhoneNumber: confirmData.customerPhoneNumber,
+      }),
+    });
+
+    const reserveData = await reserveResponse.json();
+    confirmData.appointmentId = reserveData.appointmentId;
+
+    // Then make the confirm call
     const confirmResponse = await fetch(`${cfg.baseUrl}/confirm`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -514,14 +565,15 @@ function selectStaff(staff) {
     btn.classList.remove('activeRing');
   });
 
+  // Hide service and time sections with animation
+  animateContainer(false, '#what');
+  animateContainer(false, '#when');
+  animateContainer(false, '#summary');
+
   if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
     // Deselecting current staff
     bookingState.selectedStaff = null;
     bookingState.selectedService = null;
-
-    // Hide service and time sections with animation
-    animateContainer(false, '#what');
-    animateContainer(false, '#when');
 
     return;
   }
@@ -567,10 +619,11 @@ function handleTermsCheckbox(e) {
   const bookButton = document.getElementById('bookButton');
   const nameInput = document.getElementById('customerName');
   const emailInput = document.getElementById('customerEmail');
+  const phoneInput = document.getElementById('customerPhone');
 
-  const hasNameEmail =
-    bookingState.customerInfo.exists || (nameInput.value && emailInput.value);
-  bookButton.disabled = !(e.target.checked && hasNameEmail);
+  // Check if all required fields are filled
+  const hasAllFields = nameInput.value && emailInput.value && phoneInput.value;
+  bookButton.disabled = !(e.target.checked && hasAllFields);
 }
 
 // Event listeners

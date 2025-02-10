@@ -1,6 +1,7 @@
 :root {
   --primary: #adad96;
   --secondary: #5e5e41;
+  --secondary_low_opacity: rgba(94, 94, 65, 0.4);
   --black: #353535;
   --white: #ffffff;
   --borderRadius: 18px;
