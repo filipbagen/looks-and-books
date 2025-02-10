@@ -475,37 +475,44 @@ function configureCustomerForm(reserveData) {
 
 // Show success page
 async function showSuccessPage(confirmData) {
-  const container = document.querySelector('.content');
-  container.innerHTML = `
-    <div class="success-section">
-      <h2>Tack för din bokning!</h2>
-      <div class="success-summary">
-        <p><strong>Frisör:</strong> ${bookingState.selectedStaff.name}</p>
-        <p><strong>Behandling:</strong> ${bookingState.selectedService.name}</p>
-        <p><strong>Datum:</strong> ${bookingState.selectedDate}</p>
-        <p><strong>Tid:</strong> ${bookingState.selectedTimeSlot.startTime}</p>
-        <p><strong>Pris:</strong> ${
-          bookingState.selectedService.priceIncludingVat
-        } kr</p>
-        <hr>
-        <p><strong>Telefon:</strong> ${confirmData.customerPhoneNumber}</p>
-        ${
-          !bookingState.customerInfo.exists
-            ? `
-          <p><strong>Namn:</strong> ${confirmData.customerName}</p>
-          <p><strong>Email:</strong> ${confirmData.customerEmail}</p>
-        `
-            : ''
-        }
-        ${
-          confirmData.notes
-            ? `<p><strong>Meddelande:</strong> ${confirmData.notes}</p>`
-            : ''
-        }
-      </div>
+  // Hide the summary section
+  animateContainer(false, '#summary');
+
+  // Show and populate the complete section
+  const successSummary = document.getElementById('successSummary');
+  successSummary.innerHTML = `
+    <div class="success-summary">
+      <p><strong>Frisör:</strong> ${bookingState.selectedStaff.name}</p>
+      <p><strong>Behandling:</strong> ${bookingState.selectedService.name}</p>
+      <p><strong>Datum:</strong> ${bookingState.selectedDate}</p>
+      <p><strong>Tid:</strong> ${bookingState.selectedTimeSlot.startTime}</p>
+      <p><strong>Pris:</strong> ${
+        bookingState.selectedService.priceIncludingVat
+      } kr</p>
+      <hr>
+      <p><strong>Telefon:</strong> ${confirmData.customerPhoneNumber}</p>
+      ${
+        !bookingState.customerInfo.exists
+          ? `<p><strong>Namn:</strong> ${confirmData.customerName}</p>
+           <p><strong>Email:</strong> ${confirmData.customerEmail}</p>`
+          : ''
+      }
+      ${
+        confirmData.notes
+          ? `<p><strong>Meddelande:</strong> ${confirmData.notes}</p>`
+          : ''
+      }
       <p class="success-message">En bokningsbekräftelse har skickats till din e-post</p>
     </div>
   `;
+
+  // Show complete section with animation
+  animateContainer(true, '#complete');
+
+  // Scroll to complete section
+  requestAnimationFrame(() => {
+    smoothScrollTo('complete');
+  });
 }
 
 // Final booking confirmation handler
