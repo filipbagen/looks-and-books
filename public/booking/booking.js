@@ -267,6 +267,7 @@ function displayTimeSlots(data) {
 
     // Create date header
     const day = document.createElement('div');
+    day.classList.add('date-header'); // Add this line
     const dayName = document.createElement('h2');
     const dayDate = document.createElement('p');
 
@@ -281,6 +282,11 @@ function displayTimeSlots(data) {
     const dateGroup = data.dates.find((group) =>
       isSameDate(new Date(group.date), i)
     );
+
+    // Create slots container
+    const slotsContainer = document.createElement('div');
+    slotsContainer.classList.add('slots-wrapper');
+
     if (dateGroup && dateGroup.timeSlots.length > 0) {
       dateGroup.timeSlots.forEach((slot) => {
         const slotElement = document.createElement('div');
@@ -294,15 +300,13 @@ function displayTimeSlots(data) {
           selectTimeSlot(dateGroup.date, slot)
         );
 
-        container.appendChild(slotElement);
+        slotsContainer.appendChild(slotElement);
       });
     } else {
-      const noSlotsElement = document.createElement('p');
-      noSlotsElement.textContent = 'Inga lediga tider';
-      noSlotsElement.style.fontSize = '10px';
-      container.appendChild(noSlotsElement);
+      day.classList.add('no-slots-available');
     }
 
+    container.appendChild(slotsContainer);
     target.appendChild(container);
   }
 

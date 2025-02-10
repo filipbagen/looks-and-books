@@ -7,18 +7,18 @@ export function getDayShortName(date) {
 // Get short name of month (Jan, Feb, etc.)
 export function getMonthShortName(date) {
   const monthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'Maj',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Okt',
-    'Nov',
-    'Dec',
+    'jan',
+    'feb',
+    'mar',
+    'apr',
+    'maj',
+    'jun',
+    'jul',
+    'aug',
+    'sep',
+    'okt',
+    'nov',
+    'dec',
   ];
   return monthNames[date.getMonth()];
 }
