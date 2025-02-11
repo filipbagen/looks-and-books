@@ -334,7 +334,7 @@ function selectTimeSlot(date, slot, target) {
   // Update booking summary content
   const summaryHtml = `
     <h2>${bookingState.selectedService.name} av ${bookingState.selectedStaff.name}</h2>
-    <p>${date}, ${slot.startTime} | [DURATION] / ${bookingState.selectedService.priceIncludingVat} kr</p>
+    <p>${date}, ${slot.startTime} | ${bookingState.selectedService.length} min / ${bookingState.selectedService.priceIncludingVat} kr</p>
   `;
   document.getElementById('bookingSummary').innerHTML = summaryHtml;
 
