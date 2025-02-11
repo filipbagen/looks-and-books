@@ -478,34 +478,53 @@ async function handlePhoneFormSubmit(e) {
 
 // Configure customer form based on existing customer
 function configureCustomerForm(reserveData) {
-  const nameInput = document.getElementById('customerName');
-  const emailInput = document.getElementById('customerEmail');
+  const finalBookingForm = document.getElementById('finalBookingForm');
   const nameGroup = document.querySelector('.name-group');
   const emailGroup = document.querySelector('.email-group');
+  const phoneGroup = document.createElement('div');
+
+  // Create phone input field
+  phoneGroup.className = 'form-group phone-group';
+  phoneGroup.innerHTML = `
+    <label for="customerPhoneFinal">Telefon:</label>
+    <input type="tel" id="customerPhoneFinal" required readonly value="${reserveData.customerPhoneNumber}" />
+  `;
+
+  // Insert phone group at the start of the form
+  finalBookingForm.insertBefore(phoneGroup, finalBookingForm.firstChild);
 
   if (reserveData.maskedCustomers?.[0]) {
-    bookingState.customerInfo = {
-      exists: true,
-      name: reserveData.maskedCustomers[0].maskedName.replace(/\*/g, ''),
-      email: reserveData.maskedCustomers[0].maskedEmail.replace(/\*/g, ''),
-      customerId: reserveData.maskedCustomers[0].id,
-    };
+    const customer = reserveData.maskedCustomers[0];
 
-    nameInput.value = bookingState.customerInfo.name;
-    emailInput.value = bookingState.customerInfo.email;
-    nameInput.readOnly = true;
-    emailInput.readOnly = true;
-    nameGroup.style.display = 'none';
-    emailGroup.style.display = 'none';
-  } else {
-    bookingState.customerInfo = { exists: false };
-    nameInput.value = '';
-    emailInput.value = '';
-    nameInput.readOnly = false;
-    emailInput.readOnly = false;
+    // Show name and email fields and populate with masked data
     nameGroup.style.display = 'block';
     emailGroup.style.display = 'block';
+
+    // Set values and make readonly
+    document.getElementById('customerName').value = customer.maskedName;
+    document.getElementById('customerEmail').value = customer.maskedEmail;
+    document.getElementById('customerName').readOnly = true;
+    document.getElementById('customerEmail').readOnly = true;
+
+    // Store customer ID for booking
+    bookingState.customerInfo = {
+      exists: true,
+      customerId: customer.id,
+    };
+  } else {
+    // Show empty name and email fields for manual entry
+    nameGroup.style.display = 'block';
+    emailGroup.style.display = 'block';
+    document.getElementById('customerName').readOnly = false;
+    document.getElementById('customerEmail').readOnly = false;
+
+    bookingState.customerInfo = {
+      exists: false,
+    };
   }
+
+  // Show the form
+  finalBookingForm.style.display = 'block';
 }
 
 // Show success page
