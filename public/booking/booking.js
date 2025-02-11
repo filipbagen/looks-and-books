@@ -109,12 +109,11 @@ function populateStaffContainer() {
   img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
 
   const textContainer = document.createElement('div');
-  textContainer.classList.add('staff-text-container');
-
   const name = document.createElement('h2');
   name.textContent = 'Charlotte';
 
   const title = document.createElement('p');
+  title.classList.add('muted');
   title.textContent = staffTitles['Charlotte']; // Will show "Hudterapeut & hudcoach"
 
   imageContainer.appendChild(img);
@@ -141,12 +140,11 @@ function createStaffButton(staff) {
   img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
 
   const textContainer = document.createElement('div');
-  textContainer.classList.add('staff-text-container');
-
   const name = document.createElement('h2');
   name.textContent = staff.name;
 
   const title = document.createElement('p');
+  title.classList.add('muted');
   title.textContent = staffTitles[staff.name] || 'Hair Dresser';
 
   imageContainer.appendChild(img);
@@ -384,47 +382,23 @@ function scheduleArrowClick(type) {
   fetchTimeSlots();
 }
 
-// Show confirmation form
-function showConfirmationForm() {
-  const confirmationSection = document.getElementById('confirmationSection');
-  confirmationSection.classList.remove('hidden');
-
-  const summaryHtml = `
-    <h3>Booking Details</h3>
-    <p><strong>Hairdresser:</strong> ${bookingState.selectedStaff.name}</p>
-    <p><strong>Service:</strong> ${bookingState.selectedService.name}</p>
-    <p><strong>Date:</strong> ${bookingState.selectedDate}</p>
-    <p><strong>Time:</strong> ${bookingState.selectedTimeSlot.startTime}</p>
-    <p><strong>Price:</strong> ${bookingState.selectedService.priceIncludingVat} kr</p>
-  `;
-  document.getElementById('bookingSummary').innerHTML = summaryHtml;
-
-  // Show final booking form directly, remove phone form step
-  document.getElementById('phoneForm').style.display = 'none';
-  document.getElementById('finalBookingForm').style.display = 'block';
-
-  // Show all input fields
-  document.querySelector('.name-group').style.display = 'block';
-  document.querySelector('.email-group').style.display = 'block';
-
-  // Add phone field to final form
-  const phoneGroup = document.createElement('div');
-  phoneGroup.classList.add('form-group');
-  phoneGroup.innerHTML = `
-    <label for="customerPhone">Telefonnummer:</label>
-    <input type="tel" id="customerPhone" required placeholder="46XXXXXXXXX" />
-  `;
-
-  // Insert phone field at the beginning of the form
-  const finalForm = document.getElementById('finalBookingForm');
-  finalForm.insertBefore(phoneGroup, finalForm.firstChild);
-}
-
 // Phone form submission handler
 async function handlePhoneFormSubmit(e) {
   e.preventDefault();
   const cfg = getConfig();
-  const phoneNumber = document.getElementById('customerPhone').value;
+  let phoneNumber = document.getElementById('customerPhone').value.trim();
+
+  // Validate the phone number: it must start with "0" or "46"
+  const validFormat = /^(46|0)/.test(phoneNumber);
+  if (!validFormat) {
+    // Do not proceed if the format is invalid
+    return;
+  }
+
+  // If number starts with "0", convert to country code format "46"
+  if (phoneNumber.startsWith('0')) {
+    phoneNumber = '46' + phoneNumber.slice(1);
+  }
 
   try {
     const reserveResponse = await fetch(`${cfg.baseUrl}/reserve`, {
@@ -440,6 +414,11 @@ async function handlePhoneFormSubmit(e) {
       }),
     });
 
+    if (!reserveResponse.ok) {
+      const errorData = await reserveResponse.json();
+      throw new Error(errorData.error?.error?.message || 'Reservation failed');
+    }
+
     const reserveData = await reserveResponse.json();
     bookingState.appointmentId = reserveData.appointmentId;
 
@@ -453,13 +432,12 @@ async function handlePhoneFormSubmit(e) {
           <p><strong>E-post:</strong> ${customer.maskedEmail}</p>
         </div>
       `;
-
       // Update summary box with masked info
       const summaryBox = document.getElementById('bookingSummary');
       summaryBox.insertAdjacentHTML('beforeend', maskedInfoHtml);
     }
 
-    // Show final booking form
+    // Hide phone form and show final booking form
     document.getElementById('phoneForm').style.display = 'none';
     document.getElementById('finalBookingForm').style.display = 'block';
 
@@ -472,9 +450,31 @@ async function handlePhoneFormSubmit(e) {
     });
   } catch (error) {
     console.error('Error:', error);
-    alert('Error checking customer. Please try again.');
+    // You may handle errors here using alternative methods if needed
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const customerPhoneInput = document.getElementById('customerPhone');
+  const newButton = document.querySelector('#phoneForm .new-button');
+
+  customerPhoneInput.addEventListener('input', () => {
+    const value = customerPhoneInput.value.trim();
+    let isValid = false;
+
+    if (value.startsWith('0')) {
+      // Must be exactly 10 digits when starting with 0
+      isValid = /^\d{10}$/.test(value);
+    } else if (value.startsWith('46')) {
+      // Must be exactly 11 digits when starting with 46
+      isValid = /^\d{11}$/.test(value);
+    }
+
+    // Update the button state and opacity based on validity
+    newButton.disabled = !isValid;
+    newButton.style.opacity = isValid ? '1' : '0.5';
+  });
+});
 
 // Configure customer form based on existing customer
 function configureCustomerForm(reserveData) {

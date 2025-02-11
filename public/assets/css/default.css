@@ -97,3 +97,10 @@ hr {
   opacity: 0.25;
   margin: 12px 0;
 }
+
+.muted {
+  color: var(--secondary);
+  font-size: 12px;
+  text-align: center;
+  margin: 0;
+}

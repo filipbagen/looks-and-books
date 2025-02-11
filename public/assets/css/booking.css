@@ -36,7 +36,7 @@
 .staff-button {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  text-align: center;
   gap: 8px;
 }
 
@@ -48,28 +48,6 @@
 .staff-image-container:hover,
 .staff-button.activeRing .staff-image-container {
   transform: scale(1.1);
-}
-
-.staff-text-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-}
-
-.staff-text-container h2 {
-  margin: 0;
-}
-
-.staff-text-container p {
-  margin: 0;
-  font-size: 0.9em;
-  color: var(--secondary);
-}
-
-.staff-button p {
-  margin: 0;
-  text-align: center;
 }
 
 /* What */
@@ -325,7 +303,7 @@
   padding: 8px 16px;
   border: 1px solid #9c9c7f;
   border-radius: 8px;
-  color: var(--primary);
+  color: var(--secondary);
   width: 264px;
 }
 
@@ -379,4 +357,16 @@
 
 .form-group {
   margin-bottom: 16px;
+}
+
+.new-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.phoneNumberContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
