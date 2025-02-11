@@ -3,16 +3,14 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
-  border-radius: 8px;
-  padding: 12px;
+  gap: 36px; /* Fixed gap */
+  padding: 32px;
+  max-width: 800px; /* This controls max width for 4 items + gaps */
+  margin: 0 auto; /* Centers the container */
 }
 
 #resourceContainer > div {
-  /* Changed from flex: 0 0 200px to percentage-based width */
-  flex: 0 1 calc(25% - 18px); /* 25% for 4 items per row, minus gap spacing */
-  min-width: 200px; /* Minimum width to prevent too small items */
-  max-width: 250px; /* Maximum width to maintain consistency */
+  width: 164px; /* Fixed width matching your image size */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,6 +20,7 @@
 }
 
 #resourceContainer > div img {
+  box-sizing: border-box;
   width: 164px;
   height: 164px;
   border-radius: 50%;
@@ -370,4 +369,14 @@
   background: #cccccc;
   cursor: not-allowed;
   transform: none;
+}
+
+.form-group input[readonly] {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.form-group {
+  margin-bottom: 16px;
 }
