@@ -422,21 +422,6 @@ async function handlePhoneFormSubmit(e) {
     const reserveData = await reserveResponse.json();
     bookingState.appointmentId = reserveData.appointmentId;
 
-    // Check if there's a recognized customer
-    if (reserveData.maskedCustomers?.[0]) {
-      const customer = reserveData.maskedCustomers[0];
-      const maskedInfoHtml = `
-        <div class="masked-info">
-          <p>Välkommen tillbaka!</p>
-          <p><strong>Namn:</strong> ${customer.maskedName}</p>
-          <p><strong>E-post:</strong> ${customer.maskedEmail}</p>
-        </div>
-      `;
-      // Update summary box with masked info
-      const summaryBox = document.getElementById('bookingSummary');
-      summaryBox.insertAdjacentHTML('beforeend', maskedInfoHtml);
-    }
-
     // Hide phone form and show final booking form
     document.getElementById('phoneForm').style.display = 'none';
     document.getElementById('finalBookingForm').style.display = 'block';
@@ -455,6 +440,7 @@ async function handlePhoneFormSubmit(e) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  setupFinalBookingListeners();
   const customerPhoneInput = document.getElementById('customerPhone');
   const newButton = document.querySelector('#phoneForm .new-button');
 
@@ -477,42 +463,32 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Configure customer form based on existing customer
+// filepath: /Users/filip/code/looks-and-books/public/booking/booking.js
 function configureCustomerForm(reserveData) {
-  const finalBookingForm = document.getElementById('finalBookingForm');
+  // Set phone number value in the pre-defined input
+  const phoneFinalInput = document.getElementById('customerPhoneFinal');
+  if (phoneFinalInput) {
+    phoneFinalInput.value = reserveData.customerPhoneNumber;
+  }
+
   const nameGroup = document.querySelector('.name-group');
   const emailGroup = document.querySelector('.email-group');
-  const phoneGroup = document.createElement('div');
-
-  // Create phone input field
-  phoneGroup.className = 'form-group phone-group';
-  phoneGroup.innerHTML = `
-    <label for="customerPhoneFinal">Telefon:</label>
-    <input type="tel" id="customerPhoneFinal" required readonly value="${reserveData.customerPhoneNumber}" />
-  `;
-
-  // Insert phone group at the start of the form
-  finalBookingForm.insertBefore(phoneGroup, finalBookingForm.firstChild);
 
   if (reserveData.maskedCustomers?.[0]) {
     const customer = reserveData.maskedCustomers[0];
-
-    // Show name and email fields and populate with masked data
     nameGroup.style.display = 'block';
     emailGroup.style.display = 'block';
 
-    // Set values and make readonly
     document.getElementById('customerName').value = customer.maskedName;
     document.getElementById('customerEmail').value = customer.maskedEmail;
     document.getElementById('customerName').readOnly = true;
     document.getElementById('customerEmail').readOnly = true;
 
-    // Store customer ID for booking
     bookingState.customerInfo = {
       exists: true,
       customerId: customer.id,
     };
   } else {
-    // Show empty name and email fields for manual entry
     nameGroup.style.display = 'block';
     emailGroup.style.display = 'block';
     document.getElementById('customerName').readOnly = false;
@@ -523,8 +499,27 @@ function configureCustomerForm(reserveData) {
     };
   }
 
-  // Show the form
-  finalBookingForm.style.display = 'block';
+  // Show the final booking form
+  document.getElementById('finalBookingForm').style.display = 'flex';
+
+  // Check if required fields are set so that the "Boka" button becomes active.
+  checkFinalBookingForm();
+}
+
+// Validate final booking form: name & phone must be present.
+function checkFinalBookingForm() {
+  const nameVal = document.getElementById('customerName').value.trim();
+  const phoneVal = document.getElementById('customerPhoneFinal').value.trim();
+  const bookButton = document.getElementById('bookButton');
+
+  // Enable the button if both name and phone have values.
+  bookButton.disabled = !(nameVal && phoneVal);
+}
+
+// Set up event listeners for the final booking form.
+function setupFinalBookingListeners() {
+  const nameInput = document.getElementById('customerName');
+  nameInput.addEventListener('input', checkFinalBookingForm);
 }
 
 // Show success page
@@ -556,7 +551,7 @@ async function showSuccessPage(confirmData) {
           ? `<p><strong>Meddelande:</strong> ${confirmData.notes}</p>`
           : ''
       }
-      <p class="success-message">En bokningsbekräftelse har skickats till din e-post</p>
+      <p class="success-message">En bokningsbekräftelse har skickats till dig på SMS</p>
     </div>
   `;
 
@@ -673,18 +668,6 @@ function selectService(service, selectedElement) {
   smoothScrollTo('when');
 }
 
-// Terms checkbox handler
-function handleTermsCheckbox(e) {
-  const bookButton = document.getElementById('bookButton');
-  const nameInput = document.getElementById('customerName');
-  const emailInput = document.getElementById('customerEmail');
-  const phoneInput = document.getElementById('customerPhone');
-
-  // Check if all required fields are filled
-  const hasAllFields = nameInput.value && emailInput.value && phoneInput.value;
-  bookButton.disabled = !(e.target.checked && hasAllFields);
-}
-
 // Event listeners
 function setupEventListeners() {
   document
@@ -695,9 +678,14 @@ function setupEventListeners() {
     .getElementById('finalBookingForm')
     .addEventListener('submit', handleFinalBookingSubmit);
 
-  document
-    .getElementById('termsAccepted')
-    .addEventListener('change', handleTermsCheckbox);
+  document.getElementById('customerName').addEventListener('input', () => {
+    const nameValue = document.getElementById('customerName').value.trim();
+    const phoneValue = document
+      .getElementById('customerPhoneFinal')
+      .value.trim();
+    const bookButton = document.getElementById('bookButton');
+    bookButton.disabled = !(nameValue && phoneValue);
+  });
 }
 
 // Initialize the booking system

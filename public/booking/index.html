@@ -152,53 +152,69 @@
         <div class="content">
           <h2>Bekräfta bokning</h2>
           <hr />
-          <div id="bookingSummaryContainer">
-            <div id="bookingSummary">
-              <!-- Render booking summary here -->
+          <div id="summaryContainer">
+            <div id="bookingSummaryContainer">
+              <div id="bookingSummary">
+                <!-- Render booking summary here -->
+              </div>
+
+              <!-- Example snippet in your phone form section -->
+              <form id="phoneForm">
+                <div class="phoneNumberContainer">
+                  <p class="muted">
+                    Ange ditt telefonnummer för att reservera tiden
+                  </p>
+                  <div class="form-group">
+                    <input
+                      type="tel"
+                      id="customerPhone"
+                      required
+                      placeholder="Telefonnummer"
+                    />
+                    <button type="submit" class="new-button" disabled>
+                      Nästa
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
 
-            <!-- Example snippet in your phone form section -->
-            <form id="phoneForm">
-              <div class="phoneNumberContainer">
-                <p class="muted">Ange ditt telefonnummer för att reservera tiden</p>
-                <div class="form-group">
-                  <input
-                    type="tel"
-                    id="customerPhone"
-                    required
-                    placeholder="Telefonnummer"
-                  />
-                  <button type="submit" class="new-button" disabled>
-                    Nästa
-                  </button>
+            <form id="finalBookingForm" style="display: none">
+              <div class="form-group name-group" style="display: none">
+                <input type="text" id="customerName" required />
+              </div>
+
+              <div class="email-phone-container">
+                <div class="form-group phone-group">
+                  <input type="tel" id="customerPhoneFinal" required readonly />
                 </div>
+                <div class="form-group email-group" style="display: none">
+                  <input type="email" id="customerEmail" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <textarea
+                  id="notes"
+                  placeholder="Meddelande"
+                ></textarea>
+              </div>
+
+              <div class="booking-terms">
+                <p class="muted">
+                  Genom att boka godkänner du bokningsvillkoren
+                </p>
+                <button
+                  type="submit"
+                  id="bookButton"
+                  class="new-button"
+                  disabled
+                >
+                  Boka
+                </button>
               </div>
             </form>
           </div>
-
-          <form id="finalBookingForm" style="display: none">
-            <div class="form-group name-group" style="display: none">
-              <label for="customerName">Namn:</label>
-              <input type="text" id="customerName" required />
-            </div>
-            <div class="form-group email-group" style="display: none">
-              <label for="customerEmail">E-post:</label>
-              <input type="email" id="customerEmail" required />
-            </div>
-            <div class="form-group">
-              <label for="notes">Meddelande (valfritt):</label>
-              <textarea id="notes"></textarea>
-            </div>
-            <div class="form-group">
-              <label class="checkbox">
-                <input type="checkbox" id="termsAccepted" required />
-                <span>Jag godkänner härmed bokningsvillkoren</span>
-              </label>
-            </div>
-            <button type="submit" id="bookButton" class="button" disabled>
-              Boka
-            </button>
-          </form>
         </div>
       </div>
 
