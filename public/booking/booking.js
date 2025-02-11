@@ -318,6 +318,12 @@ function displayTimeSlots(data) {
   }
 }
 
+function formatDateWord(dateStr) {
+  const dateObj = new Date(dateStr);
+  // Use toLocaleDateString with Swedish locale:
+  return dateObj.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long' });
+}
+
 function selectTimeSlot(date, slot, target) {
   // Remove active state from all slot elements
   document.querySelectorAll('#timeSlots .slot').forEach((el) => {
@@ -331,10 +337,13 @@ function selectTimeSlot(date, slot, target) {
   bookingState.selectedDate = date;
   bookingState.selectedTimeSlot = slot;
 
+  // Format the date in words (e.g., "20 februari")
+  const formattedDate = formatDateWord(date);
+
   // Update booking summary content
   const summaryHtml = `
     <h2>${bookingState.selectedService.name} av ${bookingState.selectedStaff.name}</h2>
-    <p>${date}, ${slot.startTime} | ${bookingState.selectedService.length} min / ${bookingState.selectedService.priceIncludingVat} kr</p>
+    <p>${formattedDate}, ${slot.startTime} | ${bookingState.selectedService.length} min / ${bookingState.selectedService.priceIncludingVat} kr</p>
   `;
   document.getElementById('bookingSummary').innerHTML = summaryHtml;
 
