@@ -227,11 +227,11 @@
   overflow: hidden;
 }
 
-#complete div.content {
+/* #complete div.content {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+} */
 
 #complete div.content a {
   border-color: var(--black);

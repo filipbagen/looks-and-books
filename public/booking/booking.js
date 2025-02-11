@@ -536,33 +536,29 @@ async function showSuccessPage(confirmData) {
   // Hide the summary section
   animateContainer(false, '#summary');
 
-  // Show and populate the complete section
-  const successSummary = document.getElementById('successSummary');
-  successSummary.innerHTML = `
-    <div class="success-summary">
-      <p><strong>Frisör:</strong> ${bookingState.selectedStaff.name}</p>
-      <p><strong>Behandling:</strong> ${bookingState.selectedService.name}</p>
-      <p><strong>Datum:</strong> ${bookingState.selectedDate}</p>
-      <p><strong>Tid:</strong> ${bookingState.selectedTimeSlot.startTime}</p>
-      <p><strong>Pris:</strong> ${
-        bookingState.selectedService.priceIncludingVat
-      } kr</p>
-      <hr>
-      <p><strong>Telefon:</strong> ${confirmData.customerPhoneNumber}</p>
-      ${
-        !bookingState.customerInfo.exists
-          ? `<p><strong>Namn:</strong> ${confirmData.customerName}</p>
-           <p><strong>Email:</strong> ${confirmData.customerEmail}</p>`
-          : ''
-      }
-      ${
-        confirmData.notes
-          ? `<p><strong>Meddelande:</strong> ${confirmData.notes}</p>`
-          : ''
-      }
-      <p class="success-message">En bokningsbekräftelse har skickats till dig på SMS</p>
-    </div>
-  `;
+  // Update success summary elements
+  document.getElementById('ssFrisor').textContent =
+    bookingState.selectedStaff.name;
+  document.getElementById('ssBehandling').textContent =
+    bookingState.selectedService.name;
+  // You could format the selected date here if needed.
+  document.getElementById('ssDatum').textContent = bookingState.selectedDate;
+  document.getElementById('ssTid').textContent =
+    bookingState.selectedTimeSlot.startTime;
+  document.getElementById('ssPris').textContent =
+    bookingState.selectedService.priceIncludingVat;
+  document.getElementById('ssTelefon').textContent =
+    confirmData.customerPhoneNumber;
+
+  if (!bookingState.customerInfo.exists) {
+    document.getElementById(
+      'ssNameEmail'
+    ).innerHTML = `<strong>Namn:</strong> ${confirmData.customerName}<br><strong>Email:</strong> ${confirmData.customerEmail}`;
+  } else {
+    document.getElementById('ssNameEmail').innerHTML = '';
+  }
+
+  document.getElementById('ssMeddelande').textContent = confirmData.notes || '';
 
   // Show complete section with animation
   animateContainer(true, '#complete');

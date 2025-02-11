@@ -227,13 +227,24 @@
               style="color: green"
             ></i>
           </h2>
+          <hr />
+
           <div id="successSummary" class="success-summary">
-            <!-- Render success summary here -->
+            <p><strong>Frisör:</strong> <span id="ssFrisor"></span></p>
+            <p><strong>Behandling:</strong> <span id="ssBehandling"></span></p>
+            <p><strong>Datum:</strong> <span id="ssDatum"></span></p>
+            <p><strong>Tid:</strong> <span id="ssTid"></span></p>
+            <p><strong>Pris:</strong> <span id="ssPris"></span> kr</p>
+            <hr />
+            <p><strong>Telefon:</strong> <span id="ssTelefon"></span></p>
+            <p id="ssNameEmail"></p>
+            <p id="ssMeddelande"></p>
+            <p class="muted">
+              En bokningsbekräftelse har skickats till dig på SMS
+            </p>
           </div>
-          <div class="row">
-            <a class="button" id="ical-download-link">Lägg till i kalender</a>
-            <a class="button" onclick="newBooking()">Gör en till bokning</a>
-          </div>
+
+          <a class="button" id="ical-download-link">Lägg till i kalender</a>
         </div>
       </div>
     </div>
