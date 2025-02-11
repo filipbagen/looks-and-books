@@ -578,11 +578,20 @@ async function handleFinalBookingSubmit(e) {
   e.preventDefault();
   const cfg = getConfig();
 
+  // Get the phone number from the finalBookingForm input
+  let finalPhoneNumber = document
+    .getElementById('customerPhoneFinal')
+    .value.trim();
+  // If phone starts with "0", convert to international format by replacing with "46"
+  if (finalPhoneNumber.startsWith('0')) {
+    finalPhoneNumber = '46' + finalPhoneNumber.slice(1);
+  }
+
   // Base confirm data
   const confirmData = {
     onlineBookingUrlName: cfg.onlineBookingUrlName,
     appointmentId: bookingState.appointmentId,
-    customerPhoneNumber: document.getElementById('customerPhone').value,
+    customerPhoneNumber: finalPhoneNumber,
     termsAndConditionsApproved: true,
   };
 

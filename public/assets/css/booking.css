@@ -320,9 +320,21 @@
   outline: none;
 }
 
+#customerPhone {
+  max-width: 264px;
+  width: 100%;
+}
+
 .slot.activeSlot {
   background-color: var(--secondary);
   color: var(--white);
+}
+
+.reserve-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
 }
 
 .button {
