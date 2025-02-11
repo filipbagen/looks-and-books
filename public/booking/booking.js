@@ -294,8 +294,8 @@ function displayTimeSlots(data) {
         timeText.textContent = slot.startTime;
 
         slotElement.appendChild(timeText);
-        slotElement.addEventListener('click', () =>
-          selectTimeSlot(dateGroup.date, slot)
+        slotElement.addEventListener('click', (evt) =>
+          selectTimeSlot(dateGroup.date, slot, evt.currentTarget)
         );
 
         slotsContainer.appendChild(slotElement);
@@ -318,14 +318,14 @@ function displayTimeSlots(data) {
   }
 }
 
-function selectTimeSlot(date, slot) {
+function selectTimeSlot(date, slot, target) {
   // Remove active state from all slot elements
   document.querySelectorAll('#timeSlots .slot').forEach((el) => {
     el.classList.remove('activeSlot');
   });
 
-  // Add active state to selected slot
-  event.target.classList.add('activeSlot');
+  // Add active state to the selected slot
+  target.classList.add('activeSlot');
 
   // Store selected date and time slot
   bookingState.selectedDate = date;
