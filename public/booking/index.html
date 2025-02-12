@@ -87,6 +87,13 @@
       crossorigin="anonymous"
     ></script>
 
+    <!-- add-to-calendar-button -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2"
+      async
+      defer
+    ></script>
+
     <!-- Style -->
     <link rel="stylesheet" href="../assets/css/default.css" />
     <link rel="stylesheet" href="../assets/css/style.css" />
@@ -219,32 +226,31 @@
       <!-- Complete Section -->
       <div id="complete" class="hidden">
         <div class="content">
-          <h2>
-            Bokning Bekräftad!
-            <i
-              class="fa fa-check-circle"
-              aria-hidden="true"
-              style="color: green"
-            ></i>
-          </h2>
+          <h2>Bekräfta bokning</h2>
           <hr />
+          <!-- Use a container similar to bookingSummaryContainer -->
+          <div id="completeSummaryContainer">
+            <div id="completeSummary">
+              <!-- Render final success summary here via JS -->
+            </div>
 
-          <div id="successSummary" class="success-summary">
-            <p><strong>Frisör:</strong> <span id="ssFrisor"></span></p>
-            <p><strong>Behandling:</strong> <span id="ssBehandling"></span></p>
-            <p><strong>Datum:</strong> <span id="ssDatum"></span></p>
-            <p><strong>Tid:</strong> <span id="ssTid"></span></p>
-            <p><strong>Pris:</strong> <span id="ssPris"></span> kr</p>
-            <hr />
-            <p><strong>Telefon:</strong> <span id="ssTelefon"></span></p>
-            <p id="ssNameEmail"></p>
-            <p id="ssMeddelande"></p>
-            <p class="muted">
-              En bokningsbekräftelse har skickats till dig på SMS
-            </p>
+            <add-to-calendar-button
+              name="Sample Event"
+              description="Play with me!"
+              startDate="2025-02-23"
+              startTime="10:15"
+              endTime="17:45"
+              timeZone="Europe/Stockholm"
+              location="World Wide Web"
+              options="'Apple','Google'"
+              trigger="click"
+              hideBackground
+              hideCheckmark
+              label="Lägg till i kalender"
+              lightMode="system"
+              language="sv"
+            ></add-to-calendar-button>
           </div>
-
-          <a class="button" id="ical-download-link">Lägg till i kalender</a>
         </div>
       </div>
     </div>

@@ -342,7 +342,7 @@ function selectTimeSlot(date, slot, target) {
 
   // Update booking summary content
   const summaryHtml = `
-    <h2>${bookingState.selectedService.name} av ${bookingState.selectedStaff.name}</h2>
+    <h2>${bookingState.selectedService.name} hos ${bookingState.selectedStaff.name}</h2>
     <p>${formattedDate}, ${slot.startTime} | ${bookingState.selectedService.length} min / ${bookingState.selectedService.priceIncludingVat} kr</p>
   `;
   document.getElementById('bookingSummary').innerHTML = summaryHtml;
@@ -533,32 +533,24 @@ function setupFinalBookingListeners() {
 
 // Show success page
 async function showSuccessPage(confirmData) {
-  // Hide the summary section
+  // Hide the summary section (if needed)
   animateContainer(false, '#summary');
 
-  // Update success summary elements
-  document.getElementById('ssFrisor').textContent =
-    bookingState.selectedStaff.name;
-  document.getElementById('ssBehandling').textContent =
-    bookingState.selectedService.name;
-  // You could format the selected date here if needed.
-  document.getElementById('ssDatum').textContent = bookingState.selectedDate;
-  document.getElementById('ssTid').textContent =
-    bookingState.selectedTimeSlot.startTime;
-  document.getElementById('ssPris').textContent =
-    bookingState.selectedService.priceIncludingVat;
-  document.getElementById('ssTelefon').textContent =
-    confirmData.customerPhoneNumber;
+  // Build the summary content similar to the booking summary
+  // For example, if you want to mimic:
+  // <h2>Service av Staff</h2>
+  // <p>formattedDate, time | length min / price kr</p>
+  const formattedDate = formatDateWord(bookingState.selectedDate);
+  const summaryHtml = `
+    <h2>${bookingState.selectedService.name} hos ${bookingState.selectedStaff.name}</h2>
+    <p>${formattedDate}, ${bookingState.selectedTimeSlot.startTime} | ${bookingState.selectedService.length} min / ${bookingState.selectedService.priceIncludingVat} kr</p>
+  `;
 
-  if (!bookingState.customerInfo.exists) {
-    document.getElementById(
-      'ssNameEmail'
-    ).innerHTML = `<strong>Namn:</strong> ${confirmData.customerName}<br><strong>Email:</strong> ${confirmData.customerEmail}`;
-  } else {
-    document.getElementById('ssNameEmail').innerHTML = '';
-  }
+  // Set the summary in the new container
+  document.getElementById('completeSummary').innerHTML = summaryHtml;
 
-  document.getElementById('ssMeddelande').textContent = confirmData.notes || '';
+  // Optionally, add any extra details (phone, notes, etc.) if needed.
+  // For now, we remove the phone number as requested.
 
   // Show complete section with animation
   animateContainer(true, '#complete');
