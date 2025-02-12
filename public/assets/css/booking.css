@@ -1,10 +1,26 @@
+.content-container {
+  padding: 24px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  /* gap: 24px; */
+  width: 100%;
+}
+
+.infobar {
+  margin-bottom: 24px;
+}
+
 /* Who */
 #resourceContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 36px; /* Fixed gap */
-  padding: 32px;
+  gap: 36px;
   max-width: 800px; /* This controls max width for 4 items + gaps */
   margin: 0 auto; /* Centers the container */
 }
@@ -228,16 +244,9 @@
   overflow: hidden;
 }
 
-/* #complete div.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
-
 #complete div.content a {
   border-color: var(--black);
   color: var(--black);
-  /* background-color: var(--white); */
 }
 
 #complete div.content a:hover {
@@ -312,7 +321,6 @@
   border: 1px solid #9c9c7f;
   border-radius: 8px;
   color: var(--secondary);
-  /* width: 264px; */
 }
 
 .form-group input:focus,

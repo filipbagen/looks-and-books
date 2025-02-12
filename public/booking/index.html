@@ -87,13 +87,6 @@
       crossorigin="anonymous"
     ></script>
 
-    <!-- add-to-calendar-button -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2"
-      async
-      defer
-    ></script>
-
     <!-- Style -->
     <link rel="stylesheet" href="../assets/css/default.css" />
     <link rel="stylesheet" href="../assets/css/style.css" />
@@ -117,7 +110,7 @@
         <div class="content">
           <h2>Vem vill du ska ta hand om dig?</h2>
           <hr />
-          <div id="resourceContainer">
+          <div id="resourceContainer" class="content-container">
             <!-- Render staff here -->
           </div>
         </div>
@@ -128,7 +121,7 @@
         <div class="content">
           <h2>Vilken behandling vill du ha?</h2>
           <hr />
-          <div id="serviceContainer">
+          <div id="serviceContainer" class="content-container">
             <!-- Render services here -->
           </div>
         </div>
@@ -139,17 +132,20 @@
         <div class="content">
           <h2>Vilken tid passar dig?</h2>
           <hr />
-          <div class="infobar">
-            <a onclick="scheduleArrowClick('backward')">
-              <i class="fas fa-chevron-left fa-2x"></i>
-            </a>
-            <div id="scheduleInfobar"></div>
-            <a onclick="scheduleArrowClick('forward')">
-              <i class="fas fa-chevron-right fa-2x"></i>
-            </a>
-          </div>
-          <div id="timeSlots">
-            <!-- Render time slots here -->
+          <div class="content-container">
+            <div class="infobar">
+              <a onclick="scheduleArrowClick('backward')">
+                <i class="fas fa-chevron-left fa-2x"></i>
+              </a>
+              <div id="scheduleInfobar"></div>
+              <a onclick="scheduleArrowClick('forward')">
+                <i class="fas fa-chevron-right fa-2x"></i>
+              </a>
+            </div>
+
+            <div id="timeSlots">
+              <!-- Render time slots here -->
+            </div>
           </div>
         </div>
       </div>
@@ -159,66 +155,73 @@
         <div class="content">
           <h2>Bekräfta bokning</h2>
           <hr />
-          <div id="summaryContainer">
-            <div id="bookingSummaryContainer">
-              <div id="bookingSummary">
-                <!-- Render booking summary here -->
+          <div class="content-container">
+            <div id="summaryContainer">
+              <div id="bookingSummaryContainer">
+                <div id="bookingSummary">
+                  <!-- Render booking summary here -->
+                </div>
+
+                <!-- Example snippet in your phone form section -->
+                <form id="phoneForm">
+                  <div class="phoneNumberContainer">
+                    <p class="muted">
+                      Ange ditt telefonnummer för att reservera tiden
+                    </p>
+                    <div class="form-group reserve-button">
+                      <input
+                        type="tel"
+                        id="customerPhone"
+                        required
+                        placeholder="Telefonnummer"
+                      />
+
+                      <button type="submit" class="new-button" disabled>
+                        Nästa
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
 
-              <!-- Example snippet in your phone form section -->
-              <form id="phoneForm">
-                <div class="phoneNumberContainer">
-                  <p class="muted">
-                    Ange ditt telefonnummer för att reservera tiden
-                  </p>
-                  <div class="form-group reserve-button">
+              <form id="finalBookingForm" style="display: none">
+                <div class="form-group name-group" style="display: none">
+                  <input type="text" id="customerName" required />
+                </div>
+
+                <div class="email-phone-container">
+                  <div class="form-group phone-group">
                     <input
                       type="tel"
-                      id="customerPhone"
+                      id="customerPhoneFinal"
                       required
-                      placeholder="Telefonnummer"
+                      readonly
                     />
-
-                    <button type="submit" class="new-button" disabled>
-                      Nästa
-                    </button>
                   </div>
+                  <div class="form-group email-group" style="display: none">
+                    <input type="email" id="customerEmail" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <textarea id="notes" placeholder="Meddelande"></textarea>
+                </div>
+
+                <div class="booking-terms">
+                  <p class="muted">
+                    Genom att boka godkänner du bokningsvillkoren
+                  </p>
+                  <button
+                    type="submit"
+                    id="bookButton"
+                    class="new-button"
+                    disabled
+                  >
+                    Boka
+                  </button>
                 </div>
               </form>
             </div>
-
-            <form id="finalBookingForm" style="display: none">
-              <div class="form-group name-group" style="display: none">
-                <input type="text" id="customerName" required />
-              </div>
-
-              <div class="email-phone-container">
-                <div class="form-group phone-group">
-                  <input type="tel" id="customerPhoneFinal" required readonly />
-                </div>
-                <div class="form-group email-group" style="display: none">
-                  <input type="email" id="customerEmail" />
-                </div>
-              </div>
-
-              <div class="form-group">
-                <textarea id="notes" placeholder="Meddelande"></textarea>
-              </div>
-
-              <div class="booking-terms">
-                <p class="muted">
-                  Genom att boka godkänner du bokningsvillkoren
-                </p>
-                <button
-                  type="submit"
-                  id="bookButton"
-                  class="new-button"
-                  disabled
-                >
-                  Boka
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       </div>
@@ -228,16 +231,17 @@
         <div class="content">
           <h2>Bekräfta bokning</h2>
           <hr />
-          <!-- Use a container similar to bookingSummaryContainer -->
-          <div id="completeSummaryContainer">
-            <div id="completeSummary">
-              <!-- Render final success summary here via JS -->
-            </div>
+          <div class="content-container">
+            <div id="completeSummaryContainer">
+              <div id="completeSummary">
+                <!-- Render final success summary here via JS -->
+              </div>
 
-            <!-- Calendar button with assigned id -->
-            <div class="cal-button" id="calendarButton">
-              <i class="fa-regular fa-calendar-days"></i>
-              <p>Lägg till i kalender</p>
+              <!-- Calendar button with assigned id -->
+              <div class="cal-button" id="calendarButton">
+                <i class="fa-regular fa-calendar-days"></i>
+                <p>Lägg till i kalender</p>
+              </div>
             </div>
           </div>
         </div>
@@ -256,6 +260,5 @@
       import { initBookingSystem } from './booking.js';
       document.addEventListener('DOMContentLoaded', initBookingSystem);
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
   </body>
 </html>

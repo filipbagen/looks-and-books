@@ -405,7 +405,7 @@ async function handlePhoneFormSubmit(e) {
   let phoneNumber = document.getElementById('customerPhone').value.trim();
 
   // Validate the phone number: it must start with "0" or "46"
-  const validFormat = /^(46|0)/.test(phoneNumber);
+  const validFormat = /^(46|0|\+46)/.test(phoneNumber); // Allow +46
   if (!validFormat) {
     // Do not proceed if the format is invalid
     return;
@@ -730,17 +730,3 @@ window['scheduleArrowClick'] = scheduleArrowClick;
 
 // npx http-server
 // node proxy.js
-
-const event = {
-  title: 'My birthday party',
-  description: 'Be there!',
-  start: '2019-12-29 18:00:00 +0100',
-  duration: [3, 'hour'],
-};
-
-document.getElementById('calendarButton').addEventListener('click', () => {
-  // Generate the URL (change provider as needed)
-  const calendarUrl = ics(event);
-  // Open the link in a new tab
-  window.open(calendarUrl, '_blank');
-});
