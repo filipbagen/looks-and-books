@@ -434,18 +434,26 @@
   padding: 24px 0;
 }
 
-/* Remove border, bold text, shadow and hover effects */
-add-to-calendar-button::part(atcb-button) {
+.cal-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
   padding: 8px 18px;
-  border-radius: 8px;
   background-color: #9c9c7f;
-  color: var(--black);
-  border: none;
-  font-weight: normal;
-  box-shadow: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 200ms;
 }
 
-add-to-calendar-button::part(atcb-button):hover {
-  box-shadow: none;
-  transform: none;
+.cal-button:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.cal-button p {
+  margin: 0;
+}
+
+.fa-calendar-days {
+  color: var(--secondary);
 }

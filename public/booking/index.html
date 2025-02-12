@@ -234,22 +234,11 @@
               <!-- Render final success summary here via JS -->
             </div>
 
-            <add-to-calendar-button
-              name="Sample Event"
-              description="Play with me!"
-              startDate="2025-02-23"
-              startTime="10:15"
-              endTime="17:45"
-              timeZone="Europe/Stockholm"
-              location="World Wide Web"
-              options="'Apple','Google'"
-              trigger="click"
-              hideBackground
-              hideCheckmark
-              label="Lägg till i kalender"
-              lightMode="system"
-              language="sv"
-            ></add-to-calendar-button>
+            <!-- Calendar button with assigned id -->
+            <div class="cal-button" id="calendarButton">
+              <i class="fa-regular fa-calendar-days"></i>
+              <p>Lägg till i kalender</p>
+            </div>
           </div>
         </div>
       </div>

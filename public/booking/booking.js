@@ -1,3 +1,10 @@
+import {
+  google,
+  outlook,
+  office365,
+  yahoo,
+  ics,
+} from 'https://cdn.skypack.dev/calendar-link';
 import { smoothScrollTo } from '../assets/js/smoothScroll.js';
 import {
   getDayShortName,
@@ -532,14 +539,12 @@ function setupFinalBookingListeners() {
 }
 
 // Show success page
+// Inside your showSuccessPage function after the summary has been set...
 async function showSuccessPage(confirmData) {
   // Hide the summary section (if needed)
   animateContainer(false, '#summary');
 
   // Build the summary content similar to the booking summary
-  // For example, if you want to mimic:
-  // <h2>Service av Staff</h2>
-  // <p>formattedDate, time | length min / price kr</p>
   const formattedDate = formatDateWord(bookingState.selectedDate);
   const summaryHtml = `
     <h2>${bookingState.selectedService.name} hos ${bookingState.selectedStaff.name}</h2>
@@ -549,15 +554,36 @@ async function showSuccessPage(confirmData) {
   // Set the summary in the new container
   document.getElementById('completeSummary').innerHTML = summaryHtml;
 
-  // Optionally, add any extra details (phone, notes, etc.) if needed.
-  // For now, we remove the phone number as requested.
-
   // Show complete section with animation
   animateContainer(true, '#complete');
 
   // Scroll to complete section
   requestAnimationFrame(() => {
     smoothScrollTo('complete');
+  });
+
+  // Now set up the calendar button
+  // Create a calendar event based on the booking details. Adjust start/duration as needed.
+  const calendarEvent = {
+    title: `${bookingState.selectedService.name} hos ${bookingState.selectedStaff.name}`,
+    start: `${bookingState.selectedDate} ${bookingState.selectedTimeSlot.startTime}:00 +0100`,
+    duration: [bookingState.selectedService.length, 'minute'],
+    description: 'Bokningsbekräftelse',
+    location: `http://maps.apple.com/?address=${encodeURIComponent(
+      'Köpmangatan 3, 722 15 Västerås, Sweden'
+    )}`,
+
+    // Combine selected date and time, you might need to format this to match the calendar-link spec.
+  };
+
+  const calendarButton = document.getElementById('calendarButton');
+  // Clear any previous listeners to avoid duplicates.
+  calendarButton.replaceWith(calendarButton.cloneNode(true));
+  document.getElementById('calendarButton').addEventListener('click', () => {
+    // Generate the ICS link, you can change the provider as needed
+    const calendarUrl = ics(calendarEvent);
+    // Open the link in a new tab
+    window.open(calendarUrl, '_blank');
   });
 }
 
@@ -704,3 +730,17 @@ window['scheduleArrowClick'] = scheduleArrowClick;
 
 // npx http-server
 // node proxy.js
+
+const event = {
+  title: 'My birthday party',
+  description: 'Be there!',
+  start: '2019-12-29 18:00:00 +0100',
+  duration: [3, 'hour'],
+};
+
+document.getElementById('calendarButton').addEventListener('click', () => {
+  // Generate the URL (change provider as needed)
+  const calendarUrl = ics(event);
+  // Open the link in a new tab
+  window.open(calendarUrl, '_blank');
+});
