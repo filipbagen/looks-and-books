@@ -71,7 +71,7 @@
   height: 0;
   overflow: hidden;
   width: 100%;
-  transition: height 620ms ease;
+  transition: height 620ms ease, margin-bottom 620ms ease;
 }
 
 #serviceContainer {
@@ -145,7 +145,7 @@
   height: 0;
   overflow: hidden;
   width: 100%;
-  transition: height 620ms ease;
+  transition: height 620ms ease, margin-bottom 620ms ease;
 }
 
 .hidden {
@@ -173,7 +173,6 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 16px;
-  padding: 16px;
 }
 
 #timeSlots .slots-wrapper {
@@ -240,7 +239,7 @@
 #complete {
   height: 0;
   width: 100%;
-  transition: height 512ms;
+  transition: height 620ms ease, margin-bottom 620ms ease;
   overflow: hidden;
 }
 
@@ -257,7 +256,6 @@
 .bookingContainer {
   display: flex;
   flex-direction: column;
-  gap: 56px;
   align-items: center;
   max-width: 1280px;
 }
@@ -274,7 +272,7 @@
   overflow: hidden;
   max-width: 960px;
   width: 100vw;
-  transition: height 620ms ease;
+  transition: height 620ms ease, margin-bottom 620ms ease;
 }
 
 #summary #bookingSummaryContainer {

@@ -50,20 +50,29 @@ export function isSameDate(date1, date2) {
 
 export function animateContainer(state, id) {
   const target = document.querySelector(id);
+  const ANIMATION_DURATION = 620; // Match CSS transition duration
 
   if (target) {
     if (state) {
+      // When showing
       const items = target.querySelector('div.content');
       if (target && items) {
+        // Remove hidden first to ensure gap is present
+        target.classList.remove('hidden');
         // Wait for next frame to ensure content is rendered
         requestAnimationFrame(() => {
           target.style.height = `${items.scrollHeight}px`;
+          target.style.marginBottom = '56px'; // Match the gap
         });
       }
-      target.classList.remove('hidden');
     } else {
+      // When hiding
       target.style.height = '0px';
-      target.classList.add('hidden');
+      target.style.marginBottom = '0px';
+      // Wait for animation to complete before hiding
+      setTimeout(() => {
+        target.classList.add('hidden');
+      }, ANIMATION_DURATION);
     }
   }
 }

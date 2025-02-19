@@ -645,33 +645,69 @@ async function handleFinalBookingSubmit(e) {
 }
 
 // Staff selection handler
+// function selectStaff(staff) {
+//   // Clear active state from all staff buttons
+//   document.querySelectorAll('.staff-button').forEach((btn) => {
+//     btn.classList.remove('activeRing');
+//   });
+
+//   // Hide service and time sections with animation
+//   animateContainer(false, '#what');
+//   animateContainer(false, '#when');
+//   animateContainer(false, '#summary');
+
+//   if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
+//     // Deselecting current staff
+//     bookingState.selectedStaff = null;
+//     bookingState.selectedService = null;
+
+//     return;
+//   }
+
+//   // Selecting new staff
+//   document.getElementById(staff.resourceId).classList.add('activeRing');
+//   bookingState.selectedStaff = staff;
+
+//   // Show service section
+//   populateServiceContainer();
+//   animateContainer(true, '#what');
+//   animateContainer(false, '#when');
+
+//   smoothScrollTo('what');
+// }
+
 function selectStaff(staff) {
-  // Clear active state from all staff buttons
-  document.querySelectorAll('.staff-button').forEach((btn) => {
-    btn.classList.remove('activeRing');
-  });
-
-  // Hide service and time sections with animation
-  animateContainer(false, '#what');
-  animateContainer(false, '#when');
-  animateContainer(false, '#summary');
-
+  // Check if we're deselecting the current staff first
   if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
     // Deselecting current staff
     bookingState.selectedStaff = null;
     bookingState.selectedService = null;
 
+    // Remove active state and hide sections
+    document.getElementById(staff.resourceId).classList.remove('activeRing');
+    animateContainer(false, '#what');
+    animateContainer(false, '#when');
+    animateContainer(false, '#summary');
+
     return;
   }
+
+  // Clear active state from all staff buttons
+  document.querySelectorAll('.staff-button').forEach((btn) => {
+    btn.classList.remove('activeRing');
+  });
 
   // Selecting new staff
   document.getElementById(staff.resourceId).classList.add('activeRing');
   bookingState.selectedStaff = staff;
 
-  // Show service section
+  // Hide time and summary sections
+  animateContainer(false, '#when');
+  animateContainer(false, '#summary');
+
+  // Show and populate service section
   populateServiceContainer();
   animateContainer(true, '#what');
-  animateContainer(false, '#when');
 
   smoothScrollTo('what');
 }
@@ -697,6 +733,7 @@ function selectService(service, selectedElement) {
   // Fetch and display time slots
   fetchTimeSlots();
   animateContainer(true, '#when');
+  animateContainer(false, '#summary');
   smoothScrollTo('when');
 }
 
