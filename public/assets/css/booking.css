@@ -16,12 +16,23 @@
 }
 
 /* Who */
+#who {
+  width: 100%;
+  /* max-width: 960px; */
+}
+
+#who .content {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 #resourceContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 36px;
-  max-width: 800px; /* This controls max width for 4 items + gaps */
+  max-width: 800px;
   margin: 0 auto; /* Centers the container */
 }
 
@@ -258,6 +269,13 @@
   flex-direction: column;
   align-items: center;
   max-width: 1280px;
+  width: 100%;
+}
+
+/* Make all direct children of bookingContainer take full width */
+.bookingContainer > div {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 #completeSummary {
@@ -270,8 +288,6 @@
 #summary {
   height: 0;
   overflow: hidden;
-  max-width: 960px;
-  width: 100vw;
   transition: height 620ms ease, margin-bottom 620ms ease;
 }
 
