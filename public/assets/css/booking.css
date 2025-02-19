@@ -181,15 +181,39 @@
 #timeSlots {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+  /* Change to flex-start to enable proper scrolling */
+  justify-content: flex-start;
   gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* Add horizontal padding to center content */
+  padding: 20px max(20px, calc(50% - 400px));
+  box-sizing: border-box;
+}
+
+/* Hide scrollbar in Chrome/Safari */
+#timeSlots::-webkit-scrollbar {
+  display: none;
 }
 
 #timeSlots .slots-wrapper {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 0 0 auto; /* Prevent slots from shrinking */
+}
+
+/* Add padding to first and last child to ensure scrolling space */
+#timeSlots .slots-wrapper:first-child {
+  padding-left: calc(50% - 50px); /* Half container minus half item width */
+}
+
+#timeSlots .slots-wrapper:last-child {
+  padding-right: calc(50% - 50px);
 }
 
 #timeSlots .date-header {

@@ -127,4 +127,48 @@
   #logo {
     margin-bottom: 0;
   }
+
+  /* Booking */
+  #resourceContainer {
+    gap: 22px;
+  }
+  #resourceContainer > div {
+    width: 124px; /* Fixed width matching your image size */
+  }
+
+  #resourceContainer > div img {
+    width: 124px;
+    height: 124px;
+  }
+
+  #timeSlots {
+    gap: 2px;
+  }
+
+  #timeSlots .column {
+    gap: 8px;
+  }
+}
+
+/* When */
+@media only screen and (max-width: 820px) {
+  #timeSlots {
+    gap: 8px;
+    padding: 20px max(2px, calc(50% - 200px));
+  }
+
+  #timeSlots .slots-wrapper:first-child,
+  #timeSlots .slots-wrapper:last-child {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  #timeSlots .date-header {
+    width: 80px;
+    height: 80px;
+  }
+
+  #timeSlots .date-header h2 {
+    font-size: 16px;
+  }
 }
