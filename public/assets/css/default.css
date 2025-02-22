@@ -24,6 +24,7 @@ a,
 input,
 button,
 footer,
+textarea,
 input::placeholder {
   font-family: 'Open Sans', sans-serif;
   line-height: 1.7;

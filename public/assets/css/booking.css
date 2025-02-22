@@ -351,6 +351,11 @@
   box-sizing: border-box;
 }
 
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .form-group input,
 .form-group textarea {
   padding: 8px 16px;
@@ -429,10 +434,19 @@
   gap: 12px;
 }
 
+.email-phone-container div {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 #finalBookingForm {
   flex-direction: column;
   gap: 12px;
   align-items: center;
+  width: 100%;
+  max-width: 520px; /* Wider on larger screens */
+  padding: 0 16px; /* Optional padding for breathing room */
+  box-sizing: border-box;
 }
 
 #finalBookingForm div {
