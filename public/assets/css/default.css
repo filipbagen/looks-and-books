@@ -77,7 +77,7 @@ img {
   padding: 12pt 18pt;
   border-radius: var(--borderRadius);
   border-style: solid;
-  border-width: 3px;
+  border-width: 2px;
   border-color: var(--black);
   background-color: var(--primary);
   text-align: center;

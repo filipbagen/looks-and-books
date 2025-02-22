@@ -164,6 +164,18 @@
   .infobar {
     margin-bottom: 0;
   }
+
+  .partial-container {
+    gap: 38px;
+  }
+
+  .button {
+    padding: 10px 8px;
+  }
+
+  #icon {
+    margin-left: 0;
+  }
 }
 
 /* When */

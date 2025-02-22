@@ -226,12 +226,14 @@
 
             <!-- Booking Button -->
             <!-- https://boka.easycashier.se/looksbooks -->
-            <a class="button" href="/booking/"
-              >Boka tid<img
+            <a class="button" href="#bookingContainer" id="scrollButton">
+              Boka tid
+              <img
                 src="./assets/img/icon.svg"
                 id="icon"
                 alt="Looks & Books Logo"
-            /></a>
+              />
+            </a>
           </div>
 
           <!-- Slideshow -->
@@ -281,7 +283,7 @@
       </div>
 
       <!-- Booking -->
-      <div class="bookingContainer">
+      <div id="bookingContainer">
         <!-- Who Section -->
         <div id="who">
           <div class="content">
@@ -629,10 +631,18 @@
     <script type="module">
       import { init } from './assets/js/app.js';
       import { initBookingSystem } from './assets/js/booking.js';
+      import { smoothScrollTo } from './assets/js/smoothScroll.js';
 
       document.addEventListener('DOMContentLoaded', () => {
         init();
         initBookingSystem();
+
+        document
+          .getElementById('scrollButton')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            smoothScrollTo('bookingContainer');
+          });
       });
     </script>
   </body>
