@@ -573,3 +573,39 @@
     box-shadow: inset 0px 0px 0px 30px var(--secondary);
   }
 }
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+#overlay.hidden {
+  display: none;
+}
+
+#overlayContent {
+  background: var(--white);
+  padding: 32px;
+  border-radius: 8px;
+  position: relative;
+  max-width: 85%;
+  max-height: 70%;
+  overflow: auto;
+}
+
+#closeOverlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
