@@ -120,7 +120,7 @@
     <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
   </head>
 
-  <body onload="init()">
+  <body>
     <div id="bg">
       <img src="./assets/img/logo.svg" alt="Looks & Books Logo" />
     </div>
@@ -141,10 +141,9 @@
             <p>Lördag: 10:00-17:00</p>
             <p>Söndag: Stängt</p>
           </div>
-
-          <hr class="line" />
         </div>
 
+        <!-- Intro text -->
         <div class="intro">
           <div class="textContainer">
             <h1>Välkommen</h1>
@@ -163,29 +162,16 @@
           </div>
 
           <!-- Booking Button -->
-          <div class="bookingButtons">
-            <a class="button" href="https://boka.easycashier.se/looksbooks"
-              >Boka klippning
-              <!-- <img
-                src="./assets/img/icon.svg"
-                id="icon"
-                alt="Looks & Books Logo"
-            /> -->
-            </a>
-
-            <a
-              class="button"
-              href="https://bokadirekt.se/places/charlottes-hudv%C3%A5rd-61742"
-              >Boka hudvård
-              <!-- <img
-                src="./assets/img/charlottes_hudvard.svg"
-                id="icon"
-                alt="Charlottes Hudvård Logo"
-            /> -->
-            </a>
-          </div>
+          <!-- https://boka.easycashier.se/looksbooks -->
+          <a class="button" href="/booking/"
+            >Boka tid<img
+              src="./assets/img/icon.svg"
+              id="icon"
+              alt="Looks & Books Logo"
+          /></a>
         </div>
 
+        <!-- Slideshow -->
         <section class="splide">
           <div class="splide__track">
             <ul class="splide__list">
@@ -230,6 +216,7 @@
         </section>
       </div>
 
+      <!-- Services -->
       <div data-nosnippet class="products">
         <div class="product">
           <h2>Davines</h2>
@@ -260,7 +247,8 @@
         </div>
       </div>
 
-      <div>
+      <!-- Services -->
+      <div class="services">
         <div class="workContainer">
           <div class="logoAndText">
             <img
@@ -368,6 +356,8 @@
       </div>
     </div>
 
+    <script src="booking.js"></script>
+    <script src="../assets/js/smoothScroll.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script>
       const splide = new Splide('.splide', {
@@ -388,6 +378,11 @@
 
       splide.mount();
     </script>
+    <script type="module">
+      import { init } from './assets/js/app.js';
+      document.addEventListener('DOMContentLoaded', init);
+    </script>
   </body>
+
   <script src="assets/js/app.js"></script>
 </html>

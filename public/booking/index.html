@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <title>Looks & Books - Frisörsalong och antikvariat</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ADAD93" />
+    <meta
+      name="description"
+      content="Vår passion för hår och böcker har blivit till en salong i kombination med begagnade böcker. Vi har lång erfarenhet inom hår, hud och barbering. Vi välkomnar er alla till oss för att ta del av tjänsterna vi erbjuder. Ni kan dessutom komma in för att köpa böcker, hänga i våra mysiga soffor eller svänga förbi för att klappa vår salongshund Phoebe."
+    />
+
+    <!-- schema.org structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "HairSalon",
+        "name": "Looks & Books",
+        "image": "https://looksandbooks.se/assets/img/logo.svg",
+        "@id": "",
+        "url": "https://looksandbooks.se",
+        "telephone": "021-12 22 10",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Köpmangatan 3",
+          "addressLocality": "Västerås",
+          "postalCode": "722 15",
+          "addressCountry": "Sweden"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 59.60995332787172,
+          "longitude": 16.54324667081415
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "10:00",
+            "closes": "18:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Saturday",
+            "opens": "10:00",
+            "closes": "17:00"
+          }
+        ],
+        "sameAs": ["https://www.instagram.com/salonglooksandbooks/"]
+      }
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-RVTTMWBP98"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-RVTTMWBP98');
+    </script>
+
+    <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/bde765b426.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Style -->
+    <link rel="stylesheet" href="../assets/css/default.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/booking.css" />
+    <link rel="stylesheet" href="../assets/css/phone.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"
+    />
+  </head>
+
+  <body>
+    <div id="bg">
+      <img src="../assets/img/logo.svg" alt="Looks & Books Logo" />
+    </div>
+
+    <!-- Overlay element (initially hidden) -->
+    <div id="overlay" class="hidden">
+      <div id="overlayContent">
+        <span id="closeOverlay">&times;</span>
+        <h2>
+          Användarvillkor för onlinebokning i EasyCashier Bokningskalender
+        </h2>
+        <h3>Definitioner</h3>
+        <p><b>Användaren</b> - Du / person som genomför onlinebokningen.</p>
+
+        <p>
+          <b>Bokningskalendern</b> - EasyCashier bokningskalender och
+          tillhörande onlinebokning.
+        </p>
+
+        <p>
+          <b>Företaget</b> - Det företag som använder sig av tjänsten
+          EasyCashier bokningskalender och tillhörande onlinebokning på sin
+          hemsida.
+        </p>
+
+        <p>
+          <b>Personuppgifter</b> - Information som enskilt eller tillsammans med
+          annan information kan identifiera en person.
+        </p>
+
+        <h3>Villkor</h3>
+        <p>
+          Då Användaren genomför en onlinebokning ger man samtycke till att
+          Användarens Personuppgifter sparas och behandlas i Företagets
+          Bokningskalender.
+        </p>
+        <p>
+          De Personuppgifter som sparas om Användaren är förnamn, efternamn,
+          epostadress samt mobiltelefonnummer.
+        </p>
+        <p>
+          Personuppgifterna sparas för att Företaget ska kunna använda
+          Bokningskalendern och dess tjänster på ett korrekt sätt gentemot
+          Användaren.
+        </p>
+        <p>
+          Om användaren önskar att få ta del av vilka personuppgifter som
+          lagras, eller önskar att dessa personuppgifter tas bort, så åligger
+          det Användaren att kontakta Företaget som då utan dröjsmål ska utföra
+          detta.
+        </p>
+        <p>
+          Om Företaget slutar att använda Bokningskalendern så kommer samtliga
+          personuppgifter om Användare att tas bort 1 senast månad efter att
+          tjänsten avslutats.
+        </p>
+      </div>
+    </div>
+
+    <div class="bookingContainer">
+      <!-- Who Section -->
+      <div id="who">
+        <div class="content">
+          <h2>Vem vill du ska ta hand om dig?</h2>
+          <hr />
+          <div id="resourceContainer" class="content-container">
+            <!-- Render staff here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- What Section -->
+      <div id="what" class="hidden">
+        <div class="content">
+          <h2>Vilken behandling vill du ha?</h2>
+          <hr />
+          <div id="serviceContainer" class="content-container">
+            <!-- Render services here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- When Section -->
+      <div id="when" class="hidden">
+        <div class="content">
+          <h2>Vilken tid passar dig?</h2>
+          <hr />
+          <div class="content-container">
+            <div class="infobar">
+              <a onclick="scheduleArrowClick('backward')">
+                <i class="fas fa-chevron-left fa-2x"></i>
+              </a>
+              <div id="scheduleInfobar"></div>
+              <a onclick="scheduleArrowClick('forward')">
+                <i class="fas fa-chevron-right fa-2x"></i>
+              </a>
+            </div>
+
+            <div id="timeSlots">
+              <!-- Render time slots here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Section -->
+      <div id="summary" class="hidden">
+        <div class="content">
+          <h2>Bekräfta bokning</h2>
+          <hr />
+          <div class="content-container">
+            <div id="summaryContainer">
+              <div id="bookingSummaryContainer">
+                <div id="bookingSummary">
+                  <!-- Render booking summary here -->
+                </div>
+
+                <!-- Example snippet in your phone form section -->
+                <form id="phoneForm">
+                  <div class="phoneNumberContainer">
+                    <p class="muted">
+                      Ange ditt telefonnummer för att reservera tiden
+                    </p>
+                    <div class="form-group reserve-button">
+                      <input
+                        type="tel"
+                        id="customerPhone"
+                        required
+                        placeholder="Telefonnummer"
+                      />
+
+                      <button type="submit" class="new-button" disabled>
+                        Nästa
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <form id="finalBookingForm" style="display: none">
+                <div class="form-group name-group" style="display: none">
+                  <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Namn"
+                    required
+                  />
+                </div>
+
+                <div class="email-phone-container">
+                  <div class="form-group phone-group">
+                    <input
+                      type="tel"
+                      id="customerPhoneFinal"
+                      required
+                      readonly
+                    />
+                  </div>
+                  <div class="form-group email-group" style="display: none">
+                    <input
+                      type="email"
+                      id="customerEmail"
+                      placeholder="Email"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <textarea id="notes" placeholder="Meddelande"></textarea>
+                </div>
+
+                <div class="booking-terms">
+                  <p class="muted">
+                    Genom att boka godkänner du
+                    <u id="openOverlayButton">bokningsvillkoren</u>
+                  </p>
+                  <button
+                    type="submit"
+                    id="bookButton"
+                    class="new-button"
+                    disabled
+                  >
+                    Boka
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Complete Section -->
+      <div id="complete" class="hidden">
+        <div class="content">
+          <h2>Bekräftad bokning</h2>
+          <hr />
+          <div class="content-container">
+            <div id="completeSummaryContainer">
+              <!-- Checkbox -->
+              <svg
+                class="checkmark"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 52 52"
+              >
+                <circle
+                  class="checkmark__circle"
+                  cx="26"
+                  cy="26"
+                  r="25"
+                  fill="none"
+                />
+                <path
+                  class="checkmark__check"
+                  fill="none"
+                  d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                />
+              </svg>
+
+              <div id="completeSummary">
+                <!-- Render final success summary here via JS -->
+              </div>
+
+              <!-- Calendar button with assigned id -->
+              <div class="cal-button" id="calendarButton">
+                <i class="fa-regular fa-calendar-days"></i>
+                <p>Lägg till i kalender</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <img
+      src="../assets/img/slideshow/slideshow1.jpg"
+      style="width: 100%"
+      alt=""
+    />
+
+    <script src="./booking.js"></script>
+    <script src="./overlay.js"></script>
+    <script src="../assets/js/smoothScroll.js" type="module"></script>
+    <script type="module">
+      import { initBookingSystem } from './booking.js';
+      document.addEventListener('DOMContentLoaded', initBookingSystem);
+    </script>
+  </body>
+</html>
