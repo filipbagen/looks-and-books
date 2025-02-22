@@ -13,6 +13,12 @@
   width: 90vw;
   display: flex;
   flex-direction: column;
+  gap: 32px;
+}
+
+.partial-container {
+  display: flex;
+  flex-direction: column;
   gap: 122px;
 }
 
@@ -149,6 +155,7 @@ h1 {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin-top: 24px;
 }
 
 .product {

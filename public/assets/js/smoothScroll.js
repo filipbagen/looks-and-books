@@ -1,6 +1,7 @@
 export function smoothScrollTo(targetId) {
   const scrollDuration = 700;
   const delayDuration = 50;
+  const offset = 24; // Adjust the offset (24px above the target)
   const target = document.getElementById(targetId);
 
   if (!target) return;
@@ -8,7 +9,8 @@ export function smoothScrollTo(targetId) {
   setTimeout(() => {
     const start = window.performance.now();
     const startY = window.scrollY;
-    const deltaY = target.getBoundingClientRect().top;
+    // Subtract offset so that the final scroll position is 24px above the target's top.
+    const deltaY = target.getBoundingClientRect().top - offset;
 
     function easeInOutQuad(t) {
       return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;

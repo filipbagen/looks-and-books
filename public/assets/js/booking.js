@@ -607,11 +607,7 @@ async function showSuccessPage(confirmData) {
     start: `${bookingState.selectedDate} ${bookingState.selectedTimeSlot.startTime}:00 +0100`,
     duration: [bookingState.selectedService.length, 'minute'],
     description: 'Bokningsbekräftelse',
-    location: `http://maps.apple.com/?address=${encodeURIComponent(
-      'Köpmangatan 3, 722 15 Västerås, Sweden'
-    )}`,
-
-    // Combine selected date and time, you might need to format this to match the calendar-link spec.
+    location: 'Köpmangatan 3, 722 15 Västerås, Sweden',
   };
 
   const calendarButton = document.getElementById('calendarButton');
