@@ -5,7 +5,7 @@ import {
   yahoo,
   ics,
 } from 'https://cdn.skypack.dev/calendar-link';
-import { smoothScrollTo } from '../assets/js/smoothScroll.js';
+import { smoothScrollTo } from './smoothScroll.js';
 import {
   getDayShortName,
   getMonthShortName,
