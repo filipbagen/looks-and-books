@@ -9,7 +9,7 @@ const BASE_URL = 'https://boka.easycashier.se/v1/open/calendar/onlineBooking';
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('.'));
 
 // Proxy endpoints
 app.get('/services', async (req, res) => {
