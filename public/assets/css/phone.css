@@ -63,6 +63,10 @@
 
 /* Phone */
 @media only screen and (max-width: 720px) {
+  p {
+    font-size: 12px;
+  }
+
   #container {
     justify-content: center;
     align-items: center;
@@ -148,6 +152,15 @@
   #timeSlots .column {
     gap: 8px;
   }
+
+  /* Add a horizontal rule effect between service rows */
+  #serviceContainer > div:not(:last-child) {
+    border-bottom: 1px solid var(--secondary); /* Adjust color as needed */
+  }
+
+  #serviceContainer > div p:nth-of-type(2) {
+    min-width: 46px;
+  }
 }
 
 /* When */
@@ -169,6 +182,10 @@
   }
 
   #timeSlots .date-header h2 {
-    font-size: 16px;
+    font-size: 20px;
+  }
+
+  #timeSlots .date-header p {
+    font-size: 14px;
   }
 }

@@ -213,6 +213,8 @@ function createServiceRow(service) {
 
   row.id = String(service.serviceId);
   name.textContent = service.name;
+  name.style.fontWeight = 'bold';
+  name.style.marginRight = '28px';
   time.textContent = `${service.length} min`;
   price.textContent = `${service.priceIncludingVat} kr`;
 
@@ -479,7 +481,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Configure customer form based on existing customer
-// filepath: /Users/filip/code/looks-and-books/public/booking/booking.js
 function configureCustomerForm(reserveData) {
   // Set phone number value in the pre-defined input
   const phoneFinalInput = document.getElementById('customerPhoneFinal');
@@ -644,38 +645,6 @@ async function handleFinalBookingSubmit(e) {
   }
 }
 
-// Staff selection handler
-// function selectStaff(staff) {
-//   // Clear active state from all staff buttons
-//   document.querySelectorAll('.staff-button').forEach((btn) => {
-//     btn.classList.remove('activeRing');
-//   });
-
-//   // Hide service and time sections with animation
-//   animateContainer(false, '#what');
-//   animateContainer(false, '#when');
-//   animateContainer(false, '#summary');
-
-//   if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
-//     // Deselecting current staff
-//     bookingState.selectedStaff = null;
-//     bookingState.selectedService = null;
-
-//     return;
-//   }
-
-//   // Selecting new staff
-//   document.getElementById(staff.resourceId).classList.add('activeRing');
-//   bookingState.selectedStaff = staff;
-
-//   // Show service section
-//   populateServiceContainer();
-//   animateContainer(true, '#what');
-//   animateContainer(false, '#when');
-
-//   smoothScrollTo('what');
-// }
-
 function selectStaff(staff) {
   // Check if we're deselecting the current staff first
   if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
@@ -688,6 +657,7 @@ function selectStaff(staff) {
     animateContainer(false, '#what');
     animateContainer(false, '#when');
     animateContainer(false, '#summary');
+    animateContainer(false, '#complete');
 
     return;
   }
