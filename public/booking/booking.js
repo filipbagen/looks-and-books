@@ -171,7 +171,7 @@ function createStaffButton(staff) {
 
   const img = document.createElement('img');
   img.src = `../assets/img/profile/${staff.name || 'default'}.jpg`;
-  img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
+  img.onerror = () => (img.src = './assets/img/profile/default.jpg');
 
   const textContainer = document.createElement('div');
   const name = document.createElement('h2');
