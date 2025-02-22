@@ -15,6 +15,7 @@ import {
   animateContainer,
 } from './utils.js';
 
+let isServicesLoaded = false;
 let activeSchedule = getPreviousMonday(new Date()); // Start with the previous Monday
 
 // Configuration management
@@ -28,6 +29,17 @@ const CONFIG = {
     onlineBookingUrlName: 'looksbooks',
   },
 };
+
+const defaultStaffList = [
+  { resourceId: 'emma', name: 'Emma' },
+  { resourceId: 'petra', name: 'Petra' },
+  { resourceId: 'fadi', name: 'Fadi' },
+  { resourceId: 'hannah', name: 'Hannah' },
+  { resourceId: 'simon', name: 'Simon' },
+  { resourceId: 'olivia', name: 'Olivia' },
+  { resourceId: 'meja', name: 'Meja' },
+  { resourceId: 'charlotte', name: 'Charlotte' },
+];
 
 const staffTitles = {
   Petra: 'Frisör',
@@ -59,6 +71,20 @@ function getConfig() {
     : CONFIG.production;
 }
 
+function renderPlaceholderStaff() {
+  const staffContainer = document.getElementById('resourceContainer');
+  if (!staffContainer) return;
+  staffContainer.innerHTML = '';
+
+  defaultStaffList.forEach((staff) => {
+    // Create a staff button using your existing function
+    const container = createStaffButton(staff);
+    // Optionally, add a visual cue (like a CSS "disabled" class) indicating selection is not yet active.
+    container.classList.add('disabled');
+    staffContainer.appendChild(container);
+  });
+}
+
 // Fetch and initialize services
 async function fetchServices() {
   const cfg = getConfig();
@@ -66,7 +92,8 @@ async function fetchServices() {
     const response = await fetch(`${cfg.baseUrl}/services`);
     const data = await response.json();
     bookingState.services = data.serviceGroups;
-    populateStaffContainer();
+    isServicesLoaded = true; // Now the actual data is available
+    populateStaffContainer(); // Re-render with up-to-date staff info
   } catch (error) {
     console.error('Error fetching services:', error);
   }
@@ -646,6 +673,9 @@ async function handleFinalBookingSubmit(e) {
 }
 
 function selectStaff(staff) {
+  // If services haven't loaded, do nothing
+  if (!isServicesLoaded) return;
+
   // Check if we're deselecting the current staff first
   if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
     // Deselecting current staff
@@ -729,8 +759,9 @@ function setupEventListeners() {
 
 // Initialize the booking system
 export function initBookingSystem() {
+  renderPlaceholderStaff(); // Render immediately using default data
   setupEventListeners();
-  fetchServices();
+  fetchServices(); // Fetch actual data asynchronously
 }
 
 window['scheduleArrowClick'] = scheduleArrowClick;
