@@ -122,9 +122,6 @@ function populateStaffContainer() {
   // Add regular staff
   staffList.forEach((staff) => {
     const container = createStaffButton(staff);
-    container.addEventListener('click', () =>
-      handleStaffClick(staff, container)
-    );
     staffContainer.appendChild(container);
   });
 
@@ -167,6 +164,7 @@ function createStaffButton(staff) {
   const container = document.createElement('div');
   container.classList.add('staff-button');
   container.id = staff.resourceId;
+  container.addEventListener('click', () => selectStaff(staff, container));
 
   const imageContainer = document.createElement('div');
   imageContainer.classList.add('staff-image-container');
@@ -188,9 +186,6 @@ function createStaffButton(staff) {
   textContainer.appendChild(title);
   container.appendChild(imageContainer);
   container.appendChild(textContainer);
-
-  // Attach the handleStaffClick function to the container
-  container.addEventListener('click', () => handleStaffClick(staff, container));
 
   return container;
 }
@@ -302,8 +297,6 @@ function displayTimeSlots(data) {
     return;
   }
 
-  console.log('Populating time slots container:', target); // Debugging
-
   target.innerHTML = '';
   const startDate = activeSchedule;
   const oneWeekForward = addDays(new Date(startDate.getTime()), 6);
@@ -361,8 +354,6 @@ function displayTimeSlots(data) {
     container.appendChild(slotsContainer);
     target.appendChild(container);
   }
-
-  console.log('Time slots container populated:', target); // Debugging
 
   // Update the schedule infobar with the current week's dates
   populateScheduleDate();
@@ -500,7 +491,6 @@ async function handlePhoneFormSubmit(e) {
     });
   } catch (error) {
     console.error('Error:', error);
-    // You may handle errors here using alternative methods if needed
   }
 }
 
@@ -733,8 +723,6 @@ function selectStaff(staff) {
 }
 
 function selectService(service, selectedElement) {
-  console.log('Selected service:', service); // Debugging
-
   // Remove active state from all service elements
   document.querySelectorAll('#serviceContainer > div').forEach((el) => {
     el.classList.remove('activeResourceOption');

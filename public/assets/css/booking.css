@@ -18,7 +18,6 @@
 /* Who */
 #who {
   width: 100%;
-  /* max-width: 960px; */
 }
 
 #who .content {
@@ -101,7 +100,6 @@
 }
 
 #serviceContainer > div:hover {
-  /* border-left: 3px solid var(--secondary); */
   background-color: var(--secondary);
   color: var(--white);
   border-radius: 8px;
