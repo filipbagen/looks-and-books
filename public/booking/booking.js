@@ -1,3 +1,10 @@
+import {
+  google,
+  outlook,
+  office365,
+  yahoo,
+  ics,
+} from 'https://cdn.skypack.dev/calendar-link';
 import { smoothScrollTo } from '../assets/js/smoothScroll.js';
 import {
   getDayShortName,
@@ -8,6 +15,7 @@ import {
   animateContainer,
 } from './utils.js';
 
+let isServicesLoaded = false;
 let activeSchedule = getPreviousMonday(new Date()); // Start with the previous Monday
 
 // Configuration management
@@ -22,6 +30,17 @@ const CONFIG = {
   },
 };
 
+const defaultStaffList = [
+  { resourceId: 'emma', name: 'Emma' },
+  { resourceId: 'petra', name: 'Petra' },
+  { resourceId: 'fadi', name: 'Fadi' },
+  { resourceId: 'hannah', name: 'Hannah' },
+  { resourceId: 'simon', name: 'Simon' },
+  { resourceId: 'olivia', name: 'Olivia' },
+  { resourceId: 'meja', name: 'Meja' },
+  { resourceId: 'charlotte', name: 'Charlotte' },
+];
+
 const staffTitles = {
   Petra: 'Frisör',
   Hannah: 'Frisör',
@@ -29,7 +48,7 @@ const staffTitles = {
   Emma: 'Frisör',
   Olivia: 'Frisör',
   Simon: 'Frisör',
-  Charlotte: 'Hudterapeut & hudcoach ',
+  Charlotte: 'Hudterapeut & hudcoach',
   Meja: 'Nagelterapeut',
   // Add more staff members as needed
 };
@@ -52,6 +71,20 @@ function getConfig() {
     : CONFIG.production;
 }
 
+function renderPlaceholderStaff() {
+  const staffContainer = document.getElementById('resourceContainer');
+  if (!staffContainer) return;
+  staffContainer.innerHTML = '';
+
+  defaultStaffList.forEach((staff) => {
+    // Create a staff button using your existing function
+    const container = createStaffButton(staff);
+    // Optionally, add a visual cue (like a CSS "disabled" class) indicating selection is not yet active.
+    container.classList.add('disabled');
+    staffContainer.appendChild(container);
+  });
+}
+
 // Fetch and initialize services
 async function fetchServices() {
   const cfg = getConfig();
@@ -59,7 +92,8 @@ async function fetchServices() {
     const response = await fetch(`${cfg.baseUrl}/services`);
     const data = await response.json();
     bookingState.services = data.serviceGroups;
-    populateStaffContainer();
+    isServicesLoaded = true; // Now the actual data is available
+    populateStaffContainer(); // Re-render with up-to-date staff info
   } catch (error) {
     console.error('Error fetching services:', error);
   }
@@ -67,7 +101,7 @@ async function fetchServices() {
 
 // Populate staff container with unique staff members
 function populateStaffContainer() {
-  const staffContainer = document.getElementById('staffButtons');
+  const staffContainer = document.getElementById('resourceContainer');
   if (!staffContainer) return;
 
   staffContainer.innerHTML = '';
@@ -85,6 +119,7 @@ function populateStaffContainer() {
     });
   });
 
+  // Add regular staff
   staffList.forEach((staff) => {
     const container = createStaffButton(staff);
     container.addEventListener('click', () =>
@@ -92,58 +127,39 @@ function populateStaffContainer() {
     );
     staffContainer.appendChild(container);
   });
-}
 
-// Handle staff click (similar to resourceClick in old code)
-function handleStaffClick(staff, container) {
-  console.log('Selected staff before:', bookingState.selectedStaff); // Debugging
+  // Add Charlotte manually with Google redirect
+  const charlotteContainer = document.createElement('div');
+  charlotteContainer.classList.add('staff-button');
+  charlotteContainer.addEventListener('click', () =>
+    window.open(
+      'https://bokadirekt.se/places/charlottes-hudv%C3%A5rd-61742',
+      '_blank'
+    )
+  );
 
-  if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
-    // If the same staff member is clicked again, reset the booking state
-    bookingState.selectedStaff = null;
-    bookingState.selectedService = null;
-    bookingState.selectedDate = null;
-    bookingState.selectedTimeSlot = null;
+  const imageContainer = document.createElement('div');
+  imageContainer.classList.add('staff-image-container');
 
-    // Hide the "what" and "when" sections
-    animateContainer(false, '#what');
-    animateContainer(false, '#when');
-    animateContainer(false, '#summary');
-  } else {
-    // Select the staff member and show the "what" section
-    bookingState.selectedStaff = staff;
-    populateServiceContainer();
-    animateContainer(true, '#what');
-    smoothScrollTo('what');
-  }
+  const img = document.createElement('img');
+  img.src = '../assets/img/profile/Charlotte.jpg';
+  img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
 
-  console.log('Selected staff after:', bookingState.selectedStaff); // Debugging
+  const textContainer = document.createElement('div');
+  const name = document.createElement('h2');
+  name.textContent = 'Charlotte';
 
-  // Toggle the active state of the staff member's ring
-  toggleActiveState('#staffButtons > div', 'activeRing', container);
-}
+  const title = document.createElement('p');
+  title.classList.add('muted');
+  title.textContent = staffTitles['Charlotte']; // Will show "Hudterapeut & hudcoach"
 
-function populateSummaryContainer() {
-  const target = document.getElementById('bookingSummary');
-  if (!target) return;
+  imageContainer.appendChild(img);
+  textContainer.appendChild(name);
+  textContainer.appendChild(title);
+  charlotteContainer.appendChild(imageContainer);
+  charlotteContainer.appendChild(textContainer);
 
-  const title = document.createElement('h3');
-  const p = document.createElement('p');
-  const date = new Date(bookingState.selectedDate);
-  const dateString = `${date.getDate()} ${getMonthShortName(
-    date
-  )} ${date.getFullYear()}, ${bookingState.selectedTimeSlot.startTime}`;
-
-  target.innerHTML = '';
-  title.textContent = `${bookingState.selectedService.name} med ${bookingState.selectedStaff.name}`;
-  p.textContent = dateString;
-
-  target.appendChild(title);
-  target.appendChild(p);
-
-  // Show the summary section and scroll to it
-  animateContainer(true, '#summary');
-  smoothScrollTo('#summary');
+  staffContainer.appendChild(charlotteContainer);
 }
 
 // Create staff button element
@@ -159,19 +175,14 @@ function createStaffButton(staff) {
   img.src = `../assets/img/profile/${staff.name || 'default'}.jpg`;
   img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
 
-  const ring = document.createElement('div');
-  ring.classList.add('ring');
-
   const textContainer = document.createElement('div');
-  textContainer.classList.add('staff-text-container');
-
   const name = document.createElement('h2');
   name.textContent = staff.name;
 
   const title = document.createElement('p');
+  title.classList.add('muted');
   title.textContent = staffTitles[staff.name] || 'Hair Dresser';
 
-  imageContainer.appendChild(ring);
   imageContainer.appendChild(img);
   textContainer.appendChild(name);
   textContainer.appendChild(title);
@@ -186,8 +197,7 @@ function createStaffButton(staff) {
 
 // Populate service container for selected staff
 function populateServiceContainer() {
-  console.log('Populating service container...'); // Debugging
-  const serviceContainer = document.getElementById('serviceButtons');
+  const serviceContainer = document.getElementById('serviceContainer');
   if (!serviceContainer) return;
 
   serviceContainer.innerHTML = '';
@@ -238,8 +248,10 @@ function createServiceRow(service) {
 
   row.id = String(service.serviceId);
   name.textContent = service.name;
+  name.style.fontWeight = 'bold';
+  name.style.marginRight = '28px';
   time.textContent = `${service.length} min`;
-  price.textContent = `${service.priceIncludingVat}kr`;
+  price.textContent = `${service.priceIncludingVat} kr`;
 
   rightDiv.classList.add('service-info');
 
@@ -307,6 +319,7 @@ function displayTimeSlots(data) {
 
     // Create date header
     const day = document.createElement('div');
+    day.classList.add('date-header'); // Add this line
     const dayName = document.createElement('h2');
     const dayDate = document.createElement('p');
 
@@ -321,6 +334,11 @@ function displayTimeSlots(data) {
     const dateGroup = data.dates.find((group) =>
       isSameDate(new Date(group.date), i)
     );
+
+    // Create slots container
+    const slotsContainer = document.createElement('div');
+    slotsContainer.classList.add('slots-wrapper');
+
     if (dateGroup && dateGroup.timeSlots.length > 0) {
       dateGroup.timeSlots.forEach((slot) => {
         const slotElement = document.createElement('div');
@@ -330,19 +348,17 @@ function displayTimeSlots(data) {
         timeText.textContent = slot.startTime;
 
         slotElement.appendChild(timeText);
-        slotElement.addEventListener('click', () =>
-          selectTimeSlot(dateGroup.date, slot)
+        slotElement.addEventListener('click', (evt) =>
+          selectTimeSlot(dateGroup.date, slot, evt.currentTarget)
         );
 
-        container.appendChild(slotElement);
+        slotsContainer.appendChild(slotElement);
       });
     } else {
-      const noSlotsElement = document.createElement('p');
-      noSlotsElement.textContent = 'Inga lediga tider';
-      noSlotsElement.style.fontSize = '10px';
-      container.appendChild(noSlotsElement);
+      day.classList.add('no-slots-available');
     }
 
+    container.appendChild(slotsContainer);
     target.appendChild(container);
   }
 
@@ -350,29 +366,46 @@ function displayTimeSlots(data) {
 
   // Update the schedule infobar with the current week's dates
   populateScheduleDate();
+
+  // Re-calculate and update the container height
+  const whenSection = document.getElementById('when');
+  if (whenSection && !whenSection.classList.contains('hidden')) {
+    animateContainer(true, '#when');
+  }
 }
 
-function selectTimeSlot(date, slot) {
-  console.log('Selected time slot:', date, slot); // Debugging
+function formatDateWord(dateStr) {
+  const dateObj = new Date(dateStr);
+  // Use toLocaleDateString with Swedish locale:
+  return dateObj.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long' });
+}
 
+function selectTimeSlot(date, slot, target) {
   // Remove active state from all slot elements
   document.querySelectorAll('#timeSlots .slot').forEach((el) => {
     el.classList.remove('activeSlot');
   });
 
-  // Add active state to selected slot
-  event.target.classList.add('activeSlot');
+  // Add active state to the selected slot
+  target.classList.add('activeSlot');
 
   // Store selected date and time slot
   bookingState.selectedDate = date;
   bookingState.selectedTimeSlot = slot;
 
-  // Populate the summary container and show it
-  populateSummaryContainer();
+  // Format the date in words (e.g., "20 februari")
+  const formattedDate = formatDateWord(date);
 
-  // Smoothly scroll to the summary section
+  // Update booking summary content
+  const summaryHtml = `
+    <h2>${bookingState.selectedService.name} hos ${bookingState.selectedStaff.name}</h2>
+    <p>${formattedDate}, ${slot.startTime} | ${bookingState.selectedService.length} min / ${bookingState.selectedService.priceIncludingVat} kr</p>
+  `;
+  document.getElementById('bookingSummary').innerHTML = summaryHtml;
+
+  // Show summary section with animation
   animateContainer(true, '#summary');
-  smoothScrollTo('#summary');
+  smoothScrollTo('summary');
 }
 
 function populateScheduleDate() {
@@ -410,6 +443,7 @@ function scheduleArrowClick(type) {
   }
 
   // Fetch and display time slots for the new week
+  smoothScrollTo('when');
   fetchTimeSlots();
 }
 
@@ -417,7 +451,19 @@ function scheduleArrowClick(type) {
 async function handlePhoneFormSubmit(e) {
   e.preventDefault();
   const cfg = getConfig();
-  const phoneNumber = document.getElementById('customerPhone').value;
+  let phoneNumber = document.getElementById('customerPhone').value.trim();
+
+  // Validate the phone number: it must start with "0" or "46"
+  const validFormat = /^(46|0|\+46)/.test(phoneNumber); // Allow +46
+  if (!validFormat) {
+    // Do not proceed if the format is invalid
+    return;
+  }
+
+  // If number starts with "0", convert to country code format "46"
+  if (phoneNumber.startsWith('0')) {
+    phoneNumber = '46' + phoneNumber.slice(1);
+  }
 
   try {
     const reserveResponse = await fetch(`${cfg.baseUrl}/reserve`, {
@@ -433,85 +479,160 @@ async function handlePhoneFormSubmit(e) {
       }),
     });
 
+    if (!reserveResponse.ok) {
+      const errorData = await reserveResponse.json();
+      throw new Error(errorData.error?.error?.message || 'Reservation failed');
+    }
+
     const reserveData = await reserveResponse.json();
     bookingState.appointmentId = reserveData.appointmentId;
 
-    // Show final booking form
+    // Hide phone form and show final booking form
     document.getElementById('phoneForm').style.display = 'none';
     document.getElementById('finalBookingForm').style.display = 'block';
 
+    // Configure customer form and recalculate height
     configureCustomerForm(reserveData);
+
+    // Wait for DOM updates and recalculate height
+    requestAnimationFrame(() => {
+      animateContainer(true, '#summary');
+    });
   } catch (error) {
     console.error('Error:', error);
-    alert('Error checking customer. Please try again.');
+    // You may handle errors here using alternative methods if needed
   }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  setupFinalBookingListeners();
+  const customerPhoneInput = document.getElementById('customerPhone');
+  const newButton = document.querySelector('#phoneForm .new-button');
+
+  customerPhoneInput.addEventListener('input', () => {
+    const value = customerPhoneInput.value.trim();
+    let isValid = false;
+
+    if (value.startsWith('0')) {
+      // Must be exactly 10 digits when starting with 0
+      isValid = /^\d{10}$/.test(value);
+    } else if (value.startsWith('46')) {
+      // Must be exactly 11 digits when starting with 46
+      isValid = /^\d{11}$/.test(value);
+    }
+
+    // Update the button state and opacity based on validity
+    newButton.disabled = !isValid;
+    newButton.style.opacity = isValid ? '1' : '0.5';
+  });
+});
+
 // Configure customer form based on existing customer
 function configureCustomerForm(reserveData) {
-  const nameInput = document.getElementById('customerName');
-  const emailInput = document.getElementById('customerEmail');
+  // Set phone number value in the pre-defined input
+  const phoneFinalInput = document.getElementById('customerPhoneFinal');
+  if (phoneFinalInput) {
+    phoneFinalInput.value = reserveData.customerPhoneNumber;
+  }
+
   const nameGroup = document.querySelector('.name-group');
   const emailGroup = document.querySelector('.email-group');
 
   if (reserveData.maskedCustomers?.[0]) {
-    bookingState.customerInfo = {
-      exists: true,
-      name: reserveData.maskedCustomers[0].maskedName.replace(/\*/g, ''),
-      email: reserveData.maskedCustomers[0].maskedEmail.replace(/\*/g, ''),
-      customerId: reserveData.maskedCustomers[0].id,
-    };
-
-    nameInput.value = bookingState.customerInfo.name;
-    emailInput.value = bookingState.customerInfo.email;
-    nameInput.readOnly = true;
-    emailInput.readOnly = true;
-    nameGroup.style.display = 'none';
-    emailGroup.style.display = 'none';
-  } else {
-    bookingState.customerInfo = { exists: false };
-    nameInput.value = '';
-    emailInput.value = '';
-    nameInput.readOnly = false;
-    emailInput.readOnly = false;
+    const customer = reserveData.maskedCustomers[0];
     nameGroup.style.display = 'block';
     emailGroup.style.display = 'block';
+
+    document.getElementById('customerName').value = customer.maskedName;
+    document.getElementById('customerEmail').value = customer.maskedEmail;
+    document.getElementById('customerName').readOnly = true;
+    document.getElementById('customerEmail').readOnly = true;
+
+    bookingState.customerInfo = {
+      exists: true,
+      customerId: customer.id,
+    };
+  } else {
+    nameGroup.style.display = 'block';
+    emailGroup.style.display = 'block';
+    document.getElementById('customerName').readOnly = false;
+    document.getElementById('customerEmail').readOnly = false;
+
+    bookingState.customerInfo = {
+      exists: false,
+    };
   }
+
+  // Show the final booking form
+  document.getElementById('finalBookingForm').style.display = 'flex';
+
+  // Check if required fields are set so that the "Boka" button becomes active.
+  checkFinalBookingForm();
+}
+
+// Validate final booking form: name & phone must be present.
+function checkFinalBookingForm() {
+  const nameVal = document.getElementById('customerName').value.trim();
+  const phoneVal = document.getElementById('customerPhoneFinal').value.trim();
+  const bookButton = document.getElementById('bookButton');
+
+  // Enable the button if both name and phone have values.
+  bookButton.disabled = !(nameVal && phoneVal);
+}
+
+// Set up event listeners for the final booking form.
+function setupFinalBookingListeners() {
+  const nameInput = document.getElementById('customerName');
+  nameInput.addEventListener('input', checkFinalBookingForm);
 }
 
 // Show success page
+// Inside your showSuccessPage function after the summary has been set...
 async function showSuccessPage(confirmData) {
-  const container = document.querySelector('.content');
-  container.innerHTML = `
-    <div class="success-section">
-      <h2>Tack för din bokning!</h2>
-      <div class="success-summary">
-        <p><strong>Frisör:</strong> ${bookingState.selectedStaff.name}</p>
-        <p><strong>Behandling:</strong> ${bookingState.selectedService.name}</p>
-        <p><strong>Datum:</strong> ${bookingState.selectedDate}</p>
-        <p><strong>Tid:</strong> ${bookingState.selectedTimeSlot.startTime}</p>
-        <p><strong>Pris:</strong> ${
-          bookingState.selectedService.priceIncludingVat
-        }kr</p>
-        <hr>
-        <p><strong>Telefon:</strong> ${confirmData.customerPhoneNumber}</p>
-        ${
-          !bookingState.customerInfo.exists
-            ? `
-          <p><strong>Namn:</strong> ${confirmData.customerName}</p>
-          <p><strong>Email:</strong> ${confirmData.customerEmail}</p>
-        `
-            : ''
-        }
-        ${
-          confirmData.notes
-            ? `<p><strong>Meddelande:</strong> ${confirmData.notes}</p>`
-            : ''
-        }
-      </div>
-      <p class="success-message">En bokningsbekräftelse har skickats till din e-post</p>
-    </div>
+  // Hide the summary section (if needed)
+  animateContainer(false, '#summary');
+
+  // Build the summary content similar to the booking summary
+  const formattedDate = formatDateWord(bookingState.selectedDate);
+  const summaryHtml = `
+    <h2>${bookingState.selectedService.name} hos ${bookingState.selectedStaff.name}</h2>
+    <p>${formattedDate}, ${bookingState.selectedTimeSlot.startTime} | ${bookingState.selectedService.length} min / ${bookingState.selectedService.priceIncludingVat} kr</p>
   `;
+
+  // Set the summary in the new container
+  document.getElementById('completeSummary').innerHTML = summaryHtml;
+
+  // Show complete section with animation
+  animateContainer(true, '#complete');
+
+  // Scroll to complete section
+  requestAnimationFrame(() => {
+    smoothScrollTo('complete');
+  });
+
+  // Now set up the calendar button
+  // Create a calendar event based on the booking details. Adjust start/duration as needed.
+  const calendarEvent = {
+    title: `${bookingState.selectedService.name} hos ${bookingState.selectedStaff.name}`,
+    start: `${bookingState.selectedDate} ${bookingState.selectedTimeSlot.startTime}:00 +0100`,
+    duration: [bookingState.selectedService.length, 'minute'],
+    description: 'Bokningsbekräftelse',
+    location: `http://maps.apple.com/?address=${encodeURIComponent(
+      'Köpmangatan 3, 722 15 Västerås, Sweden'
+    )}`,
+
+    // Combine selected date and time, you might need to format this to match the calendar-link spec.
+  };
+
+  const calendarButton = document.getElementById('calendarButton');
+  // Clear any previous listeners to avoid duplicates.
+  calendarButton.replaceWith(calendarButton.cloneNode(true));
+  document.getElementById('calendarButton').addEventListener('click', () => {
+    // Generate the ICS link, you can change the provider as needed
+    const calendarUrl = ics(calendarEvent);
+    // Open the link in a new tab
+    window.open(calendarUrl, '_blank');
+  });
 }
 
 // Final booking confirmation handler
@@ -519,19 +640,36 @@ async function handleFinalBookingSubmit(e) {
   e.preventDefault();
   const cfg = getConfig();
 
+  // Get the phone number from the finalBookingForm input
+  let finalPhoneNumber = document
+    .getElementById('customerPhoneFinal')
+    .value.trim();
+  // If phone starts with "0", convert to international format by replacing with "46"
+  if (finalPhoneNumber.startsWith('0')) {
+    finalPhoneNumber = '46' + finalPhoneNumber.slice(1);
+  }
+
+  // Base confirm data
   const confirmData = {
     onlineBookingUrlName: cfg.onlineBookingUrlName,
     appointmentId: bookingState.appointmentId,
-    customerPhoneNumber: document.getElementById('customerPhone').value,
-    notes: document.getElementById('notes').value || '',
+    customerPhoneNumber: finalPhoneNumber,
     termsAndConditionsApproved: true,
   };
 
-  if (!bookingState.customerInfo.exists) {
+  // Only add email and name for new customers
+  if (!bookingState.customerInfo?.exists) {
     confirmData.customerName = document.getElementById('customerName').value;
     confirmData.customerEmail = document.getElementById('customerEmail').value;
   } else {
+    // For existing customers, add their customerId
     confirmData.customerId = bookingState.customerInfo.customerId;
+  }
+
+  // Add notes if present
+  const notes = document.getElementById('notes').value;
+  if (notes) {
+    confirmData.notes = notes;
   }
 
   try {
@@ -542,66 +680,83 @@ async function handleFinalBookingSubmit(e) {
     });
 
     if (!confirmResponse.ok) {
-      throw new Error('Booking failed');
+      const errorData = await confirmResponse.json();
+      throw new Error(errorData.error?.error?.message || 'Booking failed');
     }
 
-    await showSuccessPage(confirmData);
+    const confirmResponseData = await confirmResponse.json();
+    await showSuccessPage(confirmResponseData);
   } catch (error) {
     console.error('Error:', error);
-    alert('Error confirming booking. Please try again.');
+    alert('Error confirming booking: ' + error.message);
   }
 }
 
-function toggleActiveState(selector, className, targetElement) {
-  document.querySelectorAll(selector).forEach((el) => {
-    el.classList.remove(className);
+function selectStaff(staff) {
+  // If services haven't loaded, do nothing
+  if (!isServicesLoaded) return;
+
+  // Check if we're deselecting the current staff first
+  if (bookingState.selectedStaff?.resourceId === staff.resourceId) {
+    // Deselecting current staff
+    bookingState.selectedStaff = null;
+    bookingState.selectedService = null;
+
+    // Remove active state and hide sections
+    document.getElementById(staff.resourceId).classList.remove('activeRing');
+    animateContainer(false, '#what');
+    animateContainer(false, '#when');
+    animateContainer(false, '#summary');
+    animateContainer(false, '#complete');
+
+    return;
+  }
+
+  // Clear active state from all staff buttons
+  document.querySelectorAll('.staff-button').forEach((btn) => {
+    btn.classList.remove('activeRing');
   });
-  if (targetElement) {
-    targetElement.classList.add(className);
-  }
+
+  // Selecting new staff
+  document.getElementById(staff.resourceId).classList.add('activeRing');
+  bookingState.selectedStaff = staff;
+
+  // Hide time and summary sections
+  animateContainer(false, '#when');
+  animateContainer(false, '#summary');
+
+  // Show and populate service section
+  populateServiceContainer();
+  animateContainer(true, '#what');
+
+  smoothScrollTo('what');
 }
 
-// Service selection handler
 function selectService(service, selectedElement) {
   console.log('Selected service:', service); // Debugging
 
   // Remove active state from all service elements
-  document.querySelectorAll('#serviceButtons > div').forEach((el) => {
+  document.querySelectorAll('#serviceContainer > div').forEach((el) => {
     el.classList.remove('activeResourceOption');
   });
 
-  // Add active state to selected element
-  if (selectedElement) {
-    selectedElement.classList.add('activeResourceOption');
+  if (bookingState.selectedService?.serviceId === service.serviceId) {
+    // Deselecting current service
+    bookingState.selectedService = null;
+    selectedElement.classList.remove('activeResourceOption');
+    animateContainer(false, '#when');
+    return;
   }
 
-  // Store selected service
+  // Selecting new service
+  selectedElement.classList.add('activeResourceOption');
   bookingState.selectedService = service;
 
   // Fetch and display time slots
   fetchTimeSlots();
-
-  // Smoothly scroll to the time slots section
-  const when = document.getElementById('when');
-  if (when) {
-    // Ensure the section is visible
-    when.classList.remove('hidden');
-
-    // Animate time section
-    animateContainer(true, '#when');
-    smoothScrollTo('when');
-  }
-}
-
-// Terms checkbox handler
-function handleTermsCheckbox(e) {
-  const bookButton = document.getElementById('bookButton');
-  const nameInput = document.getElementById('customerName');
-  const emailInput = document.getElementById('customerEmail');
-
-  const hasNameEmail =
-    bookingState.customerInfo.exists || (nameInput.value && emailInput.value);
-  bookButton.disabled = !(e.target.checked && hasNameEmail);
+  animateContainer(true, '#when');
+  animateContainer(false, '#summary');
+  smoothScrollTo('when');
 }
 
 // Event listeners
@@ -614,15 +769,21 @@ function setupEventListeners() {
     .getElementById('finalBookingForm')
     .addEventListener('submit', handleFinalBookingSubmit);
 
-  document
-    .getElementById('termsAccepted')
-    .addEventListener('change', handleTermsCheckbox);
+  document.getElementById('customerName').addEventListener('input', () => {
+    const nameValue = document.getElementById('customerName').value.trim();
+    const phoneValue = document
+      .getElementById('customerPhoneFinal')
+      .value.trim();
+    const bookButton = document.getElementById('bookButton');
+    bookButton.disabled = !(nameValue && phoneValue);
+  });
 }
 
 // Initialize the booking system
 export function initBookingSystem() {
+  renderPlaceholderStaff(); // Render immediately using default data
   setupEventListeners();
-  fetchServices();
+  fetchServices(); // Fetch actual data asynchronously
 }
 
 window['scheduleArrowClick'] = scheduleArrowClick;

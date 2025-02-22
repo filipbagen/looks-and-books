@@ -23,7 +23,8 @@ p,
 a,
 input,
 button,
-footer {
+footer,
+input::placeholder {
   font-family: 'Open Sans', sans-serif;
   line-height: 1.7;
 }
@@ -51,6 +52,17 @@ img {
   color: var(--white);
   border-radius: 10px;
   width: fit-content;
+}
+
+.new-button {
+  padding: 8px 18px;
+  background-color: var(--secondary);
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 8px;
+  color: var(--white);
+  cursor: pointer;
+  border: none;
 }
 
 .button {
@@ -85,4 +97,20 @@ hr {
   border-radius: 7px 7px 7px 7px;
   opacity: 0.25;
   margin: 12px 0;
+}
+
+.muted {
+  color: var(--secondary);
+  font-size: 12px;
+  text-align: center;
+  margin: 0;
+}
+
+/* Target all Font Awesome icons */
+.fa,
+.fas,
+.far,
+.fab,
+.fal {
+  color: var(--black);
 }

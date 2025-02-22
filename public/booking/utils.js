@@ -7,18 +7,18 @@ export function getDayShortName(date) {
 // Get short name of month (Jan, Feb, etc.)
 export function getMonthShortName(date) {
   const monthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'Maj',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Okt',
-    'Nov',
-    'Dec',
+    'jan',
+    'feb',
+    'mar',
+    'apr',
+    'maj',
+    'jun',
+    'jul',
+    'aug',
+    'sep',
+    'okt',
+    'nov',
+    'dec',
   ];
   return monthNames[date.getMonth()];
 }
@@ -48,16 +48,31 @@ export function isSameDate(date1, date2) {
   );
 }
 
-export function animateContainer(show, selector) {
-  console.log(`Animating container: ${selector}, show: ${show}`); // Debugging
-  const container = document.querySelector(selector);
-  if (!container) return;
+export function animateContainer(state, id) {
+  const target = document.querySelector(id);
+  const ANIMATION_DURATION = 620; // Match CSS transition duration
 
-  if (show) {
-    container.classList.remove('hidden');
-    container.classList.add('expanded'); // Add expanded class
-  } else {
-    container.classList.remove('expanded'); // Remove expanded class
-    container.classList.add('hidden');
+  if (target) {
+    if (state) {
+      // When showing
+      const items = target.querySelector('div.content');
+      if (target && items) {
+        // Remove hidden first to ensure gap is present
+        target.classList.remove('hidden');
+        // Wait for next frame to ensure content is rendered
+        requestAnimationFrame(() => {
+          target.style.height = `${items.scrollHeight}px`;
+          target.style.marginBottom = '56px'; // Match the gap
+        });
+      }
+    } else {
+      // When hiding
+      target.style.height = '0px';
+      target.style.marginBottom = '0px';
+      // Wait for animation to complete before hiding
+      setTimeout(() => {
+        target.classList.add('hidden');
+      }, ANIMATION_DURATION);
+    }
   }
 }

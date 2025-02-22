@@ -110,7 +110,7 @@
         <div class="content">
           <h2>Vem vill du ska ta hand om dig?</h2>
           <hr />
-          <div id="staffButtons" class="grid">
+          <div id="resourceContainer" class="content-container">
             <!-- Render staff here -->
           </div>
         </div>
@@ -121,7 +121,7 @@
         <div class="content">
           <h2>Vilken behandling vill du ha?</h2>
           <hr />
-          <div id="serviceButtons" class="grid">
+          <div id="serviceContainer" class="content-container">
             <!-- Render services here -->
           </div>
         </div>
@@ -132,17 +132,20 @@
         <div class="content">
           <h2>Vilken tid passar dig?</h2>
           <hr />
-          <div class="infobar">
-            <a onclick="scheduleArrowClick('backward')">
-              <i class="fas fa-chevron-left fa-2x"></i>
-            </a>
-            <div id="scheduleInfobar"></div>
-            <a onclick="scheduleArrowClick('forward')">
-              <i class="fas fa-chevron-right fa-2x"></i>
-            </a>
-          </div>
-          <div id="timeSlots" class="resourceScheduleContainer">
-            <!-- Render time slots here -->
+          <div class="content-container">
+            <div class="infobar">
+              <a onclick="scheduleArrowClick('backward')">
+                <i class="fas fa-chevron-left fa-2x"></i>
+              </a>
+              <div id="scheduleInfobar"></div>
+              <a onclick="scheduleArrowClick('forward')">
+                <i class="fas fa-chevron-right fa-2x"></i>
+              </a>
+            </div>
+
+            <div id="timeSlots">
+              <!-- Render time slots here -->
+            </div>
           </div>
         </div>
       </div>
@@ -150,79 +153,126 @@
       <!-- Summary Section -->
       <div id="summary" class="hidden">
         <div class="content">
-          <h2>Sammanställning</h2>
-          <div id="bookingSummary" class="summary-box">
-            <!-- Render booking summary here -->
+          <h2>Bekräfta bokning</h2>
+          <hr />
+          <div class="content-container">
+            <div id="summaryContainer">
+              <div id="bookingSummaryContainer">
+                <div id="bookingSummary">
+                  <!-- Render booking summary here -->
+                </div>
+
+                <!-- Example snippet in your phone form section -->
+                <form id="phoneForm">
+                  <div class="phoneNumberContainer">
+                    <p class="muted">
+                      Ange ditt telefonnummer för att reservera tiden
+                    </p>
+                    <div class="form-group reserve-button">
+                      <input
+                        type="tel"
+                        id="customerPhone"
+                        required
+                        placeholder="Telefonnummer"
+                      />
+
+                      <button type="submit" class="new-button" disabled>
+                        Nästa
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <form id="finalBookingForm" style="display: none">
+                <div class="form-group name-group" style="display: none">
+                  <input type="text" id="customerName" required />
+                </div>
+
+                <div class="email-phone-container">
+                  <div class="form-group phone-group">
+                    <input
+                      type="tel"
+                      id="customerPhoneFinal"
+                      required
+                      readonly
+                    />
+                  </div>
+                  <div class="form-group email-group" style="display: none">
+                    <input type="email" id="customerEmail" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <textarea id="notes" placeholder="Meddelande"></textarea>
+                </div>
+
+                <div class="booking-terms">
+                  <p class="muted">
+                    Genom att boka godkänner du bokningsvillkoren
+                  </p>
+                  <button
+                    type="submit"
+                    id="bookButton"
+                    class="new-button"
+                    disabled
+                  >
+                    Boka
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-          <form id="phoneForm" class="confirmation-form">
-            <div class="form-group">
-              <label for="customerPhone">Telefonnummer:</label>
-              <input
-                type="tel"
-                id="customerPhone"
-                required
-                placeholder="46XXXXXXXXX"
-              />
-            </div>
-            <button type="submit" class="button">Fortsätt</button>
-          </form>
-          <form
-            id="finalBookingForm"
-            class="confirmation-form"
-            style="display: none"
-          >
-            <div class="form-group name-group" style="display: none">
-              <label for="customerName">Namn:</label>
-              <input type="text" id="customerName" required />
-            </div>
-            <div class="form-group email-group" style="display: none">
-              <label for="customerEmail">E-post:</label>
-              <input type="email" id="customerEmail" required />
-            </div>
-            <div class="form-group">
-              <label for="notes">Meddelande (valfritt):</label>
-              <textarea id="notes"></textarea>
-            </div>
-            <div class="form-group">
-              <label class="checkbox">
-                <input type="checkbox" id="termsAccepted" required />
-                <span>Jag godkänner härmed bokningsvillkoren</span>
-              </label>
-            </div>
-            <button type="submit" id="bookButton" class="button" disabled>
-              Boka
-            </button>
-          </form>
         </div>
       </div>
 
       <!-- Complete Section -->
       <div id="complete" class="hidden">
         <div class="content">
-          <h2>
-            Bokning Bekräftad!
-            <i
-              class="fa fa-check-circle"
-              aria-hidden="true"
-              style="color: green"
-            ></i>
-          </h2>
-          <div id="successSummary" class="success-summary">
-            <!-- Render success summary here -->
-          </div>
-          <div class="row">
-            <a class="button" id="ical-download-link">Lägg till i kalender</a>
-            <a class="button" onclick="newBooking()">Gör en till bokning</a>
+          <h2>Bekräftad bokning</h2>
+          <hr />
+          <div class="content-container">
+            <div id="completeSummaryContainer">
+              <!-- Checkbox -->
+              <svg
+                class="checkmark"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 52 52"
+              >
+                <circle
+                  class="checkmark__circle"
+                  cx="26"
+                  cy="26"
+                  r="25"
+                  fill="none"
+                />
+                <path
+                  class="checkmark__check"
+                  fill="none"
+                  d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                />
+              </svg>
+
+              <div id="completeSummary">
+                <!-- Render final success summary here via JS -->
+              </div>
+
+              <!-- Calendar button with assigned id -->
+              <div class="cal-button" id="calendarButton">
+                <i class="fa-regular fa-calendar-days"></i>
+                <p>Lägg till i kalender</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- <img
+    <img
       src="../assets/img/slideshow/slideshow1.jpg"
       style="width: 100%"
       alt=""
-    /> -->
+    />
 
     <script src="./booking.js"></script>
     <script src="../assets/js/smoothScroll.js" type="module"></script>
@@ -230,6 +280,5 @@
       import { initBookingSystem } from './booking.js';
       document.addEventListener('DOMContentLoaded', initBookingSystem);
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
   </body>
 </html>
