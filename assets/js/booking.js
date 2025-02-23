@@ -15,20 +15,28 @@ import {
   animateContainer,
 } from './utils.js';
 
+console.log('Booking system loaded');
+
 let isServicesLoaded = false;
 let activeSchedule = getPreviousMonday(new Date()); // Start with the previous Monday
 
 // Configuration management
 const CONFIG = {
   development: {
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://localhost:8888', // Netlify dev server port
     onlineBookingUrlName: 'looksbooks',
   },
   production: {
-    baseUrl: 'https://looksandbooks.se/booking-api',
+    baseUrl: '', // Empty for production (will use relative paths)
     onlineBookingUrlName: 'looksbooks',
   },
 };
+
+function getConfig() {
+  return window.location.hostname === 'localhost'
+    ? CONFIG.development
+    : CONFIG.production;
+}
 
 const defaultStaffList = [
   { resourceId: 'emma', name: 'Emma' },
@@ -64,22 +72,14 @@ const bookingState = {
   customerInfo: null,
 };
 
-// Helper function to get configuration based on environment
-function getConfig() {
-  return window.location.hostname === 'localhost'
-    ? CONFIG.development
-    : CONFIG.production;
-}
-
 function renderPlaceholderStaff() {
   const staffContainer = document.getElementById('resourceContainer');
   if (!staffContainer) return;
   staffContainer.innerHTML = '';
 
   defaultStaffList.forEach((staff) => {
-    // Create a staff button using your existing function
     const container = createStaffButton(staff);
-    // Optionally, add a visual cue (like a CSS "disabled" class) indicating selection is not yet active.
+    // (Optionally, add a disabled look)
     container.classList.add('disabled');
     staffContainer.appendChild(container);
   });
@@ -88,12 +88,14 @@ function renderPlaceholderStaff() {
 // Fetch and initialize services
 async function fetchServices() {
   const cfg = getConfig();
+  console.log('Fetching services from:', `${cfg.baseUrl}/services`);
   try {
     const response = await fetch(`${cfg.baseUrl}/services`);
     const data = await response.json();
+    console.log('Services received:', data);
     bookingState.services = data.serviceGroups;
-    isServicesLoaded = true; // Now the actual data is available
-    populateStaffContainer(); // Re-render with up-to-date staff info
+    isServicesLoaded = true;
+    populateStaffContainer();
   } catch (error) {
     console.error('Error fetching services:', error);
   }
@@ -139,8 +141,8 @@ function populateStaffContainer() {
   imageContainer.classList.add('staff-image-container');
 
   const img = document.createElement('img');
-  img.src = '../assets/img/profile/Charlotte.jpg';
-  img.onerror = () => (img.src = '../assets/img/profile/default.jpg');
+  img.src = '/assets/img/profile/Charlotte.jpg';
+  img.onerror = () => (img.src = '/assets/img/profile/default.jpg');
 
   const textContainer = document.createElement('div');
   const name = document.createElement('h2');
@@ -170,7 +172,7 @@ function createStaffButton(staff) {
   imageContainer.classList.add('staff-image-container');
 
   const img = document.createElement('img');
-  img.src = `../assets/img/profile/${staff.name || 'default'}.jpg`;
+  img.src = `/assets/img/profile/${staff.name || 'default'}.jpg`;
   img.onerror = () => (img.src = './assets/img/profile/default.jpg');
 
   const textContainer = document.createElement('div');

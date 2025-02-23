@@ -1,0 +1,30 @@
+# netlify.toml
+
+[build]
+  # If you have a build command, specify it here (or remove the line if you build locally)
+  # command = "npm run build"
+  publish = "."
+
+[[redirects]]
+  from = "/services"
+  to = "/.netlify/functions/services"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/timeslots"
+  to = "/.netlify/functions/timeslots"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/reserve"
+  to = "/.netlify/functions/reserve"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/confirm"
+  to = "/.netlify/functions/confirm"
+  status = 200
+  force = true
