@@ -15,8 +15,6 @@ import {
   animateContainer,
 } from './utils.js';
 
-console.log('Booking system loaded');
-
 let isServicesLoaded = false;
 let activeSchedule = getPreviousMonday(new Date()); // Start with the previous Monday
 
@@ -88,11 +86,9 @@ function renderPlaceholderStaff() {
 // Fetch and initialize services
 async function fetchServices() {
   const cfg = getConfig();
-  console.log('Fetching services from:', `${cfg.baseUrl}/services`);
   try {
     const response = await fetch(`${cfg.baseUrl}/services`);
     const data = await response.json();
-    console.log('Services received:', data);
     bookingState.services = data.serviceGroups;
     isServicesLoaded = true;
     populateStaffContainer();
@@ -261,6 +257,40 @@ function createServiceRow(service) {
   return row;
 }
 
+// Global variables for prefetching
+let prefetchedWeekData = null;
+let prefetchedWeekStart = null;
+
+function fetchTimeSlotsForWeek(weekStart) {
+  const cfg = getConfig();
+  const dateStart = weekStart.toISOString().split('T')[0];
+  const dateEndObj = new Date(weekStart.getTime());
+  // Calculate dateStop (adjust to your needs, e.g. the next 6 days for the week)
+  const dateStop = addDays(dateEndObj, 6).toISOString().split('T')[0];
+
+  const params = new URLSearchParams({
+    dateStart,
+    dateStop,
+    onlineBookingUrlName: cfg.onlineBookingUrlName,
+    serviceIds: bookingState.selectedService.serviceId,
+    resourceIds: bookingState.selectedStaff.resourceId,
+  });
+
+  return fetch(`${cfg.baseUrl}/timeslots?${params}`).then((response) =>
+    response.json()
+  );
+}
+
+function prefetchNextWeek() {
+  const nextWeekStart = addDays(activeSchedule, 7);
+  fetchTimeSlotsForWeek(nextWeekStart)
+    .then((data) => {
+      prefetchedWeekData = data;
+      prefetchedWeekStart = nextWeekStart;
+    })
+    .catch(console.error);
+}
+
 // Fetch available time slots
 function fetchTimeSlots() {
   if (!bookingState.selectedStaff || !bookingState.selectedService) {
@@ -283,18 +313,31 @@ function fetchTimeSlots() {
 
   fetch(`${cfg.baseUrl}/timeslots?${params}`)
     .then((response) => response.json())
-    .then(displayTimeSlots)
+    .then((data) => {
+      displayTimeSlots(data);
+      // Prefetch next week as soon as the current week loads.
+      prefetchNextWeek();
+    })
     .catch(console.error);
 }
 
-function renderDateHeaders() {
+function displayTimeSlots(data) {
+  if (!data || !data.dates || !Array.isArray(data.dates)) {
+    console.error('Invalid data format:', data);
+    return;
+  }
+
   const target = document.getElementById('timeSlots');
-  if (!target) return;
+  if (!target) {
+    console.error('Time slots container not found');
+    return;
+  }
 
   target.innerHTML = '';
   const startDate = activeSchedule;
   const oneWeekForward = addDays(new Date(startDate.getTime()), 6);
 
+  // Render time slots for each day in the week
   for (
     let i = new Date(startDate.getTime());
     i <= oneWeekForward;
@@ -305,7 +348,7 @@ function renderDateHeaders() {
 
     // Create date header
     const day = document.createElement('div');
-    day.classList.add('date-header');
+    day.classList.add('date-header'); // Add this line
     const dayName = document.createElement('h2');
     const dayDate = document.createElement('p');
 
@@ -316,48 +359,14 @@ function renderDateHeaders() {
     day.appendChild(dayDate);
     container.appendChild(day);
 
-    // Create slots container (initially empty)
-    const slotsContainer = document.createElement('div');
-    slotsContainer.classList.add('slots-wrapper');
-
-    container.appendChild(slotsContainer);
-    target.appendChild(container);
-  }
-}
-
-function displayTimeSlots(data) {
-  if (!data || !data.dates || !Array.isArray(data.dates)) {
-    console.error('Invalid data format:', data);
-    return;
-  }
-
-  // Get the target container (already rendered by renderDateHeaders)
-  const target = document.getElementById('timeSlots');
-  if (!target) {
-    console.error('Time slots container not found');
-    return;
-  }
-
-  // Loop through each column and update with fetched slots
-  const startDate = activeSchedule;
-  const oneWeekForward = addDays(new Date(startDate.getTime()), 6);
-  let columnIndex = 0;
-
-  for (
-    let i = new Date(startDate.getTime());
-    i <= oneWeekForward;
-    i = addDays(i, 1)
-  ) {
-    const container = target.children[columnIndex];
-    if (!container) continue;
-
-    // Find slots container (assumed second child of column)
-    const slotsContainer = container.querySelector('.slots-wrapper');
-    slotsContainer.innerHTML = ''; // Clear previous (if any)
-
+    // Find time slots for the current date
     const dateGroup = data.dates.find((group) =>
       isSameDate(new Date(group.date), i)
     );
+
+    // Create slots container
+    const slotsContainer = document.createElement('div');
+    slotsContainer.classList.add('slots-wrapper');
 
     if (dateGroup && dateGroup.timeSlots.length > 0) {
       dateGroup.timeSlots.forEach((slot) => {
@@ -371,18 +380,21 @@ function displayTimeSlots(data) {
         slotElement.addEventListener('click', (evt) =>
           selectTimeSlot(dateGroup.date, slot, evt.currentTarget)
         );
+
         slotsContainer.appendChild(slotElement);
       });
     } else {
-      // Optionally, mark no slots available for this date
-      const dayHeader = container.querySelector('.date-header');
-      dayHeader.classList.add('no-slots-available');
+      day.classList.add('no-slots-available');
     }
-    columnIndex++;
+
+    container.appendChild(slotsContainer);
+    target.appendChild(container);
   }
 
-  // Update the schedule infobar and recalculate container height
+  // Update the schedule infobar with the current week's dates
   populateScheduleDate();
+
+  // Re-calculate and update the container height
   const whenSection = document.getElementById('when');
   if (whenSection && !whenSection.classList.contains('hidden')) {
     animateContainer(true, '#when');
@@ -452,14 +464,25 @@ function getPreviousMonday(date) {
 
 function scheduleArrowClick(type) {
   if (type === 'forward') {
-    activeSchedule = addDays(activeSchedule, 7);
+    // If we've previously prefetched next week, use it.
+    if (prefetchedWeekData && prefetchedWeekStart) {
+      activeSchedule = prefetchedWeekStart;
+      displayTimeSlots(prefetchedWeekData);
+      // Now prefetch the week following the one we just displayed.
+      prefetchNextWeek();
+    } else {
+      // No prefetched data, so move forward normally and prefetch afterward.
+      activeSchedule = addDays(activeSchedule, 7);
+      smoothScrollTo('when');
+      fetchTimeSlots();
+      prefetchNextWeek();
+    }
   } else if (type === 'backward') {
+    // For backward navigation, we just fetch data normally.
     activeSchedule = addDays(activeSchedule, -7);
+    smoothScrollTo('when');
+    fetchTimeSlots();
   }
-
-  // Fetch and display time slots for the new week
-  smoothScrollTo('when');
-  fetchTimeSlots();
 }
 
 // Phone form submission handler
@@ -761,7 +784,6 @@ function selectService(service, selectedElement) {
   bookingState.selectedService = service;
 
   // Fetch and display time slots
-  renderDateHeaders();
   fetchTimeSlots();
   animateContainer(true, '#when');
   animateContainer(false, '#summary');
