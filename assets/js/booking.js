@@ -291,6 +291,51 @@ function prefetchNextWeek() {
     .catch(console.error);
 }
 
+function updateTimeSlots(data) {
+  if (!data || !data.dates || !Array.isArray(data.dates)) {
+    console.error('Invalid data format:', data);
+    return;
+  }
+  // Iterate over each column (day) that was rendered
+  const columns = document.querySelectorAll('#timeSlots .column');
+  columns.forEach((column) => {
+    const dateString = column.getAttribute('data-date');
+    // Find the corresponding dateGroup from the fetched data:
+    const dateGroup = data.dates.find((group) => {
+      // Compare ISO date strings for matching
+      return new Date(group.date).toISOString().split('T')[0] === dateString;
+    });
+
+    const slotsWrapper = column.querySelector('.slots-wrapper');
+    slotsWrapper.innerHTML = '';
+
+    if (dateGroup && dateGroup.timeSlots.length > 0) {
+      dateGroup.timeSlots.forEach((slot) => {
+        const slotElement = document.createElement('div');
+        slotElement.classList.add('slot');
+        const timeText = document.createElement('p');
+        timeText.textContent = slot.startTime;
+        slotElement.appendChild(timeText);
+        slotElement.addEventListener('click', (evt) =>
+          selectTimeSlot(dateGroup.date, slot, evt.currentTarget)
+        );
+        slotsWrapper.appendChild(slotElement);
+      });
+    } else {
+      // Optionally, add a class or message indicating no slots
+      column.querySelector('.date-header').classList.add('no-slots-available');
+    }
+  });
+
+  // Update the schedule infobar with week information:
+  populateScheduleDate();
+  // Re-calculate and update container height if needed
+  const whenSection = document.getElementById('when');
+  if (whenSection && !whenSection.classList.contains('hidden')) {
+    animateContainer(true, '#when');
+  }
+}
+
 // Fetch available time slots
 function fetchTimeSlots() {
   if (!bookingState.selectedStaff || !bookingState.selectedService) {
@@ -298,10 +343,13 @@ function fetchTimeSlots() {
     return;
   }
 
+  // Render the static structure with date headers right away
+  renderScheduleStructure();
+
   const cfg = getConfig();
   const dateStart = new Date().toISOString().split('T')[0];
   const dateEnd = new Date();
-  dateEnd.setDate(dateEnd.getDate() + 180); // Book up to 6 months in advance (must sync with EasyCashier)
+  dateEnd.setDate(dateEnd.getDate() + 180);
 
   const params = new URLSearchParams({
     dateStart,
@@ -314,11 +362,54 @@ function fetchTimeSlots() {
   fetch(`${cfg.baseUrl}/timeslots?${params}`)
     .then((response) => response.json())
     .then((data) => {
-      displayTimeSlots(data);
-      // Prefetch next week as soon as the current week loads.
+      // Now update the previously rendered structure with fetched time slots
+      updateTimeSlots(data);
       prefetchNextWeek();
     })
     .catch(console.error);
+}
+
+function renderScheduleStructure() {
+  const target = document.getElementById('timeSlots');
+  if (!target) {
+    console.error('Time slots container not found');
+    return;
+  }
+  target.innerHTML = '';
+
+  const startDate = activeSchedule;
+  const oneWeekForward = addDays(new Date(startDate.getTime()), 6);
+
+  // Render a column for each day—even if no time slots are loaded yet
+  for (
+    let i = new Date(startDate.getTime());
+    i <= oneWeekForward;
+    i = addDays(i, 1)
+  ) {
+    const column = document.createElement('div');
+    column.classList.add('column');
+    // Save the date as an attribute for later matching
+    column.setAttribute('data-date', i.toISOString().split('T')[0]);
+
+    // Create and append the date header immediately
+    const dateHeader = document.createElement('div');
+    dateHeader.classList.add('date-header');
+    dateHeader.classList.add('no-slots-available');
+    const dayName = document.createElement('h2');
+    dayName.textContent = getDayShortName(i);
+    const dayDate = document.createElement('p');
+    dayDate.textContent = `${i.getDate()} ${getMonthShortName(i)}`;
+    dateHeader.appendChild(dayName);
+    dateHeader.appendChild(dayDate);
+    column.appendChild(dateHeader);
+
+    // Create an empty container for the slots
+    const slotsWrapper = document.createElement('div');
+    slotsWrapper.classList.add('slots-wrapper');
+    column.appendChild(slotsWrapper);
+
+    target.appendChild(column);
+  }
 }
 
 function displayTimeSlots(data) {
