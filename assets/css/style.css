@@ -58,9 +58,14 @@
 
 .contactAndOpeningHours {
   display: flex;
-  flex-direction: row;
+  gap: 32px;
   justify-content: space-between;
-  align-items: flex-start;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 50%;
   text-align: center;
 }
