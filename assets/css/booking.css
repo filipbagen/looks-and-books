@@ -74,6 +74,7 @@
 .staff-image-container:hover,
 .staff-button.activeRing .staff-image-container {
   transform: scale(1.1);
+  cursor: pointer;
 }
 
 /* What */

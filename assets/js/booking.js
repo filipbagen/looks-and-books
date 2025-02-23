@@ -287,23 +287,14 @@ function fetchTimeSlots() {
     .catch(console.error);
 }
 
-function displayTimeSlots(data) {
-  if (!data || !data.dates || !Array.isArray(data.dates)) {
-    console.error('Invalid data format:', data);
-    return;
-  }
-
+function renderDateHeaders() {
   const target = document.getElementById('timeSlots');
-  if (!target) {
-    console.error('Time slots container not found');
-    return;
-  }
+  if (!target) return;
 
   target.innerHTML = '';
   const startDate = activeSchedule;
   const oneWeekForward = addDays(new Date(startDate.getTime()), 6);
 
-  // Render time slots for each day in the week
   for (
     let i = new Date(startDate.getTime());
     i <= oneWeekForward;
@@ -314,7 +305,7 @@ function displayTimeSlots(data) {
 
     // Create date header
     const day = document.createElement('div');
-    day.classList.add('date-header'); // Add this line
+    day.classList.add('date-header');
     const dayName = document.createElement('h2');
     const dayDate = document.createElement('p');
 
@@ -325,14 +316,48 @@ function displayTimeSlots(data) {
     day.appendChild(dayDate);
     container.appendChild(day);
 
-    // Find time slots for the current date
+    // Create slots container (initially empty)
+    const slotsContainer = document.createElement('div');
+    slotsContainer.classList.add('slots-wrapper');
+
+    container.appendChild(slotsContainer);
+    target.appendChild(container);
+  }
+}
+
+function displayTimeSlots(data) {
+  if (!data || !data.dates || !Array.isArray(data.dates)) {
+    console.error('Invalid data format:', data);
+    return;
+  }
+
+  // Get the target container (already rendered by renderDateHeaders)
+  const target = document.getElementById('timeSlots');
+  if (!target) {
+    console.error('Time slots container not found');
+    return;
+  }
+
+  // Loop through each column and update with fetched slots
+  const startDate = activeSchedule;
+  const oneWeekForward = addDays(new Date(startDate.getTime()), 6);
+  let columnIndex = 0;
+
+  for (
+    let i = new Date(startDate.getTime());
+    i <= oneWeekForward;
+    i = addDays(i, 1)
+  ) {
+    const container = target.children[columnIndex];
+    if (!container) continue;
+
+    // Find slots container (assumed second child of column)
+    const slotsContainer = container.querySelector('.slots-wrapper');
+    slotsContainer.innerHTML = ''; // Clear previous (if any)
+
     const dateGroup = data.dates.find((group) =>
       isSameDate(new Date(group.date), i)
     );
-
-    // Create slots container
-    const slotsContainer = document.createElement('div');
-    slotsContainer.classList.add('slots-wrapper');
 
     if (dateGroup && dateGroup.timeSlots.length > 0) {
       dateGroup.timeSlots.forEach((slot) => {
@@ -346,21 +371,18 @@ function displayTimeSlots(data) {
         slotElement.addEventListener('click', (evt) =>
           selectTimeSlot(dateGroup.date, slot, evt.currentTarget)
         );
-
         slotsContainer.appendChild(slotElement);
       });
     } else {
-      day.classList.add('no-slots-available');
+      // Optionally, mark no slots available for this date
+      const dayHeader = container.querySelector('.date-header');
+      dayHeader.classList.add('no-slots-available');
     }
-
-    container.appendChild(slotsContainer);
-    target.appendChild(container);
+    columnIndex++;
   }
 
-  // Update the schedule infobar with the current week's dates
+  // Update the schedule infobar and recalculate container height
   populateScheduleDate();
-
-  // Re-calculate and update the container height
   const whenSection = document.getElementById('when');
   if (whenSection && !whenSection.classList.contains('hidden')) {
     animateContainer(true, '#when');
@@ -739,6 +761,7 @@ function selectService(service, selectedElement) {
   bookingState.selectedService = service;
 
   // Fetch and display time slots
+  renderDateHeaders();
   fetchTimeSlots();
   animateContainer(true, '#when');
   animateContainer(false, '#summary');
