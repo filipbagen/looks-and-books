@@ -326,9 +326,6 @@ function updateTimeSlots(data) {
       column.querySelector('.date-header').classList.add('no-slots-available');
     }
   });
-
-  // Update the schedule infobar with week information:
-  populateScheduleDate();
   // Re-calculate and update container height if needed
   const whenSection = document.getElementById('when');
   if (whenSection && !whenSection.classList.contains('hidden')) {
@@ -343,8 +340,11 @@ function fetchTimeSlots() {
     return;
   }
 
-  // Render the static structure with date headers right away
+  // Render the static structure with date headers immediately
   renderScheduleStructure();
+
+  // Immediately update the schedule infobar with the current week's dates
+  populateScheduleDate();
 
   const cfg = getConfig();
   const dateStart = new Date().toISOString().split('T')[0];
