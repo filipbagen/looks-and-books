@@ -271,7 +271,7 @@ function fetchTimeSlots() {
   const cfg = getConfig();
   const dateStart = new Date().toISOString().split('T')[0];
   const dateEnd = new Date();
-  dateEnd.setDate(dateEnd.getDate() + 30);
+  dateEnd.setDate(dateEnd.getDate() + 180); // Book up to 6 months in advance (must sync with EasyCashier)
 
   const params = new URLSearchParams({
     dateStart,
