@@ -715,10 +715,10 @@ function setupFinalBookingListeners() {
 }
 
 // Show success page
-// Inside your showSuccessPage function after the summary has been set...
 async function showSuccessPage(confirmData) {
   // Hide the summary section (if needed)
-  animateContainer(false, '#summary');
+  // animateContainer(false, '#summary');
+  // console.log('confirmData:', confirmData);
 
   // Build the summary content similar to the booking summary
   const formattedDate = formatDateWord(bookingState.selectedDate);
