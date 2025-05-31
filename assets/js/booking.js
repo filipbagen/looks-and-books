@@ -320,6 +320,12 @@ function updateTimeSlots(data) {
     console.error('Invalid data format:', data);
     return;
   }
+
+  // Check if the entire week is empty
+  const hasAnySlots = data.dates.some(
+    (dateGroup) => dateGroup.timeSlots && dateGroup.timeSlots.length > 0
+  );
+
   // Iterate over each column (day) that was rendered
   const columns = document.querySelectorAll('#timeSlots .column');
   columns.forEach((column) => {
@@ -350,6 +356,31 @@ function updateTimeSlots(data) {
       column.querySelector('.date-header').classList.add('no-slots-available');
     }
   });
+
+  // If no slots available for the entire week, show a message
+  const timeSlotsContainer = document.getElementById('timeSlots');
+  let emptyWeekMessage = timeSlotsContainer.querySelector(
+    '.empty-week-message'
+  );
+
+  if (!hasAnySlots) {
+    if (!emptyWeekMessage) {
+      emptyWeekMessage = document.createElement('div');
+      emptyWeekMessage.classList.add('empty-week-message');
+      emptyWeekMessage.innerHTML =
+        '<p class="muted">Inga lediga tider denna vecka</p>';
+      timeSlotsContainer.appendChild(emptyWeekMessage);
+    }
+    emptyWeekMessage.style.display = 'block';
+  } else {
+    if (emptyWeekMessage) {
+      emptyWeekMessage.style.display = 'none';
+    }
+  }
+
+  // Update navigation arrows state
+  updateNavigationArrows();
+
   // Re-calculate and update container height if needed
   const whenSection = document.getElementById('when');
   if (whenSection && !whenSection.classList.contains('hidden')) {
@@ -628,10 +659,41 @@ function scheduleArrowClick(type) {
       prefetchNextWeek();
     }
   } else if (type === 'backward') {
+    // Check if we can go backward (not already at current week)
+    const currentWeek = getPreviousMonday(new Date());
+    if (activeSchedule <= currentWeek) {
+      return; // Don't allow navigation to past weeks
+    }
+
     // For backward navigation, we just fetch data normally.
     activeSchedule = addDays(activeSchedule, -7);
     smoothScrollTo('when');
     fetchTimeSlots();
+  }
+
+  // Update navigation arrows after any navigation
+  updateNavigationArrows();
+}
+
+function updateNavigationArrows() {
+  const currentWeek = getPreviousMonday(new Date());
+  const leftArrow = document.querySelector(
+    '.infobar a[onclick="scheduleArrowClick(\'backward\')"]'
+  );
+
+  if (leftArrow) {
+    // Check if activeSchedule is the current week or earlier
+    if (activeSchedule <= currentWeek) {
+      // Disable backward navigation - can't go before current week
+      leftArrow.classList.add('disabled-arrow');
+      leftArrow.style.pointerEvents = 'none';
+      leftArrow.style.opacity = '0.3';
+    } else {
+      // Enable backward navigation
+      leftArrow.classList.remove('disabled-arrow');
+      leftArrow.style.pointerEvents = 'auto';
+      leftArrow.style.opacity = '1';
+    }
   }
 }
 
