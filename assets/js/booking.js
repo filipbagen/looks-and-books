@@ -44,6 +44,7 @@ const defaultStaffList = [
   { resourceId: 'simon', name: 'Simon' },
   { resourceId: 'olivia', name: 'Olivia' },
   { resourceId: 'meja', name: 'Meja' },
+  { resourceId: 'quickest-available', name: 'Snabbast möjliga tid' },
 ];
 
 const staffTitles = {
@@ -54,6 +55,7 @@ const staffTitles = {
   Olivia: 'Frisör',
   Simon: 'Frisör',
   Meja: 'Nagelterapeut',
+  'Snabbast möjliga tid': 'Första lediga tid',
   // Add more staff members as needed
 };
 
@@ -120,6 +122,40 @@ function populateStaffContainer() {
     const container = createStaffButton(staff);
     staffContainer.appendChild(container);
   });
+
+  // Add "Snabbast möjliga tid" option at the end
+  const quickestContainer = document.createElement('div');
+  quickestContainer.classList.add('staff-button');
+  quickestContainer.id = 'quickest-available';
+  quickestContainer.addEventListener('click', () =>
+    selectStaff(
+      { resourceId: 'quickest-available', name: 'Snabbast möjliga tid' },
+      quickestContainer
+    )
+  );
+
+  const imageContainer = document.createElement('div');
+  imageContainer.classList.add('staff-image-container');
+
+  const img = document.createElement('img');
+  img.src = '/assets/img/profile/default.jpg';
+  img.onerror = () => (img.src = './assets/img/profile/default.jpg');
+
+  const textContainer = document.createElement('div');
+  const name = document.createElement('h2');
+  name.textContent = 'Snabbast möjliga tid';
+
+  const title = document.createElement('p');
+  title.classList.add('muted');
+  title.textContent = 'Första lediga tid';
+
+  imageContainer.appendChild(img);
+  textContainer.appendChild(name);
+  textContainer.appendChild(title);
+  quickestContainer.appendChild(imageContainer);
+  quickestContainer.appendChild(textContainer);
+
+  staffContainer.appendChild(quickestContainer);
 }
 
 // Create staff button element
@@ -166,14 +202,21 @@ function populateServiceContainer() {
     return;
   }
 
-  // Filter services for the selected staff
-  const staffServices = bookingState.services.flatMap((group) =>
-    group.services.filter((service) =>
-      service.resourceServices.some(
-        (rs) => rs.resourceId === bookingState.selectedStaff.resourceId
+  let staffServices;
+
+  // If "quickest available" is selected, show ALL services
+  if (bookingState.selectedStaff.resourceId === 'quickest-available') {
+    staffServices = bookingState.services.flatMap((group) => group.services);
+  } else {
+    // Filter services for the selected staff
+    staffServices = bookingState.services.flatMap((group) =>
+      group.services.filter((service) =>
+        service.resourceServices.some(
+          (rs) => rs.resourceId === bookingState.selectedStaff.resourceId
+        )
       )
-    )
-  );
+    );
+  }
 
   if (staffServices.length === 0) {
     // No services available for this staff
@@ -233,12 +276,28 @@ function fetchTimeSlotsForWeek(weekStart) {
   // Calculate dateStop (adjust to your needs, e.g. the next 6 days for the week)
   const dateStop = addDays(dateEndObj, 6).toISOString().split('T')[0];
 
+  let resourceIds;
+
+  // If "quickest available" is selected, get all resource IDs for this service
+  if (bookingState.selectedStaff.resourceId === 'quickest-available') {
+    // Find all resource IDs that can perform the selected service
+    resourceIds = bookingState.selectedService.resourceServices.map(
+      (rs) => rs.resourceId
+    );
+  } else {
+    resourceIds = [bookingState.selectedStaff.resourceId];
+  }
+
   const params = new URLSearchParams({
     dateStart,
     dateStop,
     onlineBookingUrlName: cfg.onlineBookingUrlName,
     serviceIds: bookingState.selectedService.serviceId,
-    resourceIds: bookingState.selectedStaff.resourceId,
+  });
+
+  // Add each resourceId as a separate parameter
+  resourceIds.forEach((resourceId) => {
+    params.append('resourceIds', resourceId);
   });
 
   return fetch(`${cfg.baseUrl}/timeslots?${params}`).then((response) =>
@@ -316,12 +375,28 @@ function fetchTimeSlots() {
   const dateEnd = new Date();
   dateEnd.setDate(dateEnd.getDate() + 180);
 
+  let resourceIds;
+
+  // If "quickest available" is selected, get all resource IDs for this service
+  if (bookingState.selectedStaff.resourceId === 'quickest-available') {
+    // Find all resource IDs that can perform the selected service
+    resourceIds = bookingState.selectedService.resourceServices.map(
+      (rs) => rs.resourceId
+    );
+  } else {
+    resourceIds = [bookingState.selectedStaff.resourceId];
+  }
+
   const params = new URLSearchParams({
     dateStart,
     dateStop: dateEnd.toISOString().split('T')[0],
     onlineBookingUrlName: cfg.onlineBookingUrlName,
     serviceIds: bookingState.selectedService.serviceId,
-    resourceIds: bookingState.selectedStaff.resourceId,
+  });
+
+  // Add each resourceId as a separate parameter (like in your HTTP request example)
+  resourceIds.forEach((resourceId) => {
+    params.append('resourceIds', resourceId);
   });
 
   fetch(`${cfg.baseUrl}/timeslots?${params}`)
@@ -479,9 +554,28 @@ function selectTimeSlot(date, slot, target) {
   // Format the date in words (e.g., "20 februari")
   const formattedDate = formatDateWord(date);
 
+  // Determine the staff name to display
+  let staffDisplayName = bookingState.selectedStaff.name;
+
+  // If "quickest available" was selected and slot has resource info, find the actual staff name
+  if (
+    bookingState.selectedStaff.resourceId === 'quickest-available' &&
+    slot.resourceId
+  ) {
+    // Find the staff name from the services data
+    const foundStaff = bookingState.services
+      .flatMap((group) => group.services)
+      .flatMap((service) => service.resourceServices)
+      .find((rs) => rs.resourceId === slot.resourceId);
+
+    if (foundStaff) {
+      staffDisplayName = foundStaff.name;
+    }
+  }
+
   // Update booking summary content
   const summaryHtml = `
-    <h2>${bookingState.selectedService.name} hos ${bookingState.selectedStaff.name}</h2>
+    <h2>${bookingState.selectedService.name} hos ${staffDisplayName}</h2>
     <p>${formattedDate}, ${slot.startTime} | ${bookingState.selectedService.length} min / ${bookingState.selectedService.priceIncludingVat} kr</p>
   `;
   document.getElementById('bookingSummary').innerHTML = summaryHtml;
