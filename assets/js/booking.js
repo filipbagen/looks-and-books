@@ -44,7 +44,6 @@ const defaultStaffList = [
   { resourceId: 'simon', name: 'Simon' },
   { resourceId: 'olivia', name: 'Olivia' },
   { resourceId: 'meja', name: 'Meja' },
-  { resourceId: 'charlotte', name: 'Charlotte' },
 ];
 
 const staffTitles = {
@@ -54,7 +53,6 @@ const staffTitles = {
   Emma: 'Frisör',
   Olivia: 'Frisör',
   Simon: 'Frisör',
-  Charlotte: 'Hudterapeut & hudcoach',
   Meja: 'Nagelterapeut',
   // Add more staff members as needed
 };
@@ -122,39 +120,6 @@ function populateStaffContainer() {
     const container = createStaffButton(staff);
     staffContainer.appendChild(container);
   });
-
-  // Add Charlotte manually with Google redirect
-  const charlotteContainer = document.createElement('div');
-  charlotteContainer.classList.add('staff-button');
-  charlotteContainer.addEventListener('click', () =>
-    window.open(
-      'https://bokadirekt.se/places/charlottes-hudv%C3%A5rd-61742',
-      '_blank'
-    )
-  );
-
-  const imageContainer = document.createElement('div');
-  imageContainer.classList.add('staff-image-container');
-
-  const img = document.createElement('img');
-  img.src = '/assets/img/profile/Charlotte.jpg';
-  img.onerror = () => (img.src = '/assets/img/profile/default.jpg');
-
-  const textContainer = document.createElement('div');
-  const name = document.createElement('h2');
-  name.textContent = 'Charlotte';
-
-  const title = document.createElement('p');
-  title.classList.add('muted');
-  title.textContent = staffTitles['Charlotte']; // Will show "Hudterapeut & hudcoach"
-
-  imageContainer.appendChild(img);
-  textContainer.appendChild(name);
-  textContainer.appendChild(title);
-  charlotteContainer.appendChild(imageContainer);
-  charlotteContainer.appendChild(textContainer);
-
-  staffContainer.appendChild(charlotteContainer);
 }
 
 // Create staff button element
