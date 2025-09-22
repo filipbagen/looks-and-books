@@ -44,7 +44,7 @@ const defaultStaffList = [
   { resourceId: 'simon', name: 'Simon' },
   { resourceId: 'olivia', name: 'Olivia' },
   { resourceId: 'meja', name: 'Meja' },
-  { resourceId: 'quickest-available', name: 'Snabbast möjliga tid' },
+  // { resourceId: 'quickest-available', name: 'Snabbast möjliga tid' },
 ];
 
 const staffTitles = {
@@ -55,7 +55,7 @@ const staffTitles = {
   Olivia: 'Frisör',
   Simon: 'Frisör',
   Meja: 'Nagelterapeut',
-  'Snabbast möjliga tid': 'Första lediga tid',
+  // 'Snabbast möjliga tid': 'Första lediga tid',
   // Add more staff members as needed
 };
 
@@ -123,16 +123,16 @@ function populateStaffContainer() {
     staffContainer.appendChild(container);
   });
 
-  // Add "Snabbast möjliga tid" option at the end
-  const quickestContainer = document.createElement('div');
-  quickestContainer.classList.add('staff-button');
-  quickestContainer.id = 'quickest-available';
-  quickestContainer.addEventListener('click', () =>
-    selectStaff(
-      { resourceId: 'quickest-available', name: 'Snabbast möjliga tid' },
-      quickestContainer
-    )
-  );
+  // // Add "Snabbast möjliga tid" option at the end
+  // const quickestContainer = document.createElement('div');
+  // quickestContainer.classList.add('staff-button');
+  // quickestContainer.id = 'quickest-available';
+  // quickestContainer.addEventListener('click', () =>
+  //   selectStaff(
+  //     { resourceId: 'quickest-available', name: 'Snabbast möjliga tid' },
+  //     quickestContainer
+  //   )
+  // );
 
   const imageContainer = document.createElement('div');
   imageContainer.classList.add('staff-image-container');
@@ -141,9 +141,9 @@ function populateStaffContainer() {
   img.src = '/assets/img/profile/default.jpg';
   img.onerror = () => (img.src = './assets/img/profile/default.jpg');
 
-  const textContainer = document.createElement('div');
-  const name = document.createElement('h2');
-  name.textContent = 'Snabbast möjliga tid';
+  // const textContainer = document.createElement('div');
+  // const name = document.createElement('h2');
+  // name.textContent = 'Snabbast möjliga tid';
 
   const title = document.createElement('p');
   title.classList.add('muted');
