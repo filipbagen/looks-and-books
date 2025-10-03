@@ -43,7 +43,6 @@ const defaultStaffList = [
   { resourceId: 'hannah', name: 'Hannah' },
   { resourceId: 'simon', name: 'Simon' },
   { resourceId: 'olivia', name: 'Olivia' },
-  { resourceId: 'meja', name: 'Meja' },
   // { resourceId: 'quickest-available', name: 'Snabbast möjliga tid' },
 ];
 
@@ -54,7 +53,6 @@ const staffTitles = {
   Emma: 'Frisör',
   Olivia: 'Frisör',
   Simon: 'Frisör',
-  Meja: 'Nagelterapeut',
   // 'Snabbast möjliga tid': 'Första lediga tid',
   // Add more staff members as needed
 };
