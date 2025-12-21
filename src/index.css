@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-primary: #adad96;
+  --color-secondary: #5e5e41;
+  --color-secondary-light: rgba(94, 94, 65, 0.4);
+  --color-dark: #353535;
+  --color-white: #ffffff;
+
+  /* Fonts - use the correct Tailwind v4 naming convention */
+  --font-display: "DM Serif Display", serif;
+  --font-body: "Open Sans", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-primary text-dark;
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+
+  a {
+    @apply no-underline text-inherit;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-5 py-2 bg-secondary text-white font-semibold rounded-lg
+           cursor-pointer border-none transition-shadow duration-200
+           hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-outline {
+    @apply px-6 py-3 bg-primary text-dark font-semibold rounded-2xl
+           border-2 border-dark flex items-center justify-center gap-2
+           transition-shadow duration-200 hover:shadow-md cursor-pointer;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 rounded-lg text-secondary focus:outline-none;
+    border: 1px solid var(--color-secondary-light);
+  }
+
+  .input-field:focus {
+    border-color: var(--color-secondary);
+  }
+}
+
+/* Utility classes for fonts */
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+  }
+}
+
+/* Checkmark animation */
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: var(--color-secondary);
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  animation-delay: 0.6s;
+}
+
+.checkmark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 3;
+  stroke: white;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px var(--color-secondary);
+  animation:
+    fill 0.4s ease-in-out 0.4s forwards,
+    scale 0.3s ease-in-out 0.9s both;
+  animation-delay: 1s, 1.5s;
+  stroke-linecap: round;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  animation-delay: 1.4s;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px var(--color-secondary);
+  }
+}
