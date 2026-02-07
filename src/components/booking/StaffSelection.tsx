@@ -75,7 +75,7 @@ export default function StaffSelection() {
                   <img
                     src={getProfileImage(staff.name)}
                     alt={staff.name}
-                    className="box-border w-40 h-40 rounded-full object-cover relative border-4 border-primary max-md:w-32 max-md:h-32"
+                    className="box-border w-40 h-40 rounded-full object-cover relative border-4 max-md:w-32 max-md:h-32"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = defaultImage;
                     }}
