@@ -1,11 +1,10 @@
-const axios = require('axios');
+import axios from 'axios';
 
 const BASE_URL = 'https://boka.easycashier.se/v1/open/calendar/onlineBooking';
-// Simple in-memory cache (exists only while the function instance is warm)
 const cache = {};
-const CACHE_DURATION = 60 * 1000; // Cache duration: 1 minute
+const CACHE_DURATION = 60 * 1000;
 
-exports.handler = async function (event, context) {
+export const handler = async function (event, context) {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',

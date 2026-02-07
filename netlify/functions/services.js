@@ -1,10 +1,11 @@
 // netlify/functions/services.js
-const axios = require('axios');
+import axios from 'axios';
 
 const BASE_URL = 'https://boka.easycashier.se/v1/open/calendar/onlineBooking';
-const ONLINE_BOOKING_URL_NAME = process.env.ONLINE_BOOKING_URL_NAME; // Add this to Netlify environment variables
+const ONLINE_BOOKING_URL_NAME =
+  process.env.ONLINE_BOOKING_URL_NAME || 'looksbooks';
 
-exports.handler = async function (event, context) {
+export const handler = async function (event, context) {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
