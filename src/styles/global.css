@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #adad96;
+  --color-secondary: #5e5e41;
+  --color-secondary-low: rgba(94, 94, 65, 0.4);
+  --color-brand-black: #353535;
+  --color-brand-white: #ffffff;
+  --radius-brand: 18px;
+}
+
+/* Base element styles that Tailwind can't express as utilities */
+@layer base {
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-primary);
+    color: var(--color-brand-black);
+  }
+
+  h1, h2, h3 {
+    font-family: 'DM Serif Display', serif;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 28pt;
+    margin: 0 0 20pt 0;
+  }
+
+  p, a, input, button, footer, textarea, input::placeholder {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.7;
+  }
+
+  a, a:focus, a:active {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  img {
+    -webkit-user-drag: none;
+    user-select: none;
+    border-radius: var(--radius-brand);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid var(--color-secondary);
+    border-radius: 7px;
+    opacity: 0.25;
+    margin: 12px 0;
+  }
+}
+
+/* Utility classes used across multiple components */
+@utility today {
+  font-weight: bold;
+  background-color: var(--color-secondary);
+  padding: 8px 18px;
+  color: var(--color-brand-white);
+  border-radius: 10px;
+  width: fit-content;
+}
+
+@utility muted {
+  color: var(--color-secondary);
+  font-size: 12px;
+  text-align: center;
+  margin: 0;
+}
+
+@utility input-field {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 16px;
+  border: 1px solid #9c9c7f;
+  border-radius: 8px;
+  color: var(--color-secondary);
+}
+
+@utility input-field-focus {
+  border-color: var(--color-secondary);
+  outline: none;
+}
+
+@utility btn-primary {
+  padding: 8px 18px;
+  background-color: var(--color-secondary);
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 8px;
+  color: var(--color-brand-white);
+  cursor: pointer;
+  border: none;
+}
+
+/* Checkmark animation (SVG, can't be Tailwind) */
+@keyframes checkmark-stroke {
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes checkmark-scale {
+  0%, 100% { transform: none; }
+  50% { transform: scale3d(1.1, 1.1, 1); }
+}
+@keyframes checkmark-fill {
+  100% { box-shadow: inset 0px 0px 0px 30px var(--color-secondary); }
+}
+
+/* Splide overrides (3rd party, must target global classes) */
+.splide-wrapper .splide__track {
+  border-radius: var(--radius-brand);
+}
+.splide-wrapper .splide__list {
+  width: 50vw;
+  max-width: 712px;
+  min-width: 400px;
+}
+.splide-wrapper .splide__slide img {
+  height: auto;
+  width: 100%;
+}
+.splide-wrapper .splide__arrow {
+  transition: 0.2s;
+}
+@media (max-width: 1240px) {
+  .splide-wrapper .splide__list {
+    width: 100%;
+  }
+}
+
+/* Grid template areas (Tailwind doesn't support named areas) */
+.grid-hero {
+  display: grid;
+  grid-template-areas:
+    'openingHours openingHours openingHours openingHours openingHours'
+    'intro intro slideshow slideshow slideshow';
+  gap: 42px 0;
+  justify-items: stretch;
+  align-items: stretch;
+  max-width: 100%;
+}
+@media (max-width: 1240px) {
+  .grid-hero {
+    grid-template-areas:
+      'intro intro intro intro intro intro'
+      'slideshow slideshow slideshow slideshow openingHours openingHours';
+    grid-auto-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  .grid-hero {
+    grid-template-areas:
+      'intro'
+      'slideshow'
+      'openingHours';
+    gap: 48px;
+  }
+}
+.area-opening { grid-area: openingHours; }
+.area-intro { grid-area: intro; }
+.area-slideshow { grid-area: slideshow; }
