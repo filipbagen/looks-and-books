@@ -1,3 +1,4 @@
+import { cn } from '../../lib/utils';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
 import type { Staff } from '../../types/booking';
 
@@ -59,10 +60,18 @@ export default function StaffSelection() {
             return (
               <div
                 key={staff.resourceId}
-                className={`w-[164px] flex flex-col items-center transition-transform duration-200 cursor-pointer relative text-center gap-2 max-md:w-[124px] ${isDisabled ? 'opacity-50 pointer-events-none' : ''}`}
+                className={cn(
+                  "w-[164px] flex flex-col items-center transition-transform duration-200 cursor-pointer relative text-center gap-2 max-md:w-[124px]",
+                  isDisabled && "opacity-50 pointer-events-none"
+                )}
                 onClick={() => handleClick(staff)}
               >
-                <div className={`relative transition-transform duration-300 ease-in-out hover:scale-110 hover:cursor-pointer ${isActive ? 'scale-110' : ''}`}>
+                <div
+                  className={cn(
+                    "relative transition-transform duration-300 ease-in-out hover:scale-110 hover:cursor-pointer",
+                    isActive && "scale-110"
+                  )}
+                >
                   <img
                     src={getProfileImage(staff.name)}
                     alt={staff.name}

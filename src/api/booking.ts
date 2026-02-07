@@ -21,14 +21,14 @@ export async function fetchServices(): Promise<ServicesResponse> {
 export async function fetchTimeSlots(params: {
   dateStart: string;
   dateStop: string;
-  serviceIds: number;
+  serviceIds: string;
   resourceIds: string[];
 }): Promise<TimeSlotsResponse> {
   const searchParams = new URLSearchParams({
     dateStart: params.dateStart,
     dateStop: params.dateStop,
     onlineBookingUrlName: ONLINE_BOOKING_URL_NAME,
-    serviceIds: String(params.serviceIds),
+    serviceIds: params.serviceIds,
   });
 
   params.resourceIds.forEach((id) => {

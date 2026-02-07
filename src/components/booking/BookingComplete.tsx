@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { FaRegCalendarDays } from 'react-icons/fa6';
+import { Calendar } from 'lucide-react';
 import { ics } from 'calendar-link';
 import Checkmark from '../ui/Checkmark';
 import { useBookingState } from '../../context/BookingContext';
@@ -53,7 +53,7 @@ export default function BookingComplete() {
             className="flex items-center gap-2 px-[18px] py-2 bg-[#9c9c7f] rounded-lg cursor-pointer transition-all duration-200 border-[1.5px] border-secondary hover:shadow-[0_0_10px_rgba(0,0,0,0.15)]"
             onClick={handleCalendar}
           >
-            <FaRegCalendarDays className="text-secondary" />
+            <Calendar className="text-secondary" size={20} />
             <p className="m-0">Lägg till i kalender</p>
           </div>
         </div>

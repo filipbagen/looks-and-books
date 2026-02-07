@@ -1,3 +1,4 @@
+import { cn } from '../../lib/utils';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
 import type { Service } from '../../types/booking';
 
@@ -34,11 +35,16 @@ export default function ServiceSelection() {
           return (
             <div
               key={service.serviceId}
-              className={`flex justify-between p-3 transition-all duration-200 cursor-pointer border-l-[3px] border-transparent hover:bg-secondary hover:text-brand-white hover:rounded-lg ${isActive ? 'bg-secondary text-brand-white rounded-lg' : ''}`}
+              className={cn(
+                "flex justify-between p-3 transition-all duration-200 cursor-pointer border-l-[3px] border-transparent hover:bg-secondary hover:text-brand-white hover:rounded-lg",
+                // Mobile: border bottom between items
+                "max-md:border-b max-md:border-secondary max-md:last:border-b-0",
+                isActive && "bg-secondary text-brand-white rounded-lg"
+              )}
               onClick={() => handleClick(service)}
             >
-              <div>
-                <p className="m-0 p-0 font-bold mr-7">{service.name}</p>
+              <div className="flex-1 flex items-center justify-end">
+                <p className="m-0 p-0 font-bold mr-7 flex-1 text-left">{service.name}</p>
               </div>
               <div className="flex gap-5 items-center">
                 <p className="m-0 p-0 min-w-[66px]">{service.length} min</p>

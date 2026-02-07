@@ -9,7 +9,7 @@ export interface ResourceService {
 }
 
 export interface Service {
-  serviceId: number;
+  serviceId: string;
   name: string;
   length: number;
   priceIncludingVat: number;
@@ -43,7 +43,7 @@ export interface MaskedCustomer {
 export interface ReserveRequest {
   onlineBookingUrlName: string;
   resourceIds: string[];
-  serviceIds: number[];
+  serviceIds: string[];
   startDate: string;
   startTime: string;
   customerPhoneNumber: string;

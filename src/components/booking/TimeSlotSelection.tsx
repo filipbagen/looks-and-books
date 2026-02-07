@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { cn } from '../../lib/utils';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
 import { fetchTimeSlots } from '../../api/booking';
 import {
@@ -97,10 +98,13 @@ export default function TimeSlotSelection() {
         {/* Week navigation */}
         <div className="flex items-center justify-center gap-4 mb-6 max-md:mb-0">
           <a
-            className={`flex items-center text-black cursor-pointer transition-opacity duration-200 hover:opacity-70 ${!canGoBackward ? 'cursor-not-allowed opacity-30 pointer-events-none' : ''}`}
+            className={cn(
+              "flex items-center text-black cursor-pointer transition-opacity duration-200 hover:opacity-70",
+              !canGoBackward && "cursor-not-allowed opacity-30 pointer-events-none"
+            )}
             onClick={handleBackward}
           >
-            <FaChevronLeft size={24} />
+            <ChevronLeft size={24} />
           </a>
           <div className="flex flex-col items-center justify-center">
             <h2>Vecka {getWeekNumber(activeSchedule)}</h2>
@@ -109,8 +113,11 @@ export default function TimeSlotSelection() {
               {weekEnd.getDate()} {getMonthShortName(weekEnd)}
             </p>
           </div>
-          <a className="flex items-center text-black cursor-pointer transition-opacity duration-200 hover:opacity-70" onClick={handleForward}>
-            <FaChevronRight size={24} />
+          <a
+            className="flex items-center text-black cursor-pointer transition-opacity duration-200 hover:opacity-70"
+            onClick={handleForward}
+          >
+            <ChevronRight size={24} />
           </a>
         </div>
 
@@ -127,7 +134,10 @@ export default function TimeSlotSelection() {
             return (
               <div key={dateStr} className="flex flex-col gap-3 max-md:gap-2">
                 <div
-                  className={`flex items-center justify-center flex-col w-[100px] h-[100px] bg-secondary text-brand-white rounded-lg max-[820px]:w-20 max-[820px]:h-20 ${noSlots ? '[&_h2]:text-primary [&_p]:text-primary' : ''}`}
+                  className={cn(
+                    "flex items-center justify-center flex-col w-[100px] h-[100px] bg-secondary text-brand-white rounded-lg max-[820px]:w-20 max-[820px]:h-20",
+                    noSlots && "[&_h2]:text-primary [&_p]:text-primary"
+                  )}
                 >
                   <h2 className="max-[820px]:text-xl">{getDayShortName(day)}</h2>
                   <p className="max-[820px]:text-sm">
@@ -143,7 +153,10 @@ export default function TimeSlotSelection() {
                     return (
                       <div
                         key={slot.startTime}
-                        className={`bg-primary text-secondary border-[1.5px] border-secondary rounded-lg transition-all duration-200 cursor-pointer text-center p-2 hover:bg-secondary hover:text-brand-white ${isActive ? 'bg-secondary text-brand-white' : ''}`}
+                        className={cn(
+                          "bg-primary text-secondary border-[1.5px] border-secondary rounded-lg transition-all duration-200 cursor-pointer text-center p-2 hover:bg-secondary hover:text-brand-white",
+                          isActive && "bg-secondary text-brand-white"
+                        )}
                         onClick={() => handleSlotClick(dateGroup!.date, slot)}
                       >
                         <p className="m-0">{slot.startTime}</p>

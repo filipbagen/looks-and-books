@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { cn } from '../../lib/utils';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
 import { reserveTimeSlot, confirmBooking } from '../../api/booking';
 import { ONLINE_BOOKING_URL_NAME } from '../../api/config';
@@ -138,9 +139,10 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                     />
                     <button
                       type="submit"
-                      className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                      className={cn(
+                        "btn-primary disabled:opacity-50 disabled:cursor-not-allowed",
+                      )}
                       disabled={!phoneValid}
-                      style={{ opacity: phoneValid ? 1 : 0.5 }}
                     >
                       Nästa
                     </button>
@@ -161,7 +163,10 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                   placeholder="Namn"
                   required
                   readOnly={isExistingCustomer}
-                  className={`input-field ${isExistingCustomer ? 'bg-[#f5f5f5] cursor-not-allowed opacity-70' : ''}`}
+                  className={cn(
+                    "input-field",
+                    isExistingCustomer && "bg-[#f5f5f5] cursor-not-allowed opacity-70"
+                  )}
                 />
               </div>
 
@@ -177,12 +182,15 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                 <div>
                   <input
                     type="email"
-                    value={customerEmail}
-                    onChange={(e) => setCustomerEmail(e.target.value)}
-                    placeholder="Email"
-                    readOnly={isExistingCustomer}
-                    className={`input-field ${isExistingCustomer ? 'bg-[#f5f5f5] cursor-not-allowed opacity-70' : ''}`}
-                  />
+                  value={customerEmail}
+                  onChange={(e) => setCustomerEmail(e.target.value)}
+                  placeholder="Email"
+                  readOnly={isExistingCustomer}
+                  className={cn(
+                    "input-field",
+                    isExistingCustomer && "bg-[#f5f5f5] cursor-not-allowed opacity-70"
+                  )}
+                />
                 </div>
               </div>
 
