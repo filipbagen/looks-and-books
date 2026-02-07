@@ -171,7 +171,7 @@ export default function TimeSlotSelection() {
 
         {slotsData && !hasAnySlots && (
           <div className="text-center p-4">
-            <p className="muted">Inga lediga tider denna vecka</p>
+            <p>Inga lediga tider denna vecka</p>
           </div>
         )}
       </div>
