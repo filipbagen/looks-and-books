@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+:root {
   --color-primary: #adad96;
   --color-secondary: #5e5e41;
   --color-secondary-low: rgba(94, 94, 65, 0.4);
@@ -59,8 +59,8 @@
   }
 }
 
-/* Utility classes used across multiple components */
-@utility today {
+/* Reusable classes used across multiple components */
+.today {
   font-weight: bold;
   background-color: var(--color-secondary);
   padding: 8px 18px;
@@ -69,14 +69,14 @@
   width: fit-content;
 }
 
-@utility muted {
+.muted {
   color: var(--color-secondary);
   font-size: 12px;
   text-align: center;
   margin: 0;
 }
 
-@utility input-field {
+.input-field {
   width: 100%;
   box-sizing: border-box;
   padding: 8px 16px;
@@ -85,12 +85,12 @@
   color: var(--color-secondary);
 }
 
-@utility input-field-focus {
+.input-field:focus {
   border-color: var(--color-secondary);
   outline: none;
 }
 
-@utility btn-primary {
+.btn-primary {
   padding: 8px 18px;
   background-color: var(--color-secondary);
   font-weight: 600;

@@ -134,7 +134,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                       onChange={(e) => setPhone(e.target.value)}
                       required
                       placeholder="Telefonnummer"
-                      className="input-field max-w-[264px] focus:input-field-focus"
+                      className="input-field max-w-[264px]"
                     />
                     <button
                       type="submit"
@@ -161,7 +161,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                   placeholder="Namn"
                   required
                   readOnly={isExistingCustomer}
-                  className={`input-field focus:input-field-focus ${isExistingCustomer ? 'bg-[#f5f5f5] cursor-not-allowed opacity-70' : ''}`}
+                  className={`input-field ${isExistingCustomer ? 'bg-[#f5f5f5] cursor-not-allowed opacity-70' : ''}`}
                 />
               </div>
 
@@ -181,7 +181,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                     onChange={(e) => setCustomerEmail(e.target.value)}
                     placeholder="Email"
                     readOnly={isExistingCustomer}
-                    className={`input-field focus:input-field-focus ${isExistingCustomer ? 'bg-[#f5f5f5] cursor-not-allowed opacity-70' : ''}`}
+                    className={`input-field ${isExistingCustomer ? 'bg-[#f5f5f5] cursor-not-allowed opacity-70' : ''}`}
                   />
                 </div>
               </div>
@@ -191,7 +191,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Meddelande"
-                  className="input-field h-[75px] resize-y focus:input-field-focus"
+                  className="input-field h-[75px] resize-y"
                 />
               </div>
 
