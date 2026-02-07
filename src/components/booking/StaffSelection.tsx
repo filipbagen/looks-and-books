@@ -75,7 +75,7 @@ export default function StaffSelection() {
                   <img
                     src={getProfileImage(staff.name)}
                     alt={staff.name}
-                    className="box-border w-[164px] h-[164px] !rounded-full object-cover relative border-4 border-secondary max-md:w-[124px] max-md:h-[124px]"
+                    className="box-border w-40 h-40 rounded-full object-cover relative border-4 border-primary max-md:w-32 max-md:h-32"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = defaultImage;
                     }}
@@ -83,7 +83,7 @@ export default function StaffSelection() {
                 </div>
                 <div>
                   <h2>{staff.name}</h2>
-                  <p className="muted m-0">{STAFF_TITLES[staff.name] || 'Frisör'}</p>
+                  <p className="muted -mt-8">{STAFF_TITLES[staff.name] || 'Frisör'}</p>
                 </div>
               </div>
             );

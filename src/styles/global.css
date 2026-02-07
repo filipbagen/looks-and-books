@@ -31,7 +31,18 @@
 
   h1 {
     font-size: 28pt;
-    margin: 0 0 20pt 0;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  h2 {
+    font-size: 20pt;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  h3 {
+    font-size: 16pt;
   }
 
   p, a, input, button, footer, textarea, input::placeholder {
@@ -55,7 +66,7 @@
     border-top: 2px solid var(--color-secondary);
     border-radius: 7px;
     opacity: 0.25;
-    margin: 12px 0;
+    /* margin: 12px 0; */
   }
 }
 

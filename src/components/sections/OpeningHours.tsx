@@ -15,7 +15,7 @@ export default function OpeningHours() {
 
   return (
     <div className="area-opening w-full">
-      <div className="max-w-full flex justify-between items-center shrink-0 max-[1240px]:flex-col max-[1240px]:gap-0">
+      <div className="w-full flex justify-between items-center shrink-0 max-[1240px]:flex-col max-[1240px]:gap-8 py-4">
         {HOURS.map((h) => (
           <p key={h.day} className={`whitespace-nowrap ${h.day === todayIndex ? 'today' : ''}`}>
             {h.label}

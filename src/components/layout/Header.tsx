@@ -3,16 +3,17 @@ import logoSrc from '../../assets/images/logo.svg';
 export default function Header() {
   return (
     <>
-      <div className="relative">
+      <div className="absolute top-0 left-0 w-full h-screen overflow-hidden pointer-events-none -z-10">
         <img
           src={logoSrc}
           alt="Looks & Books Logo"
-          className="overflow-hidden absolute -right-[50vw] h-screen opacity-[0.03] -z-10"
+          // Added max-w-none to prevent shrinking
+          className="absolute -right-0 top-12 w-[2300px] max-w-none top-0 opacity-3"
         />
       </div>
       <img
         src={logoSrc}
-        className="h-[86px] mt-[82px] -mb-[72px] block mx-auto"
+        className="h-18 mt-20 mb-8 block mx-auto"
         alt="Looks & Books Logo"
       />
     </>

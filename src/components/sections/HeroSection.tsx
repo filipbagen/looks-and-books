@@ -8,8 +8,8 @@ export default function HeroSection() {
   };
 
   return (
-    <div className="area-intro w-full h-full flex flex-col justify-between max-[1240px]:gap-8 max-md:gap-3 max-md:w-full max-md:h-auto">
-      <div className="flex flex-col gap-1 w-full">
+    <div className="area-intro flex flex-col justify-between gap-8">
+      <div className="flex flex-col gap-6">
         <h1>Välkommen</h1>
         <p>
           Vår passion för hår och böcker har blivit till en salong i kombination
@@ -25,12 +25,12 @@ export default function HeroSection() {
       </div>
 
       <a
-        className="w-[132px] flex justify-evenly items-center whitespace-nowrap text-brand-black py-[12pt] px-[18pt] rounded-[var(--radius-brand)] border-2 border-solid border-brand-black bg-primary text-center font-semibold text-lg transition-all duration-200 hover:shadow-[0px_0px_15px_1px_rgba(53,53,53,0.3)] hover:cursor-pointer max-md:py-[10px] max-md:px-2"
+        className="w-min flex justify-center gap-2 items-center whitespace-nowrap text-brand-black py-4 px-10 rounded-[var(--radius-brand)] border-2 border-solid border-brand-black bg-primary text-center font-semibold text-lg transition-all duration-200 hover:shadow-lg hover:cursor-pointer"
         href="#bookingContainer"
         onClick={handleClick}
       >
         Boka tid
-        <img src={iconSrc} className="h-[20pt] ml-[6pt] !rounded-none max-md:ml-0" alt="Scissors" />
+        <img src={iconSrc} className="h-6 !rounded-none max-md:h-4" alt="Scissors" />
       </a>
     </div>
   );
