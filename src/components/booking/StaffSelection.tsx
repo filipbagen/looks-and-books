@@ -52,7 +52,7 @@ export default function StaffSelection() {
       <div className="flex flex-col w-full">
         <h2>Vem vill du ska ta hand om dig?</h2>
         <hr />
-        <div className="flex flex-wrap justify-center gap-9 max-w-[800px] mx-auto py-6 max-md:gap-[22px]">
+        <div className="flex flex-wrap justify-center gap-9 max-w-3xl mx-auto py-6 max-md:gap-6">
           {displayList.map((staff) => {
             const isActive = selectedStaff?.resourceId === staff.resourceId;
             const isDisabled = !isServicesLoaded;
@@ -61,7 +61,7 @@ export default function StaffSelection() {
               <div
                 key={staff.resourceId}
                 className={cn(
-                  "w-[164px] flex flex-col items-center transition-transform duration-200 cursor-pointer relative text-center gap-2 max-md:w-[124px]",
+                  "w-40 flex flex-col items-center transition-transform duration-200 cursor-pointer relative text-center gap-2 max-md:w-32",
                   isDisabled && "opacity-50 pointer-events-none"
                 )}
                 onClick={() => handleClick(staff)}

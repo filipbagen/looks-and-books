@@ -47,8 +47,8 @@ export default function ServiceSelection() {
                 <p className="m-0 p-0 font-bold mr-7 flex-1 text-left">{service.name}</p>
               </div>
               <div className="flex gap-5 items-center">
-                <p className="m-0 p-0 min-w-[66px]">{service.length} min</p>
-                <p className="m-0 p-0 min-w-[85px] text-right">{service.priceIncludingVat} kr</p>
+                <p className="m-0 p-0 min-w-16">{service.length} min</p>
+                <p className="m-0 p-0 min-w-24 text-right">{service.priceIncludingVat} kr</p>
               </div>
             </div>
           );

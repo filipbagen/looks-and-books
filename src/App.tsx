@@ -12,8 +12,8 @@ export default function App() {
   return (
     <>
       <Header />
-      <div className="max-w-[1280px] min-w-[270px] w-[85vw] flex flex-col gap-8 max-md:justify-center max-md:gap-[58px] max-[1240px]:items-center">
-        <div className="flex flex-col gap-[122px] max-md:gap-[38px]">
+      <div className="max-w-screen-xl min-w-64 w-[85vw] flex flex-col gap-8 max-md:justify-center max-md:gap-14 max-xl:items-center">
+        <div className="flex flex-col gap-32 max-md:gap-10">
           <div className="grid-hero">
             <OpeningHours />
             <HeroSection />
@@ -25,7 +25,7 @@ export default function App() {
           <BookingContainer />
         </BookingProvider>
 
-        <div className="flex flex-col gap-[122px] max-md:gap-[38px]">
+        <div className="flex flex-col gap-32 max-md:gap-10">
           <ProductsSection />
           <BarberSection />
           <Footer />

@@ -14,13 +14,13 @@ export default function Footer() {
   return (
     <div
       id="footer"
-      className="flex flex-row justify-between items-center gap-[50px] w-full max-[1240px]:flex-col max-[1240px]:gap-[38px] max-md:flex-col"
+      className="flex flex-row justify-between items-center gap-12 w-full max-xl:flex-col max-xl:gap-10 max-md:flex-col"
     >
-      <div className="flex flex-col justify-between w-1/2 text-center max-[1240px]:w-full max-[1240px]:gap-6">
-        <div className="flex gap-8 justify-between max-[1240px]:justify-center max-[1240px]:gap-[100px] max-[1240px]:w-full max-md:flex-col max-md:items-center max-md:gap-20">
+      <div className="flex flex-col justify-between w-1/2 text-center max-xl:w-full max-xl:gap-6">
+        <div className="flex gap-8 justify-between max-xl:justify-center max-xl:gap-24 max-xl:w-full max-md:flex-col max-md:items-center max-md:gap-20">
           <div className="flex justify-center flex-col items-center mb-[30pt]">
             <h1>Kontakta oss</h1>
-            <div className="flex flex-col max-[1240px]:h-9">
+            <div className="flex flex-col max-xl:h-9">
               <div className="flex items-center flex-row mb-[15pt]">
                 <img src={instagramSrc} className="w-[32pt] mr-[10pt] !rounded-none" alt="Instagram" />
                 <a href="https://www.instagram.com/salonglooksandbooks/">@SalongLooksAndBooks</a>
@@ -34,7 +34,7 @@ export default function Footer() {
 
           <div>
             <h1>Öppettider</h1>
-            <div className="flex justify-between gap-[22px] items-center flex-col">
+            <div className="flex justify-between gap-6 items-center flex-col">
               {FOOTER_HOURS.map((h) => (
                 <p key={h.label} className={`m-0 ${h.days.includes(todayIndex) ? 'today' : ''}`}>
                   {h.label}
@@ -55,7 +55,7 @@ export default function Footer() {
       </div>
 
       <iframe
-        className="h-[364px] w-1/2 rounded-t-[var(--radius-brand)] rounded-b-none max-[1240px]:w-full max-md:h-[336px]"
+        className="h-88 w-1/2 rounded-t-[var(--radius-brand)] rounded-b-none max-xl:w-full max-md:h-80"
         title="Looks & Books map"
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2018.385285702785!2d16.540642877786656!3d59.6099475747515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465e619bcfa15ac9%3A0x651d75d180d78f5!2sLooks%20%26%20Books!5e0!3m2!1sen!2sse!4v1683709479155!5m2!1sen!2sse"
         style={{ border: 0 }}

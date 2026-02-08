@@ -3,10 +3,10 @@ export default function ProductsSection() {
     <div>
       <hr />
       <div
-        className="w-full flex justify-center mt-6 gap-[34px] max-[1240px]:w-[90vw] max-[1240px]:gap-[58px] max-md:flex-col max-md:items-center max-md:gap-3"
+        className="w-full flex justify-center mt-6 gap-9 max-xl:w-[90vw] max-xl:gap-14 max-md:flex-col max-md:items-center max-md:gap-3"
         data-nosnippet
       >
-        <div className="w-[344px] max-md:w-full">
+        <div className="w-88 max-md:w-full">
           <h2>Keune</h2>
           <p>
             Vi arbetar med Keune som är ett holländskt familjeägt B Corp företag.
@@ -18,7 +18,7 @@ export default function ProductsSection() {
             </a>
           </p>
         </div>
-        <div className="w-[344px] max-md:w-full">
+        <div className="w-88 max-md:w-full">
           <h2>Hairtalk</h2>
           <p>
             Vi är certifierade hairtalk stylister, så vill du veta mer ring oss

@@ -125,7 +125,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
       <h2 className="text-2xl font-serif mb-4 self-start">Bekräfta bokning</h2>
       <Separator className="w-full mb-8 bg-secondary/30" />
 
-      <div className="flex flex-row gap-8 justify-center p-0 max-w-4xl max-[800px]:flex-col max-[800px]:items-center">
+      <div className="flex flex-row gap-8 justify-center p-0 max-w-4xl max-md:flex-col max-md:items-center">
         {/* Summary Section */}
         <Card className="flex-shrink-0 flex flex-col gap-4 bg-secondary/5 rounded-lg border border-secondary/10 h-min">
           <CardHeader className="flex items-center gap-3">
@@ -285,7 +285,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="Om du har några specifika önskemål..."
-                      className="min-h-[100px] bg-secondary/10 border-secondary/10 focus-visible:ring-1 focus-visible:ring-secondary focus-visible:border-secondary"
+                      className="min-h-24 bg-secondary/10 border-secondary/10 focus-visible:ring-1 focus-visible:ring-secondary focus-visible:border-secondary"
                     />
                   </div>
                 </div>
@@ -317,7 +317,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
       </div>
 
       <Dialog open={showTerms} onOpenChange={setShowTerms}>
-        <DialogContent className="max-w-[90%] sm:max-w-[600px] bg-secondary text-white border-secondary">
+        <DialogContent className="max-w-[90%] sm:max-w-xl bg-secondary text-white border-secondary">
           <DialogHeader>
             <DialogTitle className="text-xl font-serif text-left">Användarvillkor för onlinebokning</DialogTitle>
             <DialogDescription className="text-left pt-2 text-white/80">

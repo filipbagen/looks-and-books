@@ -122,7 +122,7 @@ export default function TimeSlotSelection() {
         </div>
 
         {/* Time slots grid */}
-        <div className="flex flex-row justify-start gap-4 overflow-x-auto overflow-y-hidden w-full [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-[max(20px,calc(50%-400px))] py-5 box-border max-[820px]:gap-2 max-md:gap-0.5">
+        <div className="flex flex-row justify-start gap-4 overflow-x-auto overflow-y-hidden w-full [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-[max(1.25rem,calc(50%-24rem))] py-5 box-border max-md:gap-2 max-md:gap-0.5">
           {days.map((day) => {
             const dateStr = toISODateString(day);
             const dateGroup = slotsData?.dates.find(
@@ -135,12 +135,12 @@ export default function TimeSlotSelection() {
               <div key={dateStr} className="flex flex-col gap-3 max-md:gap-2">
                 <div
                   className={cn(
-                    "flex items-center justify-center flex-col w-[100px] h-[100px] bg-secondary text-brand-white rounded-lg max-[820px]:w-20 max-[820px]:h-20",
+                    "flex items-center justify-center flex-col w-24 h-24 bg-secondary text-brand-white rounded-lg max-md:w-20 max-md:h-20",
                     noSlots && "[&_h2]:text-primary [&_p]:text-primary"
                   )}
                 >
-                  <h2 className="max-[820px]:text-xl">{getDayShortName(day)}</h2>
-                  <p className="max-[820px]:text-sm">
+                  <h2 className="max-md:text-xl">{getDayShortName(day)}</h2>
+                  <p className="max-md:text-sm">
                     {day.getDate()} {getMonthShortName(day)}
                   </p>
                 </div>
@@ -154,7 +154,7 @@ export default function TimeSlotSelection() {
                       <div
                         key={slot.startTime}
                         className={cn(
-                          "bg-primary text-secondary border-[1.5px] border-secondary rounded-lg transition-all duration-200 cursor-pointer text-center p-2 hover:bg-secondary hover:text-brand-white",
+                          "bg-primary text-secondary border-2 border-secondary rounded-lg transition-all duration-200 cursor-pointer text-center p-2 hover:bg-secondary hover:text-brand-white",
                           isActive && "bg-secondary text-brand-white"
                         )}
                         onClick={() => handleSlotClick(dateGroup!.date, slot)}

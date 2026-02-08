@@ -13,7 +13,7 @@ const slides = [slide1, slide2, slide3, slide4, slide5, slide6];
 
 export default function Slideshow() {
   return (
-    <section className="splide-wrapper area-slideshow ml-[42px] max-[1240px]:ml-0">
+    <section className="splide-wrapper area-slideshow ml-10 max-xl:ml-0">
       <Splide
         options={{
           type: 'loop',

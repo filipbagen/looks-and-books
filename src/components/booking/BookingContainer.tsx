@@ -38,7 +38,7 @@ export default function BookingContainer() {
   }, [showComplete]);
 
   return (
-    <div id="bookingContainer" className="flex flex-col items-center max-w-[1280px] w-full [&>div]:w-full [&>div]:box-border">
+    <div id="bookingContainer" className="flex flex-col items-center max-w-screen-xl w-full [&>div]:w-full [&>div]:box-border">
       <StaffSelection />
 
       <AnimatedSection visible={showWhat} id="what">

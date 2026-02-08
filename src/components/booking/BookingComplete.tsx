@@ -50,7 +50,7 @@ export default function BookingComplete() {
           </div>
 
           <div
-            className="flex items-center gap-2 px-[18px] py-2 bg-[#9c9c7f] rounded-lg cursor-pointer transition-all duration-200 border-[1.5px] border-secondary hover:shadow-[0_0_10px_rgba(0,0,0,0.15)]"
+            className="flex items-center gap-2 px-5 py-2 bg-[#9c9c7f] rounded-lg cursor-pointer transition-all duration-200 border-2 border-secondary hover:shadow-[0_0_10px_rgba(0,0,0,0.15)]"
             onClick={handleCalendar}
           >
             <Calendar className="text-secondary" size={20} />
