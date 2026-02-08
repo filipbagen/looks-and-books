@@ -23,15 +23,15 @@ export default function BookingContainer() {
 
   useEffect(() => {
     if (showWhat && !showWhen) smoothScrollTo('what');
-  }, [showWhat, showWhen]);
+  }, [showWhat, showWhen, selectedStaff]);
 
   useEffect(() => {
     if (showWhen && !showSummary) smoothScrollTo('when');
-  }, [showWhen, showSummary]);
+  }, [showWhen, showSummary, selectedService]);
 
   useEffect(() => {
     if (showSummary) smoothScrollTo('summary');
-  }, [showSummary]);
+  }, [showSummary, selectedTimeSlot]);
 
   useEffect(() => {
     if (showComplete) smoothScrollTo('complete');
