@@ -16,6 +16,7 @@ import type {
 } from '../types/booking';
 import { fetchServices } from '../api/booking';
 import { getPreviousMonday } from '../utils/date';
+import { STAFF_ORDER } from '../config/staff';
 
 // --- Actions ---
 type Action =
@@ -116,9 +117,18 @@ export function BookingProvider({ children }: { children: ReactNode }) {
             });
           });
         });
+
+        // Sort staff based on predefined order
+        const sortedStaff = Array.from(uniqueStaff.values()).sort((a, b) => {
+          const indexA = STAFF_ORDER.indexOf(a.name);
+          const indexB = STAFF_ORDER.indexOf(b.name);
+          // If name not found in list, put at the end
+          return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+        });
+
         dispatch({
           type: 'SET_STAFF_LIST',
-          payload: Array.from(uniqueStaff.values()),
+          payload: sortedStaff,
         });
       })
       .catch((error) => {

@@ -1,24 +1,7 @@
 import { cn } from '../../lib/utils';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
 import type { Staff } from '../../types/booking';
-
-const DEFAULT_STAFF: Staff[] = [
-  { resourceId: 'emma', name: 'Emma' },
-  { resourceId: 'petra', name: 'Petra' },
-  { resourceId: 'fadi', name: 'Fadi' },
-  { resourceId: 'hannah', name: 'Hannah' },
-  { resourceId: 'simon', name: 'Simon' },
-  { resourceId: 'olivia', name: 'Olivia' },
-];
-
-const STAFF_TITLES: Record<string, string> = {
-  Petra: 'Frisör',
-  Hannah: 'Frisör',
-  Fadi: 'Frisör',
-  Emma: 'Frisör',
-  Olivia: 'Frisör',
-  Simon: 'Frisör',
-};
+import { DEFAULT_STAFF, STAFF_TITLES } from '../../config/staff';
 
 function getProfileImage(name: string): string {
   return new URL(
