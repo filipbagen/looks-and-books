@@ -106,8 +106,8 @@ export default function BookingComplete() {
               <Scissors className="w-5 h-5 text-secondary" />
             </div>
             <div>
-              <p className="text-sm text-secondary font-medium uppercase tracking-wide">Behandling</p>
-              <CardTitle className="font-semibold text-lg text-foreground">{selectedService.name}</CardTitle>
+              <p className="text-sm text-secondary font-bold uppercase tracking-wide">Behandling</p>
+              <CardTitle className="font-semibold text-lg text-brand-black">{selectedService.name}</CardTitle>
             </div>
           </CardHeader>
           
@@ -121,7 +121,7 @@ export default function BookingComplete() {
               </div>
               <div className="overflow-hidden">
                 <p className="text-xs text-secondary uppercase truncate">Frisör</p>
-                <p className="font-medium text-foreground truncate">{staffLabel}</p>
+                <p className="font-bold text-brand-black truncate">{staffLabel}</p>
               </div>
             </div>
 
@@ -132,7 +132,7 @@ export default function BookingComplete() {
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">Tid</p>
-                <p className="font-medium text-foreground">{selectedService.length} min</p>
+                <p className="font-bold text-brand-black">{selectedService.length} min</p>
               </div>
             </div>
 
@@ -143,7 +143,7 @@ export default function BookingComplete() {
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">Datum</p>
-                <p className="font-medium text-foreground whitespace-nowrap">
+                <p className="font-bold text-brand-black whitespace-nowrap">
                   {formattedDate}, {selectedTimeSlot.startTime}
                 </p>
               </div>
@@ -156,7 +156,7 @@ export default function BookingComplete() {
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">Pris</p>
-                <p className="font-medium text-foreground">{selectedService.priceIncludingVat} kr</p>
+                <p className="font-bold text-brand-black">{selectedService.priceIncludingVat} kr</p>
               </div>
             </div>
           </CardContent>
@@ -167,7 +167,7 @@ export default function BookingComplete() {
           <DropdownMenuTrigger asChild>
             <Button 
               size="lg" 
-              className="w-full sm:w-auto min-w-48 bg-secondary hover:bg-secondary/90 text-white gap-2 h-12 text-base shadow-sm"
+              className="w-min min-w-48 bg-secondary hover:bg-secondary/90 text-white gap-2 h-12 text-base shadow-sm"
             >
               <Calendar className="w-5 h-5 text-white" />
               Lägg till i kalender
