@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, type UIEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
@@ -92,6 +92,27 @@ export default function TimeSlotSelection() {
     dispatch({ type: 'SELECT_TIMESLOT', payload: { date, slot } });
   }
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollShadows = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, []);
+
+  useEffect(() => {
+    updateScrollShadows();
+  }, [slotsData, updateScrollShadows]);
+
+  function handleScroll(e: UIEvent<HTMLDivElement>) {
+    const el = e.currentTarget;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }
+
   const days = Array.from({ length: 7 }, (_, i) => addDays(activeSchedule, i));
   const weekEnd = addDays(activeSchedule, 6);
   const hasAnySlots =
@@ -114,7 +135,7 @@ export default function TimeSlotSelection() {
             <ChevronLeft size={24} />
           </a>
           <div className="flex flex-col items-center justify-center">
-            <h2>Vecka {getWeekNumber(activeSchedule)}</h2>
+            <h2 className='m-0'>Vecka {getWeekNumber(activeSchedule)}</h2>
             <p className="m-0">
               {activeSchedule.getDate()} {getMonthShortName(activeSchedule)} -{' '}
               {weekEnd.getDate()} {getMonthShortName(weekEnd)}
@@ -129,51 +150,71 @@ export default function TimeSlotSelection() {
         </div>
 
         {/* Time slots grid */}
-        <div className="flex flex-row justify-start gap-4 overflow-x-auto overflow-y-hidden w-full [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-[max(1.25rem,calc(50%-24rem))] py-5 box-border max-md:gap-2 max-md:gap-0.5">
-          {days.map((day) => {
-            const dateStr = toISODateString(day);
-            const dateGroup = slotsData?.dates.find(
-              (dg) => toISODateString(new Date(dg.date)) === dateStr,
-            );
-            const slots = dateGroup?.timeSlots ?? [];
-            const noSlots = slots.length === 0;
+        <div className="relative">
+          {/* Left scroll shadow */}
+          <div
+            className={cn(
+              "pointer-events-none absolute left-0 top-0 bottom-0 w-8 z-10 transition-opacity duration-300 bg-gradient-to-r from-primary to-transparent",
+              canScrollLeft ? "opacity-100" : "opacity-0"
+            )}
+          />
+          {/* Right scroll shadow */}
+          <div
+            className={cn(
+              "pointer-events-none absolute right-0 top-0 bottom-0 w-8 z-10 transition-opacity duration-300 bg-gradient-to-l from-primary to-transparent",
+              canScrollRight ? "opacity-100" : "opacity-0"
+            )}
+          />
+          <div
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="flex flex-row justify-start gap-4 overflow-x-auto overflow-y-hidden w-full [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-[max(1.25rem,calc(50%-24rem))] py-5 box-border max-md:gap-2 max-md:gap-0.5"
+          >
+            {days.map((day) => {
+              const dateStr = toISODateString(day);
+              const dateGroup = slotsData?.dates.find(
+                (dg) => toISODateString(new Date(dg.date)) === dateStr,
+              );
+              const slots = dateGroup?.timeSlots ?? [];
+              const noSlots = slots.length === 0;
 
-            return (
-              <div key={dateStr} className="flex flex-col gap-3 max-md:gap-2">
-                <div
-                  className={cn(
-                    "flex items-center justify-center flex-col w-24 h-24 bg-secondary text-brand-white rounded-lg max-md:w-20 max-md:h-20",
-                    noSlots && "[&_h2]:text-primary [&_p]:text-primary"
-                  )}
-                >
-                  <h2 className="max-md:text-xl">{getDayShortName(day)}</h2>
-                  <p className="max-md:text-sm">
-                    {day.getDate()} {getMonthShortName(day)}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 flex-shrink-0">
-                  {slots.map((slot) => {
-                    const isActive =
-                      selectedDate === dateGroup?.date &&
-                      selectedTimeSlot?.startTime === slot.startTime;
+              return (
+                <div key={dateStr} className="flex flex-col gap-3 max-md:gap-2">
+                  <div
+                    className={cn(
+                      "flex items-center justify-center flex-col w-24 h-24 bg-secondary text-brand-white rounded-lg max-md:w-20 max-md:h-20",
+                      noSlots && "[&_h2]:text-primary [&_p]:text-primary"
+                    )}
+                  >
+                    <h2 className="max-md:text-xl">{getDayShortName(day)}</h2>
+                    <p className="max-md:text-sm">
+                      {day.getDate()} {getMonthShortName(day)}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2 flex-shrink-0">
+                    {slots.map((slot) => {
+                      const isActive =
+                        selectedDate === dateGroup?.date &&
+                        selectedTimeSlot?.startTime === slot.startTime;
 
-                    return (
-                      <div
-                        key={slot.startTime}
-                        className={cn(
-                          "bg-primary text-secondary border-2 border-secondary rounded-lg transition-all duration-200 cursor-pointer text-center p-2 hover:bg-secondary hover:text-brand-white",
-                          isActive && "bg-secondary text-brand-white"
-                        )}
-                        onClick={() => handleSlotClick(dateGroup!.date, slot)}
-                      >
-                        <p className="m-0">{slot.startTime}</p>
-                      </div>
-                    );
-                  })}
+                      return (
+                        <div
+                          key={slot.startTime}
+                          className={cn(
+                            "bg-primary text-secondary border-2 border-secondary rounded-lg transition-all duration-200 cursor-pointer text-center p-2 hover:bg-secondary hover:text-brand-white",
+                            isActive && "bg-secondary text-brand-white"
+                          )}
+                          onClick={() => handleSlotClick(dateGroup!.date, slot)}
+                        >
+                          <p className="m-0">{slot.startTime}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {slotsData && !hasAnySlots && (
