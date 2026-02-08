@@ -42,8 +42,8 @@ export default function BookingComplete() {
     if (!selectedService || !selectedDate || !selectedTimeSlot) return {};
 
     return {
-      title: `${selectedService.name} hos ${staffLabel}`,
-      start: `${selectedDate} ${selectedTimeSlot.startTime}:00 +0100`,
+      title: `${selectedService.name} med ${staffLabel}`,
+      start: `${selectedDate}T${selectedTimeSlot.startTime}:00`,
       duration: [selectedService.length, 'minute'],
       description: 'Bokningsbekräftelse från Looks & Books',
       location: 'Köpmangatan 3, 722 15 Västerås, Sweden',
@@ -100,7 +100,7 @@ export default function BookingComplete() {
         </div>
 
         {/* Booking Details Card */}
-        <Card className="w-full bg-secondary/5 border-secondary/10 shadow-sm">
+        <Card className="w-full gap-2 px-4 bg-secondary/5 border-secondary/10 shadow-sm">
           <CardHeader className="flex items-center gap-3 pb-3">
             <div className="bg-secondary/10 p-2 rounded-full">
               <Scissors className="w-5 h-5 text-secondary" />
