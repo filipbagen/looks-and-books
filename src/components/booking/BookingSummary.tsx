@@ -295,7 +295,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="Om du har några specifika önskemål..."
-                      className="min-h-24 bg-secondary/10 border-secondary/10 focus-visible:ring-1 focus-visible:ring-secondary focus-visible:border-secondary"
+                      className="min-h-24 bg-secondary/10 border-secondary/10 focus-visible:ring-1 focus-visible:ring-secondary focus-visible:border-secondary placeholder:text-secondary/80"
                     />
                   </div>
                 </div>

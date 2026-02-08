@@ -17,16 +17,16 @@ export default function Footer() {
       className="flex flex-row justify-between items-center gap-12 w-full max-xl:flex-col max-xl:gap-10 max-md:flex-col"
     >
       <div className="flex flex-col justify-between w-1/2 text-center max-xl:w-full max-xl:gap-6">
-        <div className="flex gap-8 justify-between max-xl:justify-center max-xl:gap-24 max-xl:w-full max-md:flex-col max-md:items-center max-md:gap-20">
-          <div className="flex justify-center flex-col items-center mb-[30pt]">
+        <div className="flex gap-8 justify-between mb-8 max-xl:justify-center max-xl:gap-24 max-xl:w-full max-sm:flex-col max-sm:items-center max-sm:gap-28">
+          <div className="flex flex-col items-center">
             <h1>Kontakta oss</h1>
-            <div className="flex flex-col max-xl:h-9">
-              <div className="flex items-center flex-row mb-[15pt]">
-                <img src={instagramSrc} className="w-[32pt] mr-[10pt] !rounded-none" alt="Instagram" />
+            <div className="flex flex-col gap-6 max-xl:h-9">
+              <div className="flex items-center flex-row">
+                <img src={instagramSrc} className="w-8 mr-2 !rounded-none" alt="Instagram" />
                 <a href="https://www.instagram.com/salonglooksandbooks/">@SalongLooksAndBooks</a>
               </div>
-              <div className="flex items-center flex-row mb-[15pt]">
-                <img src={phoneSrc} className="w-[32pt] mr-[10pt] !rounded-none" alt="Telefon" />
+              <div className="flex items-center flex-row mb-6">
+                <img src={phoneSrc} className="w-8 mr-2 !rounded-none" alt="Telefon" />
                 <a href="tel:021-12 22 10">021-12 22 10</a>
               </div>
             </div>
