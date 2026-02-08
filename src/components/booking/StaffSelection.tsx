@@ -1,7 +1,7 @@
 import { cn } from '../../lib/utils';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
 import type { Staff } from '../../types/booking';
-import { DEFAULT_STAFF, STAFF_TITLES, QUICKEST_AVAILABLE, isQuickestAvailable } from '../../config/staff';
+import { DEFAULT_STAFF, QUICKEST_AVAILABLE, isQuickestAvailable } from '../../config/staff';
 
 function getProfileImage(name: string): string {
   return new URL(
@@ -66,10 +66,7 @@ export default function StaffSelection() {
                     }}
                   />
                 </div>
-                <div>
-                  <h2>{staff.name}</h2>
-                  <p className="muted -mt-8">{STAFF_TITLES[staff.name] || 'Frisör'}</p>
-                </div>
+                <h2>{staff.name}</h2>
               </div>
             );
           })}
@@ -94,10 +91,7 @@ export default function StaffSelection() {
                 className="box-border w-40 h-40 rounded-full object-cover relative border-4 max-md:w-32 max-md:h-32"
               />
             </div>
-            <div>
-              <h2>{QUICKEST_AVAILABLE.name}</h2>
-              <p className="muted -mt-8">Första lediga tid</p>
-            </div>
+            <h2>{QUICKEST_AVAILABLE.name}</h2>
           </div>
         </div>
       </div>
