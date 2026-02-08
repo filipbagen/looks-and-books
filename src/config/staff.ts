@@ -11,7 +11,6 @@ export const STAFF_CONFIG: StaffConfigItem[] = [
   { resourceId: 'emma', name: 'Emma' },
   { resourceId: 'fadi', name: 'Fadi' },
   { resourceId: 'olivia', name: 'Olivia' },
-  { resourceId: 'simon', name: 'Simon' },
 ];
 
 // "Quickest available time" special staff entry
