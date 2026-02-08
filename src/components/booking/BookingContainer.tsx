@@ -40,7 +40,7 @@ export default function BookingContainer() {
 
   return (
     <div id="bookingContainer" className="flex flex-col items-center max-w-screen-xl w-full [&>div]:w-full [&>div]:box-border">
-      <div id="who" className="w-full mb-14">
+      <div id="who" className="w-full">
         <StaffSelection />
       </div>
 
