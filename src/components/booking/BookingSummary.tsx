@@ -43,6 +43,8 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
   const [isExistingCustomer, setIsExistingCustomer] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reserveError, setReserveError] = useState<string | null>(null);
+  const [isReserving, setIsReserving] = useState(false);
 
   if (!selectedStaff || !selectedService || !selectedDate || !selectedTimeSlot) {
     return null;
@@ -55,6 +57,9 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
   async function handlePhoneSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!phoneValid || !selectedStaff || !selectedService || !selectedDate || !selectedTimeSlot) return;
+
+    setReserveError(null);
+    setIsReserving(true);
 
     const intlPhone = toInternationalFormat(phone);
     try {
@@ -91,7 +96,9 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
 
       setPhase('details');
     } catch (error) {
-      console.error('Reserve error:', error);
+      setReserveError((error as Error).message);
+    } finally {
+      setIsReserving(false);
     }
   }
 
@@ -209,13 +216,22 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                   Ange ditt telefonnummer för att reservera tiden i 10 minuter.
                 </p>
               </div>
+
+              {reserveError && (
+                <div className="rounded-lg bg-destructive/10 border border-destructive/30 px-4 py-3 text-sm text-destructive text-center">
+                  {reserveError}
+                </div>
+              )}
               
               <div className="flex gap-2">
               <div className="flex gap-2 max-w-sm mx-auto w-full">
                 <Input
                   type="tel"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => {
+                  setPhone(e.target.value);
+                  setReserveError(null);
+                }}
                   required
                   placeholder="070 123 45 67"
                   className="h-12 text-lg text-center bg-secondary/10 border-secondary/10 focus-visible:ring-1 focus-visible:ring-secondary focus-visible:border-secondary placeholder:text-secondary/50"
@@ -227,9 +243,9 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                 type="submit" 
                 size="lg" 
                 className="flex gap-2 max-w-sm mx-auto bg-secondary hover:bg-secondary/90 hover:cursor-pointer text-white font-semibold h-12"
-                disabled={!phoneValid}
+                disabled={!phoneValid || isReserving}
               >
-                Nästa <ChevronRight className="w-4 h-4" />
+                {isReserving ? 'Reserverar...' : <>Nästa <ChevronRight className="w-4 h-4" /></>}
               </Button>
               </div>
             </form>

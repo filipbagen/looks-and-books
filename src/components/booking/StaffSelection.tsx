@@ -46,7 +46,7 @@ export default function StaffSelection() {
               <div
                 key={staff.resourceId}
                 className={cn(
-                  "w-40 flex flex-col items-center transition-transform duration-200 cursor-pointer relative text-center gap-2 max-md:w-32",
+                  "w-40 flex flex-col items-center transition-transform duration-200 cursor-pointer relative text-center gap-2 max-md:w-32 hover:cursor-pointer hover:scale-101",
                   isDisabled && "opacity-50 pointer-events-none"
                 )}
                 onClick={() => handleClick(staff)}

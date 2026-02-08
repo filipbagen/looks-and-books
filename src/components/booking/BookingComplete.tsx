@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { 
   Calendar, 
+  Check,
   ChevronDown, 
   Clock, 
   CreditCard, 
@@ -8,7 +9,6 @@ import {
   User 
 } from 'lucide-react';
 import { google, outlook, office365, yahoo, ics } from 'calendar-link';
-import Checkmark from '../ui/Checkmark';
 import { useBookingState } from '../../context/BookingContext';
 import { isQuickestAvailable } from '../../config/staff';
 import { formatDateWord } from '../../utils/date';
@@ -90,9 +90,11 @@ export default function BookingComplete() {
       
       <div className="flex flex-col items-center w-full max-w-md gap-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
         
-        {/* Success Animation */}
+        {/* Success */}
         <div className="flex flex-col items-center gap-2">
-          <Checkmark />
+          <div className="bg-secondary p-3 rounded-full">
+            <Check className="w-10 h-10 text-white stroke-2" />
+          </div>
           <h3 className="text-2xl font-serif text-center mt-2">Tack för din bokning!</h3>
           <p className="text-secondary text-center text-sm">
             En bekräftelse har skickats till ditt telefonnummer.
