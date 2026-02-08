@@ -5,10 +5,16 @@ import { reserveTimeSlot, confirmBooking } from '../../api/booking';
 import { ONLINE_BOOKING_URL_NAME } from '../../api/config';
 import { isValidPhoneNumber, toInternationalFormat } from '../../utils/phone';
 import { formatDateWord } from '../../utils/date';
-import TermsOverlay from './TermsOverlay';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog"
 
 // UI Components
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -116,78 +122,76 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
 
   return (
     <div className="flex flex-col w-full items-center">
-      <h2 className="text-2xl font-serif mb-4">Bekräfta bokning</h2>
+      <h2 className="text-2xl font-serif mb-4 self-start">Bekräfta bokning</h2>
       <Separator className="w-full mb-8 bg-secondary/30" />
 
-      <Card className="w-full border-none">
-        <CardContent className="w-full flex flex-row gap-12 items-center justify-center">
-          {/* Summary Section */}
-          <div className="bg-secondary/5 rounded-lg p-6 border border-secondary/10">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-3">
-                <div className="bg-secondary/10 p-2 rounded-full">
-                  <Scissors className="w-5 h-5 text-secondary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Behandling</p>
-                  <p className="font-semibold text-lg text-foreground">{selectedService.name}</p>
-                </div>
+      <div className="flex flex-row gap-8 justify-center p-0 max-w-4xl max-[800px]:flex-col">
+        {/* Summary Section */}
+        <Card className="flex-shrink-0 flex flex-col gap-4 bg-secondary/5 rounded-lg border border-secondary/10 h-min">
+          <CardHeader className="flex items-center gap-3">
+            <div className="bg-secondary/10 p-2 rounded-full">
+              <Scissors className="w-5 h-5 text-secondary" />
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Behandling</p>
+              <CardTitle className="font-semibold text-lg text-foreground">{selectedService.name}</CardTitle>
+            </div>
+          </CardHeader>
+          
+          <Separator className="bg-secondary/10" />
+          
+          <CardContent className="grid grid-cols-2 items-center gap-8 whitespace-nowrap">
+            <div className="flex items-center gap-3">
+              <div className="bg-secondary/10 p-2 rounded-full">
+                <User className="w-4 h-4 text-secondary" />
               </div>
-              
-              <Separator className="bg-secondary/10" />
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="bg-secondary/10 p-2 rounded-full">
-                    <User className="w-4 h-4 text-secondary" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground uppercase">Frisör</p>
-                    <p className="font-medium text-foreground">{selectedStaff.name}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3">
-                  <div className="bg-secondary/10 p-2 rounded-full">
-                    <Clock className="w-4 h-4 text-secondary" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground uppercase">Tid</p>
-                    <p className="font-medium text-foreground">{selectedService.length} min</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="bg-secondary/10 p-2 rounded-full">
-                    <Calendar className="w-4 h-4 text-secondary" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground uppercase">Datum</p>
-                    <p className="font-medium text-foreground">{formattedDate}, {selectedTimeSlot.startTime}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="bg-secondary/10 p-2 rounded-full">
-                  <CreditCard className="w-4 h-4 text-secondary" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground uppercase">Pris</p>
-                    <p className="font-medium text-foreground">{selectedService.priceIncludingVat} kr</p>
-                  </div>
-                </div>
+              <div>
+                <p className="text-xs text-muted-foreground uppercase">Frisör</p>
+                <p className="font-medium text-foreground">{selectedStaff.name}</p>
               </div>
             </div>
-          </div>
+            
+            <div className="flex items-center gap-3">
+              <div className="bg-secondary/10 p-2 rounded-full">
+                <Clock className="w-4 h-4 text-secondary" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground uppercase">Tid</p>
+                <p className="font-medium text-foreground">{selectedService.length} min</p>
+              </div>
+            </div>
 
-          {/* Form Section */}
+            <div className="flex items-center gap-3">
+              <div className="bg-secondary/10 p-2 rounded-full">
+                <Calendar className="w-4 h-4 text-secondary" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground uppercase">Datum</p>
+                <p className="font-medium text-foreground">{formattedDate}, {selectedTimeSlot.startTime}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="bg-secondary/10 p-2 rounded-full">
+              <CreditCard className="w-4 h-4 text-secondary" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground uppercase">Pris</p>
+                <p className="font-medium text-foreground">{selectedService.priceIncludingVat} kr</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Form Section */}
+        <div className="w-full flex-1 max-w-sm">
           {phase === 'phone' ? (
             <form onSubmit={handlePhoneSubmit} className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="space-y-4 text-center">
                 <div className="inline-flex justify-center bg-secondary/10 p-3 rounded-full mb-2">
                   <Phone className="w-6 h-6 text-secondary" />
                 </div>
-                <h3 className="text-xl font-medium">Vi börjar med ditt nummer</h3>
+                <h3 className="text-xl font-medium">Ser allt bra ut?</h3>
                 <p className="text-muted-foreground text-sm max-w-xs mx-auto">
                   Ange ditt telefonnummer för att reservera tiden i 10 minuter.
                 </p>
@@ -222,7 +226,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                 <div className="space-y-2">
                   <Label htmlFor="name">Namn</Label>
                   <div className="relative">
-                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <User className="absolute left-3 top-3.5 h-4 w-4 text-secondary/70" />
                     <Input
                       id="name"
                       type="text"
@@ -232,8 +236,8 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                       required
                       readOnly={isExistingCustomer}
                       className={cn(
-                        "pl-9 bg-white",
-                        isExistingCustomer && "bg-gray-100 cursor-not-allowed opacity-70"
+                        "pl-9 h-11 bg-secondary/10 border-secondary/10 focus-visible:ring-1 focus-visible:ring-secondary focus-visible:border-secondary",
+                        isExistingCustomer && "cursor-not-allowed opacity-70"
                       )}
                     />
                   </div>
@@ -243,20 +247,20 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                   <div className="space-y-2">
                     <Label htmlFor="phone">Telefon</Label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Phone className="absolute left-3 top-3.5 h-4 w-4 text-secondary/70" />
                       <Input
                         id="phone"
                         type="tel"
                         value={customerPhoneFinal}
                         readOnly
-                        className="pl-9 bg-gray-100 cursor-not-allowed opacity-70"
+                        className="pl-9 h-11 bg-secondary/5 border-secondary/10 cursor-not-allowed opacity-70 focus-visible:ring-1 focus-visible:ring-secondary focus-visible:border-secondary"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">E-post</Label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Mail className="absolute left-3 top-3.5 h-4 w-4 text-secondary/70" />
                       <Input
                         id="email"
                         type="email"
@@ -265,8 +269,8 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                         placeholder="namn@exempel.se"
                         readOnly={isExistingCustomer}
                         className={cn(
-                          "pl-9 bg-white",
-                          isExistingCustomer && "bg-gray-100 cursor-not-allowed opacity-70"
+                          "pl-9 h-11 bg-secondary/10 border-secondary/10 focus-visible:ring-1 focus-visible:ring-secondary focus-visible:border-secondary",
+                          isExistingCustomer && "cursor-not-allowed opacity-70"
                         )}
                       />
                     </div>
@@ -281,7 +285,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="Om du har några specifika önskemål..."
-                      className="min-h-[100px] bg-white"
+                      className="min-h-[100px] bg-secondary/10 border-secondary/10 focus-visible:ring-1 focus-visible:ring-secondary focus-visible:border-secondary"
                     />
                   </div>
                 </div>
@@ -309,10 +313,42 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
               </div>
             </form>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <TermsOverlay visible={showTerms} onClose={() => setShowTerms(false)} />
+      <Dialog open={showTerms} onOpenChange={setShowTerms}>
+        <DialogContent className="max-w-[90%] sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-serif text-left">Användarvillkor för onlinebokning</DialogTitle>
+            <DialogDescription className="text-left pt-2">
+              Användarvillkor för EasyCashier Bokningskalender
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 text-sm">
+            <div>
+              <h3 className="font-semibold mb-2">Definitioner</h3>
+              <ul className="list-disc pl-4 space-y-1">
+                <li><b>Användaren</b> - Du / person som genomför onlinebokningen.</li>
+                <li><b>Bokningskalendern</b> - EasyCashier bokningskalender och tillhörande onlinebokning.</li>
+                <li><b>Företaget</b> - Det företag som använder sig av tjänsten EasyCashier bokningskalender och tillhörande onlinebokning på sin hemsida.</li>
+                <li><b>Personuppgifter</b> - Information som enskilt eller tillsammans med annan information kan identifiera en person.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-semibold mb-2">Villkor</h3>
+              <div className="space-y-2">
+                <p>Då Användaren genomför en onlinebokning ger man samtycke till att Användarens Personuppgifter sparas och behandlas i Företagets Bokningskalender.</p>
+                <p>De Personuppgifter som sparas om Användaren är förnamn, efternamn, epostadress samt mobiltelefonnummer.</p>
+                <p>Personuppgifterna sparas för att Företaget ska kunna använda Bokningskalendern och dess tjänster på ett korrekt sätt gentemot Användaren.</p>
+                <p>Om användaren önskar att få ta del av vilka personuppgifter som lagras, eller önskar att dessa personuppgifter tas bort, så åligger det Användaren att kontakta Företaget som då utan dröjsmål ska utföra detta.</p>
+                <p>Om Företaget slutar att använda Bokningskalendern så kommer samtliga personuppgifter om Användare att tas bort 1 senast månad efter att tjänsten avslutats.</p>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
