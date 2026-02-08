@@ -34,7 +34,9 @@ export default function BookingContainer() {
   }, [showSummary, selectedTimeSlot]);
 
   useEffect(() => {
-    if (showComplete) smoothScrollTo('complete');
+    if (showComplete) {
+      setTimeout(() => smoothScrollTo('complete'), 700);
+    }
   }, [showComplete]);
 
   return (

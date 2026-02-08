@@ -26,6 +26,7 @@ type Action =
   | { type: 'SELECT_SERVICE'; payload: Service | null }
   | { type: 'SELECT_TIMESLOT'; payload: { date: string; slot: TimeSlot } | null }
   | { type: 'SET_APPOINTMENT'; payload: string }
+  | { type: 'SET_RESOURCE_NAME'; payload: string | null }
   | { type: 'SET_CUSTOMER_INFO'; payload: CustomerInfo }
   | { type: 'NAVIGATE_WEEK'; payload: Date }
   | { type: 'RESET' };
@@ -41,6 +42,7 @@ const initialState: BookingState = {
   customerInfo: null,
   activeSchedule: getPreviousMonday(new Date()),
   isServicesLoaded: false,
+  resourceName: null,
 };
 
 function bookingReducer(state: BookingState, action: Action): BookingState {
@@ -58,6 +60,7 @@ function bookingReducer(state: BookingState, action: Action): BookingState {
         selectedTimeSlot: null,
         appointmentId: null,
         customerInfo: null,
+        resourceName: null,
       };
     case 'SELECT_SERVICE':
       return {
@@ -67,6 +70,7 @@ function bookingReducer(state: BookingState, action: Action): BookingState {
         selectedTimeSlot: null,
         appointmentId: null,
         customerInfo: null,
+        resourceName: null,
         activeSchedule: getPreviousMonday(new Date()),
       };
     case 'SELECT_TIMESLOT':
@@ -76,9 +80,12 @@ function bookingReducer(state: BookingState, action: Action): BookingState {
         selectedTimeSlot: action.payload?.slot ?? null,
         appointmentId: null,
         customerInfo: null,
+        resourceName: null,
       };
     case 'SET_APPOINTMENT':
       return { ...state, appointmentId: action.payload };
+    case 'SET_RESOURCE_NAME':
+      return { ...state, resourceName: action.payload };
     case 'SET_CUSTOMER_INFO':
       return { ...state, customerInfo: action.payload };
     case 'NAVIGATE_WEEK':

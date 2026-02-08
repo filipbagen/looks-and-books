@@ -73,6 +73,9 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
       });
 
       dispatch({ type: 'SET_APPOINTMENT', payload: data.appointmentId });
+      if (data.resourceName) {
+        dispatch({ type: 'SET_RESOURCE_NAME', payload: data.resourceName });
+      }
       setCustomerPhoneFinal(data.customerPhoneNumber);
 
       if (data.maskedCustomers?.[0]) {
@@ -153,10 +156,10 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">
-                  {isQuickestAvailable(selectedStaff) ? 'Tilldelning' : 'Frisör'}
+                  {isQuickestAvailable(selectedStaff) && !state.resourceName ? 'Tilldelning' : 'Frisör'}
                 </p>
                 <p className="font-medium text-foreground">
-                  {isQuickestAvailable(selectedStaff) ? 'Första lediga' : selectedStaff.name}
+                  {state.resourceName ?? (isQuickestAvailable(selectedStaff) ? 'Första lediga' : selectedStaff.name)}
                 </p>
               </div>
             </div>
@@ -302,7 +305,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
               </div>
 
               <div className="space-y-4 mt-2">
-                <p className="text-xs text-muted-foreground text-center">
+                <p className="text-xs text-secondary/80 text-center">
                   Genom att boka godkänner du {' '}
                   <button
                     type="button" 

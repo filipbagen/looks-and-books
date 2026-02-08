@@ -53,6 +53,7 @@ export interface ReserveResponse {
   appointmentId: string;
   customerPhoneNumber: string;
   maskedCustomers?: MaskedCustomer[];
+  resourceName?: string;
 }
 
 export interface ConfirmRequest {
@@ -92,4 +93,5 @@ export interface BookingState {
   customerInfo: CustomerInfo | null;
   activeSchedule: Date;
   isServicesLoaded: boolean;
+  resourceName: string | null;
 }
