@@ -12,8 +12,8 @@ export default function BookingContainer() {
   const { selectedStaff, selectedService, selectedTimeSlot } = useBookingState();
   const [isComplete, setIsComplete] = useState(false);
 
-  const showWhat = selectedStaff !== null;
-  const showWhen = selectedStaff !== null && selectedService !== null;
+  const showWhat = selectedStaff !== null && !isComplete;
+  const showWhen = selectedStaff !== null && selectedService !== null && !isComplete;
   const showSummary =
     selectedStaff !== null &&
     selectedService !== null &&
@@ -41,7 +41,9 @@ export default function BookingContainer() {
 
   return (
     <div id="bookingContainer" className="flex flex-col items-center max-w-screen-xl w-full [&>div]:w-full [&>div]:box-border">
-      <StaffSelection />
+      <AnimatedSection visible={!isComplete} id="who">
+        <StaffSelection />
+      </AnimatedSection>
 
       <AnimatedSection visible={showWhat} id="what">
         <ServiceSelection />

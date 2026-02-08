@@ -32,21 +32,15 @@ export default function BookingComplete() {
   const { selectedStaff, selectedService, selectedDate, selectedTimeSlot, resourceName } =
     useBookingState();
 
-  if (!selectedStaff || !selectedService || !selectedDate || !selectedTimeSlot) {
-    return null;
-  }
-
-  // Determine the staff name to display
-  // 1. If we have a confirmed resourceName from backend, use it (e.g. "Fadi")
-  // 2. If not, and it was "Quickest Available", use "Looks & Books" (generic)
-  // 3. Otherwise use the selected staff name
   const staffLabel = resourceName 
     ? resourceName 
-    : (isQuickestAvailable(selectedStaff) ? 'Looks & Books' : selectedStaff.name);
+    : (selectedStaff && isQuickestAvailable(selectedStaff) ? 'Looks & Books' : selectedStaff?.name ?? '');
 
-  const formattedDate = formatDateWord(selectedDate);
+  const formattedDate = selectedDate ? formatDateWord(selectedDate) : '';
 
   const createCalendarEvent = useCallback(() => {
+    if (!selectedService || !selectedDate || !selectedTimeSlot) return {};
+
     return {
       title: `${selectedService.name} hos ${staffLabel}`,
       start: `${selectedDate} ${selectedTimeSlot.startTime}:00 +0100`,
@@ -55,10 +49,12 @@ export default function BookingComplete() {
       location: 'Köpmangatan 3, 722 15 Västerås, Sweden',
     };
   }, [selectedService, staffLabel, selectedDate, selectedTimeSlot]);
-
+  
   const handleCalendar = (type: 'google' | 'outlook' | 'office365' | 'yahoo' | 'ics') => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const event = createCalendarEvent() as any;
+    if (!event.title) return; 
+
     let url = '';
 
     switch (type) {
@@ -83,10 +79,14 @@ export default function BookingComplete() {
     window.open(url, '_blank');
   };
 
+  if (!selectedStaff || !selectedService || !selectedDate || !selectedTimeSlot) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col w-full items-center">
       <h2 className="text-2xl font-serif mb-4 self-start">Bekräftad bokning</h2>
-      <Separator className="w-full mb-8 bg-secondary/30" />
+      <Separator className="w-full mb-4 bg-secondary/30" />
       
       <div className="flex flex-col items-center w-full max-w-md gap-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
         
@@ -101,7 +101,7 @@ export default function BookingComplete() {
 
         {/* Booking Details Card */}
         <Card className="w-full bg-secondary/5 border-secondary/10 shadow-sm">
-          <CardHeader className="flex items-center gap-3 pb-4">
+          <CardHeader className="flex items-center gap-3 pb-3">
             <div className="bg-secondary/10 p-2 rounded-full">
               <Scissors className="w-5 h-5 text-secondary" />
             </div>
@@ -113,7 +113,7 @@ export default function BookingComplete() {
           
           <Separator className="bg-secondary/10" />
           
-          <CardContent className="grid grid-cols-2 gap-6 pt-6">
+          <CardContent className="grid grid-cols-2 gap-6 pt-4">
             {/* Staff */}
             <div className="flex items-start gap-3">
               <div className="bg-secondary/10 p-2 rounded-full shrink-0">

@@ -34,7 +34,7 @@ export default function StaffSelection() {
   const isDisabled = !isServicesLoaded;
 
   return (
-    <div id="who">
+    <div>
       <div className="flex flex-col w-full">
         <h2>Vem vill du ska ta hand om dig?</h2>
         <hr />
