@@ -1,10 +1,16 @@
 # netlify.toml
 
 [build]
-  # If you have a build command, specify it here (or remove the line if you build locally)
-  # command = "npm run build"
-  publish = "."
+  command = "pnpm run build"
+  publish = "dist"
 
+[dev]
+  command = "pnpm exec vite"
+  port = 8888
+  targetPort = 5173
+  framework = "#custom"
+
+# API: proxy to Netlify functions (order matters - specific routes first)
 [[redirects]]
   from = "/services"
   to = "/.netlify/functions/services"
@@ -28,3 +34,9 @@
   to = "/.netlify/functions/confirm"
   status = 200
   force = true
+
+# SPA: serve index.html for all other routes
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
