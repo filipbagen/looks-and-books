@@ -125,7 +125,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
       <h2 className="text-2xl font-serif mb-4 self-start">Bekräfta bokning</h2>
       <Separator className="w-full mb-8 bg-secondary/30" />
 
-      <div className="flex flex-row gap-8 justify-center p-0 max-w-4xl max-[800px]:flex-col">
+      <div className="flex flex-row gap-8 justify-center p-0 max-w-4xl max-[800px]:flex-col max-[800px]:items-center">
         {/* Summary Section */}
         <Card className="flex-shrink-0 flex flex-col gap-4 bg-secondary/5 rounded-lg border border-secondary/10 h-min">
           <CardHeader className="flex items-center gap-3">
@@ -133,7 +133,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
               <Scissors className="w-5 h-5 text-secondary" />
             </div>
             <div>
-              <p className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Behandling</p>
+              <p className="text-sm text-secondary font-medium uppercase tracking-wide">Behandling</p>
               <CardTitle className="font-semibold text-lg text-foreground">{selectedService.name}</CardTitle>
             </div>
           </CardHeader>
@@ -146,7 +146,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                 <User className="w-4 h-4 text-secondary" />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground uppercase">Frisör</p>
+                <p className="text-xs text-secondary uppercase">Frisör</p>
                 <p className="font-medium text-foreground">{selectedStaff.name}</p>
               </div>
             </div>
@@ -156,7 +156,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                 <Clock className="w-4 h-4 text-secondary" />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground uppercase">Tid</p>
+                <p className="text-xs text-secondary uppercase">Tid</p>
                 <p className="font-medium text-foreground">{selectedService.length} min</p>
               </div>
             </div>
@@ -166,19 +166,19 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                 <Calendar className="w-4 h-4 text-secondary" />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground uppercase">Datum</p>
+                <p className="text-xs text-secondary uppercase">Datum</p>
                 <p className="font-medium text-foreground">{formattedDate}, {selectedTimeSlot.startTime}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <div className="bg-secondary/10 p-2 rounded-full">
-              <CreditCard className="w-4 h-4 text-secondary" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground uppercase">Pris</p>
-                <p className="font-medium text-foreground">{selectedService.priceIncludingVat} kr</p>
-              </div>
+                <CreditCard className="w-4 h-4 text-secondary" />
+                </div>
+                <div>
+                  <p className="text-xs text-secondary uppercase">Pris</p>
+                  <p className="font-medium text-foreground">{selectedService.priceIncludingVat} kr</p>
+                </div>
             </div>
           </CardContent>
         </Card>
@@ -205,7 +205,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                   onChange={(e) => setPhone(e.target.value)}
                   required
                   placeholder="070 123 45 67"
-                  className="h-12 text-lg text-center bg-secondary/10 border-secondary/10 focus-visible:ring-1 focus-visible:ring-secondary focus-visible:border-secondary"
+                  className="h-12 text-lg text-center bg-secondary/10 border-secondary/10 focus-visible:ring-1 focus-visible:ring-secondary focus-visible:border-secondary placeholder:text-secondary/50"
                   autoFocus
                 />
               </div>
@@ -293,7 +293,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
 
               <div className="space-y-4 mt-2">
                 <p className="text-xs text-muted-foreground text-center">
-                  Genom att boka godkänner du{' '}
+                  Genom att boka godkänner du {' '}
                   <button
                     type="button" 
                     className="underline hover:text-secondary font-medium"
@@ -317,33 +317,35 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
       </div>
 
       <Dialog open={showTerms} onOpenChange={setShowTerms}>
-        <DialogContent className="max-w-[90%] sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
+        <DialogContent className="max-w-[90%] sm:max-w-[600px] bg-secondary text-white border-secondary">
           <DialogHeader>
             <DialogTitle className="text-xl font-serif text-left">Användarvillkor för onlinebokning</DialogTitle>
-            <DialogDescription className="text-left pt-2">
+            <DialogDescription className="text-left pt-2 text-white/80">
               Användarvillkor för EasyCashier Bokningskalender
             </DialogDescription>
           </DialogHeader>
           
-          <div className="space-y-4 text-sm">
-            <div>
-              <h3 className="font-semibold mb-2">Definitioner</h3>
-              <ul className="list-disc pl-4 space-y-1">
-                <li><b>Användaren</b> - Du / person som genomför onlinebokningen.</li>
-                <li><b>Bokningskalendern</b> - EasyCashier bokningskalender och tillhörande onlinebokning.</li>
-                <li><b>Företaget</b> - Det företag som använder sig av tjänsten EasyCashier bokningskalender och tillhörande onlinebokning på sin hemsida.</li>
-                <li><b>Personuppgifter</b> - Information som enskilt eller tillsammans med annan information kan identifiera en person.</li>
-              </ul>
-            </div>
+          <div className="no-scrollbar -mx-6 max-h-[50vh] overflow-y-auto px-6">
+            <div className="space-y-4 text-sm">
+              <div>
+                <h3 className="font-semibold mb-2">Definitioner</h3>
+                <ul className="list-disc pl-4 space-y-1">
+                  <li><b>Användaren</b> - Du / person som genomför onlinebokningen.</li>
+                  <li><b>Bokningskalendern</b> - EasyCashier bokningskalender och tillhörande onlinebokning.</li>
+                  <li><b>Företaget</b> - Det företag som använder sig av tjänsten EasyCashier bokningskalender och tillhörande onlinebokning på sin hemsida.</li>
+                  <li><b>Personuppgifter</b> - Information som enskilt eller tillsammans med annan information kan identifiera en person.</li>
+                </ul>
+              </div>
 
-            <div>
-              <h3 className="font-semibold mb-2">Villkor</h3>
-              <div className="space-y-2">
-                <p>Då Användaren genomför en onlinebokning ger man samtycke till att Användarens Personuppgifter sparas och behandlas i Företagets Bokningskalender.</p>
-                <p>De Personuppgifter som sparas om Användaren är förnamn, efternamn, epostadress samt mobiltelefonnummer.</p>
-                <p>Personuppgifterna sparas för att Företaget ska kunna använda Bokningskalendern och dess tjänster på ett korrekt sätt gentemot Användaren.</p>
-                <p>Om användaren önskar att få ta del av vilka personuppgifter som lagras, eller önskar att dessa personuppgifter tas bort, så åligger det Användaren att kontakta Företaget som då utan dröjsmål ska utföra detta.</p>
-                <p>Om Företaget slutar att använda Bokningskalendern så kommer samtliga personuppgifter om Användare att tas bort 1 senast månad efter att tjänsten avslutats.</p>
+              <div>
+                <h3 className="font-semibold mb-2">Villkor</h3>
+                <div className="space-y-2">
+                  <p>Då Användaren genomför en onlinebokning ger man samtycke till att Användarens Personuppgifter sparas och behandlas i Företagets Bokningskalender.</p>
+                  <p>De Personuppgifter som sparas om Användaren är förnamn, efternamn, epostadress samt mobiltelefonnummer.</p>
+                  <p>Personuppgifterna sparas för att Företaget ska kunna använda Bokningskalendern och dess tjänster på ett korrekt sätt gentemot Användaren.</p>
+                  <p>Om användaren önskar att få ta del av vilka personuppgifter som lagras, eller önskar att dessa personuppgifter tas bort, så åligger det Användaren att kontakta Företaget som då utan dröjsmål ska utföra detta.</p>
+                  <p>Om Företaget slutar att använda Bokningskalendern så kommer samtliga personuppgifter om Användare att tas bort 1 senast månad efter att tjänsten avslutats.</p>
+                </div>
               </div>
             </div>
           </div>

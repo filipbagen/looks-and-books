@@ -36,7 +36,7 @@ export default function ServiceSelection() {
             <div
               key={service.serviceId}
               className={cn(
-                "flex justify-between p-3 transition-all duration-200 cursor-pointer border-l-[3px] border-transparent hover:bg-secondary hover:text-brand-white hover:rounded-lg",
+                "flex justify-between p-3 transition-all duration-200 cursor-pointer border-transparent hover:bg-secondary hover:text-brand-white hover:rounded-lg",
                 // Mobile: border bottom between items
                 "max-md:border-b max-md:border-secondary max-md:last:border-b-0",
                 isActive && "bg-secondary text-brand-white rounded-lg"
