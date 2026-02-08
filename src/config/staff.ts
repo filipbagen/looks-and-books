@@ -15,6 +15,17 @@ export const STAFF_CONFIG: StaffConfigItem[] = [
   { resourceId: 'simon', name: 'Simon', title: 'Frisör' },
 ];
 
+// "Quickest available time" special staff entry
+export const QUICKEST_AVAILABLE: Staff = {
+  resourceId: 'quickest-available',
+  name: 'Snabbast möjliga tid',
+};
+
+// Check if a staff entry is the quickest-available option
+export function isQuickestAvailable(staff: Staff | null): boolean {
+  return staff?.resourceId === QUICKEST_AVAILABLE.resourceId;
+}
+
 // Helper to get titles map
 export const STAFF_TITLES = STAFF_CONFIG.reduce((acc, staff) => {
   acc[staff.name] = staff.title;

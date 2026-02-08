@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
+import { isQuickestAvailable } from '../../config/staff';
 import { reserveTimeSlot, confirmBooking } from '../../api/booking';
 import { ONLINE_BOOKING_URL_NAME } from '../../api/config';
 import { isValidPhoneNumber, toInternationalFormat } from '../../utils/phone';
@@ -57,9 +58,14 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
 
     const intlPhone = toInternationalFormat(phone);
     try {
+      // When "quickest available", use the resourceIds from the time slot
+      const resourceIds = isQuickestAvailable(selectedStaff)
+        ? (selectedTimeSlot.resourceIds ?? [])
+        : [selectedStaff.resourceId];
+
       const data = await reserveTimeSlot({
         onlineBookingUrlName: ONLINE_BOOKING_URL_NAME,
-        resourceIds: [selectedStaff.resourceId],
+        resourceIds,
         serviceIds: [selectedService.serviceId],
         startDate: selectedDate,
         startTime: selectedTimeSlot.startTime,
@@ -146,8 +152,12 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                 <User className="w-4 h-4 text-secondary" />
               </div>
               <div>
-                <p className="text-xs text-secondary uppercase">Frisör</p>
-                <p className="font-medium text-foreground">{selectedStaff.name}</p>
+                <p className="text-xs text-secondary uppercase">
+                  {isQuickestAvailable(selectedStaff) ? 'Tilldelning' : 'Frisör'}
+                </p>
+                <p className="font-medium text-foreground">
+                  {isQuickestAvailable(selectedStaff) ? 'Första lediga' : selectedStaff.name}
+                </p>
               </div>
             </div>
             
@@ -192,7 +202,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                   <Phone className="w-6 h-6 text-secondary" />
                 </div>
                 <h3 className="text-xl font-medium">Ser allt bra ut?</h3>
-                <p className="text-muted-foreground text-sm max-w-xs mx-auto">
+                <p className="text-secondary text-sm max-w-xs mx-auto">
                   Ange ditt telefonnummer för att reservera tiden i 10 minuter.
                 </p>
               </div>

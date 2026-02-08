@@ -3,17 +3,20 @@ import { Calendar } from 'lucide-react';
 import { ics } from 'calendar-link';
 import Checkmark from '../ui/Checkmark';
 import { useBookingState } from '../../context/BookingContext';
+import { isQuickestAvailable } from '../../config/staff';
 import { formatDateWord } from '../../utils/date';
 
 export default function BookingComplete() {
   const { selectedStaff, selectedService, selectedDate, selectedTimeSlot } =
     useBookingState();
 
+  const staffLabel = isQuickestAvailable(selectedStaff) ? 'Looks & Books' : selectedStaff?.name;
+
   const handleCalendar = useCallback(() => {
     if (!selectedService || !selectedStaff || !selectedDate || !selectedTimeSlot) return;
 
     const calendarEvent: Record<string, unknown> = {
-      title: `${selectedService.name} hos ${selectedStaff.name}`,
+      title: `${selectedService.name} hos ${staffLabel}`,
       start: `${selectedDate} ${selectedTimeSlot.startTime}:00 +0100`,
       duration: [selectedService.length, 'minute'],
       description: 'Bokningsbekräftelse',
@@ -23,7 +26,7 @@ export default function BookingComplete() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const url = ics(calendarEvent as any);
     window.open(url, '_blank');
-  }, [selectedService, selectedStaff, selectedDate, selectedTimeSlot]);
+  }, [selectedService, selectedStaff, selectedDate, selectedTimeSlot, staffLabel]);
 
   if (!selectedStaff || !selectedService || !selectedDate || !selectedTimeSlot) {
     return null;
@@ -41,7 +44,7 @@ export default function BookingComplete() {
 
           <div className="flex flex-col gap-4 items-center">
             <h2>
-              {selectedService.name} hos {selectedStaff.name}
+              {selectedService.name} hos {staffLabel}
             </h2>
             <p className="m-0">
               {formattedDate}, {selectedTimeSlot.startTime} |{' '}

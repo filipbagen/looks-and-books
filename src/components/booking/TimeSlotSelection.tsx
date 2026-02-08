@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
+import { isQuickestAvailable } from '../../config/staff';
 import { fetchTimeSlots } from '../../api/booking';
 import {
   addDays,
@@ -22,11 +23,17 @@ export default function TimeSlotSelection() {
   const fetchWeek = useCallback(
     async (weekStart: Date): Promise<TimeSlotsResponse> => {
       if (!selectedStaff || !selectedService) throw new Error('Missing staff/service');
+
+      // When "quickest available", send ALL resource IDs that can perform this service
+      const resourceIds = isQuickestAvailable(selectedStaff)
+        ? selectedService.resourceServices.map((rs) => rs.resourceId)
+        : [selectedStaff.resourceId];
+
       return fetchTimeSlots({
         dateStart: toISODateString(weekStart),
         dateStop: toISODateString(addDays(weekStart, 6)),
         serviceIds: selectedService.serviceId,
-        resourceIds: [selectedStaff.resourceId],
+        resourceIds,
       });
     },
     [selectedStaff, selectedService],

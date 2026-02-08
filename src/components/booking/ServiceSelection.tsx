@@ -1,5 +1,6 @@
 import { cn } from '../../lib/utils';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
+import { isQuickestAvailable } from '../../config/staff';
 import type { Service } from '../../types/booking';
 
 export default function ServiceSelection() {
@@ -8,13 +9,16 @@ export default function ServiceSelection() {
 
   if (!selectedStaff) return null;
 
-  const staffServices = services.flatMap((group) =>
-    group.services.filter((service) =>
-      service.resourceServices.some(
-        (rs) => rs.resourceId === selectedStaff.resourceId,
-      ),
-    ),
-  );
+  // When "quickest available" is selected, show ALL services
+  const staffServices = isQuickestAvailable(selectedStaff)
+    ? services.flatMap((group) => group.services)
+    : services.flatMap((group) =>
+        group.services.filter((service) =>
+          service.resourceServices.some(
+            (rs) => rs.resourceId === selectedStaff.resourceId,
+          ),
+        ),
+      );
 
   function handleClick(service: Service) {
     if (selectedService?.serviceId === service.serviceId) {

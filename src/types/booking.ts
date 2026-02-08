@@ -22,7 +22,7 @@ export interface ServiceGroup {
 
 export interface TimeSlot {
   startTime: string;
-  resourceId?: string;
+  resourceIds?: string[];
 }
 
 export interface DateGroup {
