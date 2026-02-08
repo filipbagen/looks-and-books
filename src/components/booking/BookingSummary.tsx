@@ -143,7 +143,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
             </div>
             <div>
               <p className="text-sm text-secondary font-medium uppercase tracking-wide">Behandling</p>
-              <CardTitle className="font-semibold text-lg text-foreground">{selectedService.name}</CardTitle>
+              <CardTitle className="font-semibold text-lg text-brand-black">{selectedService.name}</CardTitle>
             </div>
           </CardHeader>
           
@@ -158,7 +158,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                 <p className="text-xs text-secondary uppercase">
                   {isQuickestAvailable(selectedStaff) && !state.resourceName ? 'Tilldelning' : 'Frisör'}
                 </p>
-                <p className="font-medium text-foreground">
+                <p className="font-bold text-brand-black font-bold">
                   {state.resourceName ?? (isQuickestAvailable(selectedStaff) ? 'Första lediga' : selectedStaff.name)}
                 </p>
               </div>
@@ -170,7 +170,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">Tid</p>
-                <p className="font-medium text-foreground">{selectedService.length} min</p>
+                <p className="font-bold text-brand-black">{selectedService.length} min</p>
               </div>
             </div>
 
@@ -180,7 +180,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">Datum</p>
-                <p className="font-medium text-foreground">{formattedDate}, {selectedTimeSlot.startTime}</p>
+                <p className="font-bold text-brand-black">{formattedDate}, {selectedTimeSlot.startTime}</p>
               </div>
             </div>
 
@@ -190,7 +190,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                 </div>
                 <div>
                   <p className="text-xs text-secondary uppercase">Pris</p>
-                  <p className="font-medium text-foreground">{selectedService.priceIncludingVat} kr</p>
+                  <p className="font-bold text-brand-black">{selectedService.priceIncludingVat} kr</p>
                 </div>
             </div>
           </CardContent>
@@ -309,7 +309,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
                   Genom att boka godkänner du {' '}
                   <button
                     type="button" 
-                    className="underline hover:text-secondary font-medium"
+                    className="underline hover:text-secondary hover:cursor-pointer font-medium"
                     onClick={() => setShowTerms(true)}
                   >
                     bokningsvillkoren
@@ -330,10 +330,10 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
       </div>
 
       <Dialog open={showTerms} onOpenChange={setShowTerms}>
-        <DialogContent className="max-w-[90%] sm:max-w-xl bg-secondary text-white border-secondary">
+        <DialogContent className="max-w-[90%] sm:max-w-xl bg-white text-brand-black border-secondary">
           <DialogHeader>
             <DialogTitle className="text-xl font-serif text-left">Användarvillkor för onlinebokning</DialogTitle>
-            <DialogDescription className="text-left pt-2 text-white/80">
+            <DialogDescription className="text-left pt-2 text-brand-black/80">
               Användarvillkor för EasyCashier Bokningskalender
             </DialogDescription>
           </DialogHeader>

@@ -12,13 +12,12 @@ export default function BookingContainer() {
   const { selectedStaff, selectedService, selectedTimeSlot } = useBookingState();
   const [isComplete, setIsComplete] = useState(false);
 
-  const showWhat = selectedStaff !== null && !isComplete;
-  const showWhen = selectedStaff !== null && selectedService !== null && !isComplete;
+  const showWhat = selectedStaff !== null;
+  const showWhen = selectedStaff !== null && selectedService !== null;
   const showSummary =
     selectedStaff !== null &&
     selectedService !== null &&
-    selectedTimeSlot !== null &&
-    !isComplete;
+    selectedTimeSlot !== null;
   const showComplete = isComplete;
 
   useEffect(() => {
@@ -35,13 +34,13 @@ export default function BookingContainer() {
 
   useEffect(() => {
     if (showComplete) {
-      setTimeout(() => smoothScrollTo('complete'), 700);
+      setTimeout(() => smoothScrollTo('complete'));
     }
   }, [showComplete]);
 
   return (
     <div id="bookingContainer" className="flex flex-col items-center max-w-screen-xl w-full [&>div]:w-full [&>div]:box-border">
-      <AnimatedSection visible={!isComplete} id="who">
+      <AnimatedSection visible id="who">
         <StaffSelection />
       </AnimatedSection>
 
