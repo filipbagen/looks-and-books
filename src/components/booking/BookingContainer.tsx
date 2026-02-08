@@ -40,9 +40,9 @@ export default function BookingContainer() {
 
   return (
     <div id="bookingContainer" className="flex flex-col items-center max-w-screen-xl w-full [&>div]:w-full [&>div]:box-border">
-      <AnimatedSection visible id="who">
+      <div id="who" className="w-full mb-14">
         <StaffSelection />
-      </AnimatedSection>
+      </div>
 
       <AnimatedSection visible={showWhat} id="what">
         <ServiceSelection />
