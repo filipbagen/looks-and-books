@@ -11,7 +11,7 @@ import {
 import { google, outlook, office365, yahoo, ics } from 'calendar-link';
 import { useBookingState } from '../../context/BookingContext';
 import { isQuickestAvailable } from '../../config/staff';
-import { formatDateWord } from '../../utils/date';
+import { formatDateWord, addMinutesToTime } from '../../utils/date';
 
 import {
   Card,
@@ -134,11 +134,11 @@ export default function BookingComplete() {
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">Tid</p>
-                <p className="font-bold text-brand-black">{selectedService.length} min</p>
+                <p className="font-bold text-brand-black">{selectedTimeSlot.startTime}-{addMinutesToTime(selectedTimeSlot.startTime, selectedService.length)}</p>
               </div>
             </div>
 
-            {/* Date/Time */}
+            {/* Date */}
             <div className="flex items-start gap-3 col-span-2 sm:col-span-1">
               <div className="bg-secondary/10 p-2 rounded-full shrink-0">
                 <Calendar className="w-4 h-4 text-secondary" />
@@ -146,7 +146,7 @@ export default function BookingComplete() {
               <div>
                 <p className="text-xs text-secondary uppercase">Datum</p>
                 <p className="font-bold text-brand-black whitespace-nowrap">
-                  {formattedDate}, {selectedTimeSlot.startTime}
+                  {formattedDate}
                 </p>
               </div>
             </div>

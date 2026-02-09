@@ -47,6 +47,12 @@ export function formatDateWord(dateStr: string): string {
   return dateObj.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long' });
 }
 
+export function addMinutesToTime(time: string, minutes: number): string {
+  const [h, m] = time.split(':').map(Number);
+  const total = h * 60 + m + minutes;
+  return `${String(Math.floor(total / 60) % 24).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
+}
+
 export function toISODateString(date: Date): string {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, '0');

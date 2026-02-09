@@ -5,7 +5,7 @@ import { isQuickestAvailable } from '../../config/staff';
 import { reserveTimeSlot, confirmBooking } from '../../api/booking';
 import { ONLINE_BOOKING_URL_NAME } from '../../api/config';
 import { isValidPhoneNumber, toInternationalFormat } from '../../utils/phone';
-import { formatDateWord } from '../../utils/date';
+import { formatDateWord, addMinutesToTime } from '../../utils/date';
 import {
   Dialog,
   DialogContent,
@@ -177,7 +177,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">Tid</p>
-                <p className="font-bold text-brand-black">{selectedService.length} min</p>
+                <p className="font-bold text-brand-black">{selectedTimeSlot.startTime}-{addMinutesToTime(selectedTimeSlot.startTime, selectedService.length)}</p>
               </div>
             </div>
 
@@ -187,7 +187,7 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">Datum</p>
-                <p className="font-bold text-brand-black">{formattedDate}, {selectedTimeSlot.startTime}</p>
+                <p className="font-bold text-brand-black">{formattedDate}</p>
               </div>
             </div>
 
