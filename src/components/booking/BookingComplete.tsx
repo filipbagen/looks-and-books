@@ -139,7 +139,7 @@ export default function BookingComplete() {
             </div>
 
             {/* Date */}
-            <div className="flex items-start gap-3 col-span-2 sm:col-span-1">
+            <div className="flex items-start gap-3">
               <div className="bg-secondary/10 p-2 rounded-full shrink-0">
                 <Calendar className="w-4 h-4 text-secondary" />
               </div>
@@ -152,7 +152,7 @@ export default function BookingComplete() {
             </div>
 
             {/* Price */}
-            <div className="flex items-start gap-3 col-span-2 sm:col-span-1">
+            <div className="flex items-start gap-3">
               <div className="bg-secondary/10 p-2 rounded-full shrink-0">
                 <CreditCard className="w-4 h-4 text-secondary" />
               </div>
