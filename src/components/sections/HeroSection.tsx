@@ -1,9 +1,11 @@
 import iconSrc from '../../assets/images/icon.svg';
 import { smoothScrollTo } from '../../utils/scroll';
+import { trackEvent } from '../../lib/analytics';
 
 export default function HeroSection() {
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    trackEvent('begin_booking');
     smoothScrollTo('bookingContainer');
   };
 

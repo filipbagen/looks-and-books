@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { google, outlook, office365, yahoo, ics } from 'calendar-link';
 import { useBookingState } from '../../context/BookingContext';
+import { trackEvent } from '../../lib/analytics';
 import { isQuickestAvailable } from '../../config/staff';
 import { formatDateWord, addMinutesToTime } from '../../utils/date';
 
@@ -53,7 +54,9 @@ export default function BookingComplete() {
   const handleCalendar = (type: 'google' | 'outlook' | 'office365' | 'yahoo' | 'ics') => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const event = createCalendarEvent() as any;
-    if (!event.title) return; 
+    if (!event.title) return;
+
+    trackEvent('add_to_calendar', { calendar_type: type });
 
     let url = '';
 

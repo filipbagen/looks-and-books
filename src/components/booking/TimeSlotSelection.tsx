@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef, type UIEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { trackEvent } from '../../lib/analytics';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
 import { isQuickestAvailable } from '../../config/staff';
 import { fetchTimeSlots } from '../../api/booking';
@@ -89,6 +90,12 @@ export default function TimeSlotSelection() {
   }
 
   function handleSlotClick(date: string, slot: TimeSlot) {
+    trackEvent('select_timeslot', {
+      staff_name: selectedStaff!.name,
+      service_name: selectedService!.name,
+      booking_date: date,
+      booking_time: slot.startTime,
+    });
     dispatch({ type: 'SELECT_TIMESLOT', payload: { date, slot } });
   }
 

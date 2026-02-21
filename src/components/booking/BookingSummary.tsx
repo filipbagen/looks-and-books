@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { trackEvent } from '@/lib/analytics';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
 import { isQuickestAvailable } from '../../config/staff';
 import { reserveTimeSlot, confirmBooking } from '../../api/booking';
@@ -83,8 +84,10 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
       }
       setCustomerPhoneFinal(data.customerPhoneNumber);
 
-      if (data.maskedCustomers?.[0]) {
-        const customer = data.maskedCustomers[0];
+      const returning = !!data.maskedCustomers?.[0];
+
+      if (returning) {
+        const customer = data.maskedCustomers![0];
         setCustomerName(customer.maskedName);
         setCustomerEmail(customer.maskedEmail);
         setIsExistingCustomer(true);
@@ -93,6 +96,12 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
         setIsExistingCustomer(false);
         dispatch({ type: 'SET_CUSTOMER_INFO', payload: { exists: false } });
       }
+
+      trackEvent('submit_phone', {
+        staff_name: selectedStaff.name,
+        service_name: selectedService.name,
+        is_returning_customer: returning,
+      });
 
       setPhase('details');
     } catch (error) {
@@ -127,6 +136,17 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
 
     try {
       await confirmBooking(body);
+
+      trackEvent('booking_confirmed', {
+        staff_name: state.resourceName ?? selectedStaff.name,
+        service_name: selectedService.name,
+        service_price: selectedService.priceIncludingVat,
+        service_duration: selectedService.length,
+        booking_date: selectedDate,
+        booking_time: selectedTimeSlot.startTime,
+        is_returning_customer: isExistingCustomer,
+      });
+
       onComplete();
     } catch (error) {
       console.error('Confirm error:', error);
