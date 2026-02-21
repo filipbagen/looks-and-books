@@ -114,6 +114,12 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
   async function handleBookSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!canBook || isSubmitting) return;
+    if (!selectedStaff || !selectedService || !selectedDate || !selectedTimeSlot) return;
+
+    const staff = selectedStaff;
+    const service = selectedService;
+    const date = selectedDate;
+    const slot = selectedTimeSlot;
 
     setIsSubmitting(true);
     const intlPhone = toInternationalFormat(customerPhoneFinal);
@@ -138,12 +144,12 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
       await confirmBooking(body);
 
       trackEvent('booking_confirmed', {
-        staff_name: state.resourceName ?? selectedStaff.name,
-        service_name: selectedService.name,
-        service_price: selectedService.priceIncludingVat,
-        service_duration: selectedService.length,
-        booking_date: selectedDate,
-        booking_time: selectedTimeSlot.startTime,
+        staff_name: state.resourceName ?? staff.name,
+        service_name: service.name,
+        service_price: service.priceIncludingVat,
+        service_duration: service.length,
+        booking_date: date,
+        booking_time: slot.startTime,
         is_returning_customer: isExistingCustomer,
       });
 
