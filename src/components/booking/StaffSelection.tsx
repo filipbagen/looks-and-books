@@ -1,4 +1,5 @@
 import { cn } from '../../lib/utils';
+import { trackEvent } from '../../lib/analytics';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
 import type { Staff } from '../../types/booking';
 import { DEFAULT_STAFF, QUICKEST_AVAILABLE, isQuickestAvailable } from '../../config/staff';
@@ -26,6 +27,10 @@ export default function StaffSelection() {
     if (selectedStaff?.resourceId === staff.resourceId) {
       dispatch({ type: 'SELECT_STAFF', payload: null });
     } else {
+      trackEvent('select_staff', {
+        staff_name: staff.name,
+        is_quickest_available: isQuickestAvailable(staff),
+      });
       dispatch({ type: 'SELECT_STAFF', payload: staff });
     }
   }

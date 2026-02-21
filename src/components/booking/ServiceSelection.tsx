@@ -1,4 +1,5 @@
 import { cn } from '../../lib/utils';
+import { trackEvent } from '../../lib/analytics';
 import { useBookingState, useBookingDispatch } from '../../context/BookingContext';
 import { isQuickestAvailable } from '../../config/staff';
 import type { Service } from '../../types/booking';
@@ -24,6 +25,13 @@ export default function ServiceSelection() {
     if (selectedService?.serviceId === service.serviceId) {
       dispatch({ type: 'SELECT_SERVICE', payload: null });
     } else {
+      trackEvent('select_service', {
+        service_name: service.name,
+        service_id: service.serviceId,
+        service_price: service.priceIncludingVat,
+        service_duration: service.length,
+        staff_name: selectedStaff!.name,
+      });
       dispatch({ type: 'SELECT_SERVICE', payload: service });
     }
   }
