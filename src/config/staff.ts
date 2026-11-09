@@ -10,6 +10,7 @@ export const STAFF_CONFIG: StaffConfigItem[] = [
   { resourceId: 'hannah', name: 'Hannah' },
   { resourceId: 'emma', name: 'Emma' },
   { resourceId: 'fadi', name: 'Fadi' },
+  { resourceId: 'klara', name: 'Klara' },
   { resourceId: 'olivia', name: 'Olivia' },
 ];
 

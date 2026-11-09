@@ -16,7 +16,7 @@ import type {
 } from '../types/booking';
 import { fetchServices } from '../api/booking';
 import { getPreviousMonday } from '../utils/date';
-import { STAFF_ORDER } from '../config/staff';
+import { DEFAULT_STAFF, STAFF_ORDER } from '../config/staff';
 
 // --- Actions ---
 type Action =
@@ -110,19 +110,31 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       .then((data) => {
         dispatch({ type: 'SET_SERVICES', payload: data.serviceGroups });
 
-        // Extract unique staff from services
+        // Prefer API staff names, but keep configured fallback staff entries for names that
+        // are missing from the backend (for example, Klara). Deduplicate by name to avoid
+        // rendering duplicates when the same person exists in both sources.
         const uniqueStaff = new Map<string, Staff>();
+
+        const addStaff = (staff: Staff) => {
+          const key = staff.name.trim().toLowerCase();
+          if (!uniqueStaff.has(key)) {
+            uniqueStaff.set(key, staff);
+          }
+        };
+
         data.serviceGroups.forEach((group) => {
           group.services.forEach((service) => {
             service.resourceServices.forEach((rs) => {
-              if (!uniqueStaff.has(rs.resourceId)) {
-                uniqueStaff.set(rs.resourceId, {
-                  resourceId: rs.resourceId,
-                  name: rs.name,
-                });
-              }
+              addStaff({
+                resourceId: rs.resourceId,
+                name: rs.name,
+              });
             });
           });
+        });
+
+        DEFAULT_STAFF.forEach((staff) => {
+          addStaff(staff);
         });
 
         // Sort staff based on predefined order

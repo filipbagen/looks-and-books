@@ -348,6 +348,9 @@ export default function BookingSummary({ onComplete }: BookingSummaryProps) {
 
               <div className="space-y-4 mt-2">
                 <p className="text-xs text-secondary/80 text-center">
+                  Avbokning inom 24 timmar debiteras.
+                </p>
+                <p className="text-xs text-secondary/80 text-center">
                   Genom att boka godkänner du {' '}
                   <button
                     type="button" 
