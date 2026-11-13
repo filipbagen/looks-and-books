@@ -12,9 +12,8 @@ export default function ProductsSection() {
             Vi arbetar med Keune som är ett holländskt familjeägt B Corp företag.
             De skapar högkvalitativa produkter exklusivt för frisörer. Alla
             produkter är cruelty free och hållbara. Allt från idé till produktion
-            sker under samma tak. Lägg gärna till oss som vald salong när du
-            handlar online på{' '}
-            <a href="https://www.keune.com/se/" target="_blank" rel="noreferrer">
+            sker under samma tak. Läs mer och beställ på{' '}
+            <a href="https://www.keune.com/se/6350470" target="_blank" rel="noreferrer">
               Keune.com
             </a>
           </p>
